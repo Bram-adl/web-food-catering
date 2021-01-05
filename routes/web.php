@@ -14,12 +14,14 @@ Route::get('/', 'HomeController@index')
 Route::get('/paket/{id}', 'HomeController@package')
     ->name('client-package');
 
-Route::get('/login/{intended?}', 'HomeController@login')
+Route::get('/login', 'HomeController@login')
     ->name('client-login');
 Route::post('/login', 'HomeController@authenticate')
     ->name('client-authenticate');
 Route::post('/register', 'HomeController@register')
     ->name('client-register');
+Route::post('/logout', 'HomeController@logout')
+    ->name('client-logout');
 
 /*
 |--------------------------------------------------------------------------

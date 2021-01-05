@@ -2080,6 +2080,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Authentication",
   data: function data() {
@@ -2087,13 +2100,15 @@ __webpack_require__.r(__webpack_exports__);
       login: {
         email: "",
         password: "",
-        errors: null
+        errors: null,
+        errorMessage: null
       },
       register: {
         nama: "",
         email: "",
         password: "",
-        errors: null
+        errors: null,
+        errorMessage: null
       }
     };
   },
@@ -2105,7 +2120,13 @@ __webpack_require__.r(__webpack_exports__);
         email: this.login.email,
         password: this.login.password
       }).then(function (response) {
-        console.log(response);
+        if (response.data.success) {
+          location.href = response.data.message;
+        } else {
+          _this.login.errorMessage = response.data.message;
+          _this.login.email = '';
+          _this.login.password = '';
+        }
       })["catch"](function (error) {
         _this.login.errors = error.response.data.errors;
       });
@@ -2118,7 +2139,14 @@ __webpack_require__.r(__webpack_exports__);
         email: this.register.email,
         password: this.register.password
       }).then(function (response) {
-        console.log(response);
+        if (response.data.success) {
+          location.href = response.data.message;
+        } else {
+          _this2.register.errorMessage = response.data.message;
+          _this2.register.nama = '';
+          _this2.register.email = '';
+          _this2.register.password = '';
+        }
       })["catch"](function (error) {
         _this2.register.errors = error.response.data.errors;
       });
@@ -34159,6 +34187,7 @@ var render = function() {
           {
             staticClass:
               "flex flex-col items-center justify-center w-full h-full",
+            attrs: { method: "post" },
             on: {
               submit: function($event) {
                 $event.preventDefault()
@@ -34168,6 +34197,16 @@ var render = function() {
           },
           [
             _vm._m(0),
+            _vm._v(" "),
+            _c("div", [
+              _c("span", { staticClass: "text-xs text-red-500" }, [
+                _vm._v(
+                  _vm._s(
+                    _vm.login.errorMessage != null ? _vm.login.errorMessage : ""
+                  )
+                )
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "my-4 w-full px-16" }, [
               _c("input", {
@@ -34307,6 +34346,7 @@ var render = function() {
           {
             staticClass:
               "flex flex-col items-center justify-center w-full h-full",
+            attrs: { method: "post" },
             on: {
               submit: function($event) {
                 $event.preventDefault()
@@ -34315,6 +34355,18 @@ var render = function() {
             }
           },
           [
+            _c("div", [
+              _c("span", { staticClass: "text-xs text-red-500" }, [
+                _vm._v(
+                  _vm._s(
+                    _vm.register.errorMessage != null
+                      ? _vm.register.errorMessage
+                      : ""
+                  )
+                )
+              ])
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "my-4 w-full px-16" }, [
               _c("input", {
                 directives: [

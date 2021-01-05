@@ -6,6 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    {{ $foodId }}
+    <form action="{{ url('/logout') }}" method="post">
+        @csrf
+        <button type="submit">logout</button>
+    </form>
+    
+    <script>
+        
+    </script>
 </body>
 </html>

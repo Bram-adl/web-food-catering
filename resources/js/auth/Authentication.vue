@@ -27,11 +27,16 @@
             <!-- /.overlay -->
 
             <form
+                method="post"
                 @submit.prevent="loginUser"
                 class="flex flex-col items-center justify-center w-full h-full"
             >
                 <div>
                     <img src="/images/logo.jpg" class="w-20 h-20" alt="Logo" />
+                </div>
+
+                <div>
+                    <span class="text-xs text-red-500">{{ login.errorMessage != null ? login.errorMessage : '' }}</span>
                 </div>
 
                 <div class="my-4 w-full px-16">
@@ -66,6 +71,8 @@
                 </div>
             </form>
         </div>
+        <!-- /.login-form -->
+        
         <div class="flex-1 overflow-hidden relative group">
             <div
                 class="overlay-form absolute left-0 top-0 w-full h-full p-16 text-gray-50"
@@ -91,9 +98,14 @@
             <!-- /.overlay -->
 
             <form
+                method="post"
                 @submit.prevent="registerUser"
                 class="flex flex-col items-center justify-center w-full h-full"
             >
+                <div>
+                    <span class="text-xs text-red-500">{{ register.errorMessage != null ? register.errorMessage : '' }}</span>
+                </div>
+            
                 <div class="my-4 w-full px-16">
                     <input
                         type="text"
@@ -137,6 +149,7 @@
                 </div>
             </form>
         </div>
+        <!-- /.register-form -->
     </div>
 </template>
 
@@ -149,13 +162,15 @@ export default {
             login: {
                 email: "",
                 password: "",
-                errors: null
+                errors: null,
+                errorMessage: null,
             },
             register: {
                 nama: "",
                 email: "",
                 password: "",
-                errors: null
+                errors: null,
+                errorMessage: null,
             }
         };
     },
@@ -168,7 +183,13 @@ export default {
                     password: this.login.password
                 })
                 .then(response => {
-                    console.log(response);
+                    if (response.data.success) {
+                        location.href = response.data.message;
+                    } else {
+                        this.login.errorMessage = response.data.message;
+                        this.login.email = '';
+                        this.login.password = '';
+                    }
                 })
                 .catch(error => {
                     this.login.errors = error.response.data.errors;
@@ -183,7 +204,14 @@ export default {
                     password: this.register.password,
                 })
                 .then(response => {
-                    console.log(response);
+                    if (response.data.success) {
+                        location.href = response.data.message;
+                    } else {
+                        this.register.errorMessage = response.data.message;
+                        this.register.nama = '';
+                        this.register.email = '';
+                        this.register.password = '';
+                    }
                 })
                 .catch(error => {
                     this.register.errors = error.response.data.errors;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -17,9 +18,11 @@ class HomeController extends Controller
     public function index()
     {
         $foods = DB::table('paket')->get();
+        $user = Auth::user();
         
         return view('client.index', [
             'foods' => $foods,
+            'user' => $user,
         ]);
     }
 
@@ -31,10 +34,8 @@ class HomeController extends Controller
     public function package($id)
     {
         if (!Auth::check()) {
-            return redirect()->route('client-login', [
-                'intended' => $id,
-            ]);
-        } 
+            return redirect()->route('client-login');
+        }
         
         return view('client.package', ['id' => $id]);
     }
@@ -62,9 +63,19 @@ class HomeController extends Controller
             'password' => 'required',
         ]);
 
-        
-        
-        return $request->all();
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return response()->json([
+                'success' => true,
+                'message' => '/',
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Akun tidak ditemukan',
+            ]);
+        }
     }
 
     /**
@@ -81,6 +92,40 @@ class HomeController extends Controller
             'password' => 'required|string|min:4',
         ]);
         
-        return $request->all();
+        // Store the user to database
+        DB::table('pelanggan')
+            ->insert([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
+        // Immediately log the user after saving to database
+        $credentials = $request->only('email', 'password');
+
+        // Redirect the user to the intended page or fallback to index page
+        if (Auth::attempt($credentials)) {
+            return response()->json([
+                'success' => true,
+                'message' => '/',
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Akun tidak ditemukan',
+            ]);
+        }
+    }
+
+    /**
+     * Login the authenticated user.
+     * 
+     * @return redirect
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect()->route('client-index');
     }
 }

@@ -315,6 +315,7 @@
 
     <script>
         const foods = @json($foods);
+        const user = @json($user);
         window.foods = foods;
     </script>
     <script src="{{ asset('js/app.js') }}"></script>
