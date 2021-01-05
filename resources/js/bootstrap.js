@@ -10,7 +10,8 @@ try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap');
+    // disabled bootstrap js since we will be using tailwind css
+    // require('bootstrap');
 } catch (e) {}
 
 /**
