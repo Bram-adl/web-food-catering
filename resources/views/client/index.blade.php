@@ -23,7 +23,7 @@
 <body>
     <header class="main-header h-screen relative">
         <nav class="container mx-auto">
-            <div class="text-gray-50 text-xs flex items-center justify-between py-4">
+            <div class="text-gray-50 text-xs flex items-center justify-between py-4 px-4 xl:px-0">
                 <div>
                     <a href="https://wa.me/628980235444" class="whatsapp inline-block transform hover:-translate-y-0.5 transition duration-300 ease-out">
                         <i class="fab fa-whatsapp"></i>
@@ -66,10 +66,10 @@
 
         <main class="main-content text-gray-50 text-center">
             <div>
-                <p class="text-md font-medium tracking-widest uppercase">Daily Catering atau Event Catering</p>
+                <p class="text-sm md:text-md font-medium tracking-widest uppercase">Daily Catering atau Event Catering</p>
             </div>
-            <div class="my-6 border-t border-b border-yellow-500 py-4 px-6">
-                <h1 class="text-8xl font-bold uppercase whitespace-nowrap">Senjani Kitchen</h1>
+            <div class="my-6 border-t border-b border-yellow-500 py-4 md:px-6 mx-6">
+                <h1 class="text-4xl md:text-6xl xl:text-8xl font-bold uppercase whitespace-nowrap">Senjani Kitchen</h1>
             </div>
             <div>
                 <p class="text-sm font-light">Solusi kebutuhan panganmu. Pesan berbagai menu untuk keperluan kantor hingga menu anak kos. Dapatkan paket untuk dapat membeli menu dengan porsi lebih. Tidak perlu khawatir, kebutuhan makanan kamu akan kami penuhi.</p>
@@ -83,34 +83,34 @@
     </header>
     <!-- ./header -->
 
-    <section class="text-gray-800 py-36">
+    <section class="text-gray-800 py-16 lg:py-36 px-10 xl:px-0">
         <div class="container mx-auto">
             <div class="section-title flex items-center justify-center">
-                <h2 class="text-4xl font-bold font-serif uppercase tracking-widest relative">Daily Catering</h2>
+                <h2 class="text-xl md:text-2xl lg:text-4xl font-bold font-serif uppercase tracking-widest relative">Daily Catering</h2>
             </div>
             <!-- /.section-title -->
             
-            <div class="mt-20 grid grid-cols-3 gap-12 justify-items-center">
+            <div class="mt-10 lg:mt-20 grid grid-cols-1 lg:grid-cols-3 gap-12 justify-items-center">
                 <div class="flex flex-col items-center text-center">
-                    <div class="border-2 rounded-full p-10">
-                        <img src="/images/home/ongkir.png" alt="Gratis Ongkos Kirim">
+                    <div class="border-2 rounded-full p-8 md:p-10">
+                        <img src="/images/home/ongkir.png" class="w-10 md:w-20 h-10 md:h-20" alt="Gratis Ongkos Kirim">
                     </div>
                     <h3 class="text-xl font-semibold mt-4 mb-2">Gratis Ongkos Kirim</h3>
-                    <p class="text-sm font-light leading-tight">Seluruh Kota Malang, sebagian Kabupaten Malang, dan sebagian Kota Batu.</p>
+                    <p class="text-sm font-light leading-tight px-8 md:px-0">Seluruh Kota Malang, sebagian Kabupaten Malang, dan sebagian Kota Batu.</p>
                 </div>
                 <div class="flex flex-col items-center text-center">
-                    <div class="border-2 rounded-full p-10">
-                        <img src="/images/home/menu.png" alt="Menu Variatif">
+                    <div class="border-2 rounded-full p-8 md:p-10">
+                        <img src="/images/home/menu.png" class="w-10 md:w-20 h-10 md:h-20" alt="Menu Variatif">
                     </div>
                     <h3 class="text-xl font-semibold mt-4 mb-2">Menu Variatif</h3>
-                    <p class="text-sm font-light leading-tight">Tersedia lebih dari 400 pilihan menu. Enggak bakal ngebosenin deh.</p>
+                    <p class="text-sm font-light leading-tight px-8 md:px-0">Tersedia lebih dari 400 pilihan menu. Enggak bakal ngebosenin deh.</p>
                 </div>
                 <div class="flex flex-col items-center text-center">
-                    <div class="border-2 rounded-full p-10">
-                        <img src="/images/home/jadwal.png" alt="Bebas Pilih Jadwal Pengiriman">
+                    <div class="border-2 rounded-full p-8 md:p-10">
+                        <img src="/images/home/jadwal.png" class="w-10 md:w-20 h-10 md:h-20" alt="Bebas Pilih Jadwal Pengiriman">
                     </div>
                     <h3 class="text-xl font-semibold mt-4 mb-2">Bebas Pilih Jadwal Pengiriman</h3>
-                    <p class="text-sm font-light leading-tight">Tentukan jadwal katering, bisa skip, dan cancel dengan sangat mudah loh.</p>
+                    <p class="text-sm font-light leading-tight px-8 md:px-0">Tentukan jadwal katering, bisa skip, dan cancel dengan sangat mudah loh.</p>
                 </div>
             </div>
         </div>
@@ -275,49 +275,49 @@
         </div>
     </section>
 
-    <section class="text-gray-800 py-36">
+    <section class="text-gray-800 py-16 lg:py-36 px-10 xl:px-0">
         <div class="container mx-auto">
             <div class="section-title flex items-center justify-center">
-                <h2 class="text-4xl font-bold font-serif uppercase tracking-widest relative">Event Catering</h2>
+                <h2 class="text-xl md:text-2xl lg:text-4xl font-bold font-serif uppercase tracking-widest relative">Event Catering</h2>
             </div>
             <!-- /.section-title -->
             
-            <div class="mt-20 grid grid-cols-3 gap-12 justify-items-center">
+            <div class="mt-10 lg:mt-20 grid grid-cols-1 lg:grid-cols-3 gap-12 justify-items-center">
                 <div class="flex flex-col items-center text-center">
-                    <div class="border-2 rounded-full p-10">
-                        <img src="/images/home/ongkir.png" alt="Gratis Ongkos Kirim">
+                    <div class="border-2 rounded-full p-8 md:p-10">
+                        <img src="/images/home/ongkir.png" class="w-10 md:w-20 h-10 md:h-20" alt="Gratis Ongkos Kirim">
                     </div>
                     <h3 class="text-xl font-semibold mt-4 mb-2">Gratis Ongkos Kirim</h3>
-                    <p class="text-sm font-light leading-tight">Seluruh Area Di Malang Raya.</p>
+                    <p class="text-sm font-light leading-tight px-8 md:px-0">Seluruh Area Di Malang Raya.</p>
                 </div>
                 <div class="flex flex-col items-center text-center">
-                    <div class="border-2 rounded-full p-10">
-                        <img src="/images/home/konsul.png" alt="Konsultasi Menu">
+                    <div class="border-2 rounded-full p-8 md:p-10">
+                        <img src="/images/home/konsul.png" class="w-10 md:w-20 h-10 md:h-20" alt="Konsultasi Menu">
                     </div>
                     <h3 class="text-xl font-semibold mt-4 mb-2">Konsultasi Menu</h3>
-                    <p class="text-sm font-light leading-tight">Feel Free Konsultasi Atau Request Menu.</p>
+                    <p class="text-sm font-light leading-tight px-8 md:px-0">Feel Free Konsultasi Atau Request Menu.</p>
                 </div>
                 <div class="flex flex-col items-center text-center">
-                    <div class="border-2 rounded-full p-10">
-                        <img src="/images/home/desain.png" alt="Bebas Pilih Jadwal Pengiriman">
+                    <div class="border-2 rounded-full p-8 md:p-10">
+                        <img src="/images/home/desain.png" class="w-10 md:w-20 h-10 md:h-20" alt="Bebas Pilih Jadwal Pengiriman">
                     </div>
                     <h3 class="text-xl font-semibold mt-4 mb-2">Bisa Desain Sendiri Kemasanmu</h3>
-                    <p class="text-sm font-light leading-tight">Bisa Jika Kami Desainkan Supaya Acara Kamu Makin Kece.</p>
+                    <p class="text-sm font-light leading-tight px-8 md:px-0">Bisa Jika Kami Desainkan Supaya Acara Kamu Makin Kece.</p>
                 </div>
             </div>
         </div>
     </section>
     <!-- ./event-catering-section -->
 
-    <section class="event-catering-section text-gray-50 py-36">
+    <section class="event-catering-section text-gray-50 py-16 lg:py-36">
         <div class="container mx-auto">
-            <div>
+            <div class="px-10 xl:px-0">
                 <h2 class="subtitle-text text-lg font-semibold tracking-widest inline-block">Kreasikan Pilihan Menu Sendiri Atau Konsultasikan Pilihan Menumu Bersama Kami.</h2>
             </div>
         </div>
     </section>
 
-    <section class="container mx-auto grid grid-cols-3 gap-12 py-16">
+    <section class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 py-16 px-10 xl:px-0">
         <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
             <div class="w-full h-80 relative">
                 <div class="overlay"></div>
