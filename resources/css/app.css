@@ -148,6 +148,10 @@
     transform: translateY(0);
 }
 
+.overlay-form {
+    transition: .4s ease-out;
+}
+
 .main-footer {
     background-color: #161616;
 }

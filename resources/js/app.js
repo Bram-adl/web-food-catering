@@ -19,6 +19,7 @@ import 'animate.css';
  */
 
 Vue.component('daily-catering', require('./components/DailyCatering.vue').default);
+Vue.component('authentication', require('./auth/Authentication.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -17,7 +17,6 @@
             <div>
                 <a
                     :href="'/paket/' + food.id"
-                    target="_blank"
                     class="purchase-button transition ease-out duration-300"
                 >
                     <button class="focus:outline-none">

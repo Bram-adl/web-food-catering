@@ -10,8 +10,10 @@ module.exports = {
   },
   variants: {
     extend: {
-      transform: ['group-hover'],
-      translate: ['group-hover'],
+      transform: ['hover', 'group-hover'],
+      translate: ['hover', 'group-hover'],
+      inset: ['hover', 'group-hover'],
+      transitionProperty: ['hover', 'group-hover'],
     },
   },
   plugins: [],
