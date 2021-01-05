@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-    <div id="wrapper" class="main-wrapper">
+    <div id="app" class="main-wrapper">
         <header class="main-header h-screen relative">
             <nav class="container mx-auto">
                 <div class="text-gray-50 text-xs flex items-center justify-between py-4 px-4 xl:px-0">
@@ -48,18 +48,18 @@
                 <div class="bg-gray-50 text-black text-sm flex items-center justify-between py-2 px-4">
                     <div>
                         <a href="/">
-                            <img src="/images/logo.jpg" alt="logo" class="w-20 h-20">
+                            <img src="/images/logo.jpg" alt="logo" class="w-20 h-20" />
                         </a>
                     </div>
                     <!-- /.header-logo -->
-                    
+
                     <div>
                         <ul class="nav-link flex items-center justify-center text-gray-800">
-                            <li class="active relative"><a href="/">Beranda</a></li>
-                            <li class="mx-4 relative"><a href="/daftar-menu">Daftar Menu</a></li>
-                            <li class="text-red-500 relative"><a href="/login">
-                                <button class="focus:outline-none border border-red-500 py-2 px-8 hover:text-gray-50 hover:bg-red-500 transition ease-out duration-300">Login</button>
-                            </a></li>
+                            <li class="text-red-500 relative">
+                                <a href="/login">
+                                    <button class="focus:outline-none border border-red-500 py-2 px-8 hover:text-gray-50 hover:bg-red-500 transition ease-out duration-300">Login</button>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <!-- /.header-links -->
@@ -121,162 +121,8 @@
         </section>
         <!-- ./daily-catering-section -->
 
-        <section class="daily-catering-section text-gray-50 py-36">
-            <div class="container mx-auto">
-                <div class="flex items-center justify-center filter-box">
-                    <div class="active group cursor-pointer flex-1 text-center pb-4 border-b hover:border-red-500 transition duration-300 ease-out">
-                        <h4 class="text-xl font-semibold group-hover:text-red-500 transition duration-300 ease-out">Bento Box</h4>
-                        <p class="text-sm font-light opacity-80">Kemasan Sekali Pakai - Lebih Higienis</p>
-                    </div>
-                    <div class="group cursor-pointer flex-1 text-center pb-4 border-b hover:border-red-500 transition duration-300 ease-out">
-                        <h4 class="text-xl font-semibold group-hover:text-red-500 transition duration-300 ease-out">Reusable Box</h4>
-                        <p class="text-sm font-light opacity-80">Lebih Ramah Lingkungan - Tanpa Sampah Kemasan</p>
-                    </div>
-                    <div class="group cursor-pointer flex-1 text-center pb-4 border-b hover:border-red-500 transition duration-300 ease-out">
-                        <h4 class="text-xl font-semibold group-hover:text-red-500 transition duration-300 ease-out">Family Pack</h4>
-                        <p class="text-sm font-light opacity-80">2-4 Porsi Sekali Pengiriman - Cocok Untuk Keluarga</p>
-                    </div>
-                </div>
-                <!-- /.filter-box -->
-
-                <div class="grid grid-cols-2 gap-6 mt-20">
-                    <div class="flex">
-                        <div class="overflow-hidden w-36 h-36 rounded-lg">
-                            <img src="/images/bento/bento-nasi-putih.jpg" class="w-full h-full object-cover" alt="Bento 1 - Nasi Putih 6x Makan">
-                        </div>
-                        <div class="ml-8 flex flex-col">
-                            <h4 class="text-2xl font-semibold">Nasi Putih 6x Makan</h4>
-                            <p class="flex-1 py-4 opacity-80 text-sm font-light">Nasi putih, Lauk utama, Lauk pendamping, Sayur, Sambal, Dessert.</p>
-                            <p class="flex items-center justify-between">
-                                <span class="text-xl text-yellow-500">Rp. 110.000</span>
-                                <a href="#" target="_blank" class="purchase-button">
-                                    <button class="focus:outline-none">Beli Paket</button>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- /.single-card -->
-                    
-                    <div class="flex">
-                        <div class="overflow-hidden w-36 h-36 rounded-lg">
-                            <img src="/images/bento/bento-nasi-putih.jpg" class="w-full h-full object-cover" alt="Bento 1 - Nasi Putih 6x Makan">
-                        </div>
-                        <div class="ml-8 flex flex-col">
-                            <h4 class="text-2xl font-semibold">Nasi Putih 12x Makan</h4>
-                            <p class="flex-1 py-4 opacity-80 text-sm font-light">Nasi putih, Lauk utama, Lauk pendamping, Sayur, Sambal, Dessert.</p>
-                            <p class="flex items-center justify-between">
-                                <span class="text-xl text-yellow-500">Rp. 210.000</span>
-                                <a href="#" target="_blank" class="purchase-button">
-                                    <button class="focus:outline-none">Beli Paket</button>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- /.single-card -->
-
-                    <div class="flex">
-                        <div class="overflow-hidden w-36 h-36 rounded-lg">
-                            <img src="/images/bento/bento-nasi-putih.jpg" class="w-full h-full object-cover" alt="Bento 1 - Nasi Putih 6x Makan">
-                        </div>
-                        <div class="ml-8 flex flex-col">
-                            <h4 class="text-2xl font-semibold">Nasi Putih 24x Makan</h4>
-                            <p class="flex-1 py-4 opacity-80 text-sm font-light">Nasi putih, Lauk utama, Lauk pendamping, Sayur, Sambal, Dessert.</p>
-                            <p class="flex items-center justify-between">
-                                <span class="text-xl text-yellow-500">Rp. 405.000</span>
-                                <a href="#" target="_blank" class="purchase-button">
-                                    <button class="focus:outline-none">Beli Paket</button>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- /.single-card -->
-
-                    <div class="flex">
-                        <div class="overflow-hidden w-36 h-36 rounded-lg">
-                            <img src="/images/bento/bento-nasi-putih.jpg" class="w-full h-full object-cover" alt="Bento 1 - Nasi Putih 6x Makan">
-                        </div>
-                        <div class="ml-8 flex flex-col">
-                            <h4 class="text-2xl font-semibold">Nasi Putih 48x Makan</h4>
-                            <p class="flex-1 py-4 opacity-80 text-sm font-light">Nasi putih, Lauk utama, Lauk pendamping, Sayur, Sambal, Dessert.</p>
-                            <p class="flex items-center justify-between">
-                                <span class="text-xl text-yellow-500">Rp. 775.000</span>
-                                <a href="#" target="_blank" class="purchase-button">
-                                    <button class="focus:outline-none">Beli Paket</button>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- /.single-card -->
-
-                    <div class="flex">
-                        <div class="overflow-hidden w-36 h-36 rounded-lg">
-                            <img src="/images/bento/bento-nasi-merah.jpg" class="w-full h-full object-cover" alt="Bento 1 - Nasi Putih 6x Makan">
-                        </div>
-                        <div class="ml-8 flex flex-col">
-                            <h4 class="text-2xl font-semibold">Nasi Merah 6x Makan</h4>
-                            <p class="flex-1 py-4 opacity-80 text-sm font-light">Nasi putih, Lauk utama, Lauk pendamping, Sayur, Sambal, Dessert.</p>
-                            <p class="flex items-center justify-between">
-                                <span class="text-xl text-yellow-500">Rp. 120.000</span>
-                                <a href="#" target="_blank" class="purchase-button">
-                                    <button class="focus:outline-none">Beli Paket</button>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- /.single-card -->
-                    
-                    <div class="flex">
-                        <div class="overflow-hidden w-36 h-36 rounded-lg">
-                            <img src="/images/bento/bento-nasi-merah.jpg" class="w-full h-full object-cover" alt="Bento 1 - Nasi Putih 6x Makan">
-                        </div>
-                        <div class="ml-8 flex flex-col">
-                            <h4 class="text-2xl font-semibold">Nasi Merah 12x Makan</h4>
-                            <p class="flex-1 py-4 opacity-80 text-sm font-light">Nasi putih, Lauk utama, Lauk pendamping, Sayur, Sambal, Dessert.</p>
-                            <p class="flex items-center justify-between">
-                                <span class="text-xl text-yellow-500">Rp. 225.000</span>
-                                <a href="#" target="_blank" class="purchase-button">
-                                    <button class="focus:outline-none">Beli Paket</button>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- /.single-card -->
-
-                    <div class="flex">
-                        <div class="overflow-hidden w-36 h-36 rounded-lg">
-                            <img src="/images/bento/bento-nasi-merah.jpg" class="w-full h-full object-cover" alt="Bento 1 - Nasi Putih 6x Makan">
-                        </div>
-                        <div class="ml-8 flex flex-col">
-                            <h4 class="text-2xl font-semibold">Nasi Merah 24x Makan</h4>
-                            <p class="flex-1 py-4 opacity-80 text-sm font-light">Nasi putih, Lauk utama, Lauk pendamping, Sayur, Sambal, Dessert.</p>
-                            <p class="flex items-center justify-between">
-                                <span class="text-xl text-yellow-500">Rp. 430.000</span>
-                                <a href="#" target="_blank" class="purchase-button">
-                                    <button class="focus:outline-none">Beli Paket</button>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- /.single-card -->
-
-                    <div class="flex">
-                        <div class="overflow-hidden w-36 h-36 rounded-lg">
-                            <img src="/images/bento/bento-nasi-merah.jpg" class="w-full h-full object-cover" alt="Bento 1 - Nasi Putih 6x Makan">
-                        </div>
-                        <div class="ml-8 flex flex-col">
-                            <h4 class="text-2xl font-semibold">Nasi Merah 48x Makan</h4>
-                            <p class="flex-1 py-4 opacity-80 text-sm font-light">Nasi putih, Lauk utama, Lauk pendamping, Sayur, Sambal, Dessert.</p>
-                            <p class="flex items-center justify-between">
-                                <span class="text-xl text-yellow-500">Rp. 830.000</span>
-                                <a href="#" target="_blank" class="purchase-button">
-                                    <button class="focus:outline-none">Beli Paket</button>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- /.single-card -->
-                </div>
-            </div>
+        <section class="daily-catering-section text-gray-50 py-16 lg:py-36">
+            <daily-catering></daily-catering>
         </section>
 
         <section class="text-gray-800 py-16 lg:py-36 px-10 xl:px-0">
@@ -325,7 +171,7 @@
             <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
                 <div class="w-full h-80 relative">
                     <div class="overlay"></div>
-                    <img src="/images/event/event-meal-box.jpg" class="relative z-10 w-full h-full object-cover" alt="Meal Box">
+                    <img src="/images/foods/event-meal-box.jpg" class="relative z-10 w-full h-full object-cover" alt="Meal Box">
                 </div>
                 <div class="card-content absolute z-20 inset-x-0 inset-y-0 flex flex-col items-center justify-center">
                     <h2 class="text-lg text-center font-semibold uppercase text-white">Meal Box</h2>
@@ -339,7 +185,7 @@
             <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
                 <div class="w-full h-80 relative">
                     <div class="overlay"></div>
-                    <img src="/images/event/event-prasmanan-pelayanan.jpg" class="relative z-10 w-full h-full object-cover" alt="Prasmanan Dengan Pelayanan">
+                    <img src="/images/foods/event-prasmanan-pelayanan.jpg" class="relative z-10 w-full h-full object-cover" alt="Prasmanan Dengan Pelayanan">
                 </div>
                 <div class="card-content absolute z-20 inset-x-0 inset-y-0 flex flex-col items-center justify-center">
                     <h2 class="text-lg text-center font-semibold uppercase text-white">Prasmanan Dengan Pelayanan</h2>
@@ -353,7 +199,7 @@
             <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
                 <div class="w-full h-80 relative">
                     <div class="overlay"></div>
-                    <img src="/images/event/event-prasmanan-tanpa.jpg" class="relative z-10 w-full h-full object-cover" alt="Prasmanan Tanpa Pelayanan">
+                    <img src="/images/foods/event-prasmanan-tanpa.jpg" class="relative z-10 w-full h-full object-cover" alt="Prasmanan Tanpa Pelayanan">
                 </div>
                 <div class="card-content absolute z-20 inset-x-0 inset-y-0 flex flex-col items-center justify-center">
                     <h2 class="text-lg text-center font-semibold uppercase text-white">Prasmanan Tanpa Pelayanan</h2>
@@ -367,7 +213,7 @@
             <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
                 <div class="w-full h-80 relative">
                     <div class="overlay"></div>
-                    <img src="/images/event/event-.jpg" class="relative z-10 w-full h-full object-cover" alt="Aneka Macam Snack">
+                    <img src="/images/foods/event-.jpg" class="relative z-10 w-full h-full object-cover" alt="Aneka Macam Snack">
                 </div>
                 <div class="card-content absolute z-20 inset-x-0 inset-y-0 flex flex-col items-center justify-center">
                     <h2 class="text-lg text-center font-semibold uppercase text-white">Aneka Macam Snack</h2>
@@ -381,7 +227,7 @@
             <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
                 <div class="w-full h-80 relative">
                     <div class="overlay"></div>
-                    <img src="/images/event/event-kambing-guling.jpg" class="relative z-10 w-full h-full object-cover" alt="Kambing Guling">
+                    <img src="/images/foods/event-kambing-guling.jpg" class="relative z-10 w-full h-full object-cover" alt="Kambing Guling">
                 </div>
                 <div class="card-content absolute z-20 inset-x-0 inset-y-0 flex flex-col items-center justify-center">
                     <h2 class="text-lg text-center font-semibold uppercase text-white">Kambing Guling</h2>
@@ -395,7 +241,7 @@
             <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
                 <div class="w-full h-80 relative">
                     <div class="overlay"></div>
-                    <img src="/images/event/event-tumpeng.jpg" class="relative z-10 w-full h-full object-cover" alt="Nasi Tumpeng">
+                    <img src="/images/foods/event-tumpeng.jpg" class="relative z-10 w-full h-full object-cover" alt="Nasi Tumpeng">
                 </div>
                 <div class="card-content absolute z-20 inset-x-0 inset-y-0 flex flex-col items-center justify-center">
                     <h2 class="text-lg text-center font-semibold uppercase text-white">Nasi Tumpeng</h2>
@@ -409,7 +255,7 @@
             <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
                 <div class="w-full h-80 relative">
                     <div class="overlay"></div>
-                    <img src="/images/event/event-aqiqah.jpg" class="relative z-10 w-full h-full object-cover" alt="Aqiqah">
+                    <img src="/images/foods/event-aqiqah.jpg" class="relative z-10 w-full h-full object-cover" alt="Aqiqah">
                 </div>
                 <div class="card-content absolute z-20 inset-x-0 inset-y-0 flex flex-col items-center justify-center">
                     <h2 class="text-lg text-center font-semibold uppercase text-white">Aqiqah</h2>
@@ -423,7 +269,7 @@
             <div class="event-card rounded-lg bg-white shadow-md overflow-hidden relative">
                 <div class="w-full h-80 relative">
                     <div class="overlay"></div>
-                    <img src="/images/event/event-bento-box.jpg" class="relative z-10 w-full h-full object-cover" alt="Bento Box">
+                    <img src="/images/foods/event-bento-box.jpg" class="relative z-10 w-full h-full object-cover" alt="Bento Box">
                 </div>
                 <div class="card-content absolute z-20 inset-x-0 inset-y-0 flex flex-col items-center justify-center">
                     <h2 class="text-lg text-center font-semibold uppercase text-white">Bento Box</h2>
@@ -467,6 +313,10 @@
         </footer>
     </div>
 
+    <script>
+        const foods = @json($foods);
+        window.foods = foods;
+    </script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

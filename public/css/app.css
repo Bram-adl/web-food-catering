@@ -31891,24 +31891,6 @@ video {
 .instagram:hover { color: rgb(131, 58, 180);
 }
 
-.nav-link li::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  transform: translate(-50%, 0.25rem);
-  width: 0;
-  height: 4px;
-  border-radius: 100%;
-  background: #EF4444;
-  transition: .4s ease-out;
-}
-
-.nav-link li.active::after,
-.nav-link li:hover::after {
-  width: 4px;
-}
-
 .main-content {
   width: 100%;
   position: absolute;
@@ -31971,7 +31953,7 @@ video {
   position: absolute;
   left: 50%;
   top: 100%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 0.5rem);
   width: 0%;
   height: 2px;
   background: white;
