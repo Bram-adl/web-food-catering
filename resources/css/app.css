@@ -18,7 +18,6 @@
 
 /* ========== Custom CSS Rules ========== */
 
-/* :: Header Rules */
 .main-header {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)),
                 url(/images/hero-banner.jpeg) center center/cover fixed;
@@ -165,6 +164,10 @@
 .event-card:hover .card-content {
     opacity: 1;
     transform: translateY(0);
+}
+
+.main-footer {
+    background-color: #161616;
 }
 
 /* ========== End Of Custom CSS Rules ========== */

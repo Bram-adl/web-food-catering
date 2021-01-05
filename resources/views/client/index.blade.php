@@ -7,6 +7,9 @@
     <meta name="X-UA-Compatible" content="ie=edge">
 
     <!-- SEO Related Meta Tags -->
+    <meta name="keywords" content="Catering Website, Website Catering, Online Catering, Catering Web, Web Catering">
+    <meta name="description" content="Solusi kebutuhan panganmu. Pesan berbagai menu untuk keperluan kantor hingga menu anak kos. Dapatkan paket untuk dapat membeli menu dengan porsi lebih. Tidak perlu khawatir, kebutuhan makanan kamu akan kami penuhi.">
+    <meta name="author" content="Senjani Kitchen">
 
     <!-- Web Title -->
     <title>Senjani Kitchen - Online Food Catering</title>
@@ -431,6 +434,37 @@
             </div>
             <!-- /.single-card -->
         </section>
+
+        <footer class="main-footer py-16 px-10 xl:px-0 text-gray-50">
+            <div class="container mx-auto text-center">
+                <div class="text-center">
+                    <a href="#">
+                        <img src="/images/logo2.jpg" class="inline-block rounded-full w-20 lg:w-48 h-20 lg:h-48" alt="Footer Logo">
+                    </a>
+                </div>
+                <div class="my-16">
+                    <h2 class="text-yellow-500 mb-6">Layanan Kami</h2>
+                    <ul class="text-sm grid gap-2">
+                        <li>Daily Catering</li>
+                        <li>Family Pack</li>
+                        <li>Nasi Kotak</li>
+                        <li>Nasi Tumpeng</li>
+                        <li>Prasmanan</li>
+                        <li>Aqiqah</li>
+                        <li>Snack</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="text-yellow-500 mb-6">Hubungi Kami</h2>
+                    <ul class="text-sm grid gap-2">
+                        <li>CV. SENJANI TEKNO BOGA</li>
+                        <li><a href="https://g.page/senjanikitchen">De Cluster Nirwana Blok E-2, Kel. Pandanwangi, Kec. Blimbing, Kota Malang</a></li>
+                        <li><a href="https://www.instagram.com/senjanikitchen/">Senjanikitchen</a></li>
+                        <li><a href="https://wa.me/628980235444">08980235444</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script src="{{ asset('js/app.js') }}"></script>
