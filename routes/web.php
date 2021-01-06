@@ -29,6 +29,14 @@ Route::post('/register', 'AuthController@register')
 Route::post('/logout', 'AuthController@logout')
     ->name('client-logout');
 
+// Resources Related Routes
+Route::resources([
+    'pelanggan' => 'PelangganController',
+    'kota' => 'KotaController',
+    'kecamatan' => 'KecamatanController',
+    'kelurahan' => 'KelurahanController',
+]);
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
