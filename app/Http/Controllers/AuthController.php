@@ -16,6 +16,13 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        if (Auth::check()) {
+            return redirect()->route('client-profile', [
+                'id' => Auth::id(),
+                'nama' => (join("", explode(" ", Auth::user()->nama))), 
+            ]);
+        }
+        
         $redirect_to = null;
 
         if ($request->query()) {

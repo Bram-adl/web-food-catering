@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 // Client Main Views Related Routes
 Route::get('/', 'HomeController@index')
     ->name('client-index');
+Route::get('/profile', 'HomeController@profileRedirect')
+    ->name('client-profile-redirect');
 Route::get('/profile/{id}/{nama}', 'HomeController@profile')
     ->name('client-profile')
     ->where('id', '[0-9]+');

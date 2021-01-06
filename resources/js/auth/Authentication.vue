@@ -194,7 +194,7 @@ export default {
                 })
                 .then(response => {
                     if (response.data.success) {
-                        location.href = this.redirectTo != null ? `paket/${this.redirectTo}` : '/';
+                        location.href = this.redirectTo != null ? `paket/${this.redirectTo}` : '/profile';
                     } else {
                         // set the errorMessage
                         this.login.errorMessage = response.data.message;

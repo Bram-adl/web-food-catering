@@ -42,12 +42,14 @@
                         </li>
                     </ul>
                     
-                    <a href="/logout" class="ml-10">
+                    <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout').submit()" class="ml-10">
                         <button class="group">
                             <i class="fas fa-power-off text-red-500"></i>
                             <span class="group-hover:text-red-500 transition ease-out duration-300 ml-2">Logout</span>
                         </button>
                     </a>
+
+                    <form action="/logout" method="post" id="logout" class="hidden">@csrf</form>
                 </div>
             </div>
         </nav>
