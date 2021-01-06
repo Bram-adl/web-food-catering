@@ -42,3 +42,24 @@ Route::resources([
 | Admin Routes
 |--------------------------------------------------------------------------
 */
+
+Route::get('/dashboard', 'DashboardController@index')
+    ->name('admin-dashboard');
+Route::get('/profil/{id}', 'DashboardController@profil')
+    ->name('admin-profil');
+Route::get('/personel', 'DashboardController@personel')
+    ->name('admin-personel');
+Route::get('/jabatan', 'DashboardController@jabatan')
+    ->name('admin-jabatan');
+Route::get('/paket', 'DashboardController@paket')
+    ->name('admin-paket');
+Route::get('/kategori-paket', 'DashboardController@kategori_paket')
+    ->name('admin-kategori-paket');
+Route::get('/pelanggan', 'DashboardController@pelanggan')
+    ->name('admin-pelanggan');
+Route::get('/pembelian', 'DashboardController@pembelian')
+    ->name('admin-pembelian');
+Route::get('/pesanan', 'DashboardController@pesanan')
+    ->name('admin-pesanan');
+Route::get('/pengantaran', 'DashboardController@pengantaran')
+    ->name('admin-pengantaran');
