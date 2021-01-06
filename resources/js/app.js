@@ -22,6 +22,7 @@ window.Swal = Swal;
 
 Vue.component('daily-catering', require('./components/DailyCatering.vue').default);
 Vue.component('authentication', require('./auth/Authentication.vue').default);
+Vue.component('user-profile', require('./client/UserProfile.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

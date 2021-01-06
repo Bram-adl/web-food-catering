@@ -60,7 +60,7 @@
                         <ul class="nav-link flex items-center justify-center text-gray-800">
                             @auth
                             <li class="text-red-500 relative">
-                                <a href="/profile/{{ Auth::id() }}/{{ Auth::user()->nama }}">
+                                <a href="/profile/{{ Auth::id() }}/{{ (join("", explode(" ", Auth::user()->nama))) }}">
                                     <button class="focus:outline-none border border-red-500 py-2 px-8 hover:text-gray-50 hover:bg-red-500 transition ease-out duration-300">
                                         <i class="fas fa-user"></i>
                                         {{ Auth::user()->nama }}

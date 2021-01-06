@@ -27,8 +27,40 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
-    <div id="app" class="main-wrapper">
-        {{ $id . '-' . $nama }}
+    <div id="app" class="main-wrapper h-screen overflow-hidden bg-gray-200 flex flex-col">
+        <nav class="bg-gray-50 shadow-sm">
+            <div class="container mx-auto flex items-center justify-between py-4 px-10 xl:px-0">
+                <div>
+                    <img src="/images/logo.jpg" alt="Logo" class="w-16 h-16 rounded-full">
+                </div>
+
+                <div class="text-gray-800 text-sm">
+                    <ul class="text-sm flex-1 inline-block">
+                        <li class="grid grid-cols-2 gap-4">
+                            <a class="opacity-50 text-right hover:opacity-100 transition ease-out duration-300" href="/">Home</a>
+                            <a class="opacity-50 text-left hover:opacity-100 transition ease-out duration-300" href="/#daftar-menu">Daftar Menu</a>
+                        </li>
+                    </ul>
+                    
+                    <a href="/logout" class="ml-10">
+                        <button class="group">
+                            <i class="fas fa-power-off text-red-500"></i>
+                            <span class="group-hover:text-red-500 transition ease-out duration-300 ml-2">Logout</span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <!-- /.nav -->
+
+        <main class="flex-1 overflow-auto">
+            <user-profile></user-profile>
+        </main>
+        <!-- /.main -->
     </div>
+
+    <script>
+        window.pelanggan = @json($pelanggan);
+    </script>
 </body>
 </html>
