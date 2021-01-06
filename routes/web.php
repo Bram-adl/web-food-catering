@@ -43,6 +43,7 @@ Route::resources([
 |--------------------------------------------------------------------------
 */
 
+// Admin Main Views Related Routes
 Route::get('/dashboard', 'DashboardController@index')
     ->name('admin-dashboard');
 Route::get('/profil/{id}', 'DashboardController@profil')
@@ -63,3 +64,13 @@ Route::get('/pesanan', 'DashboardController@pesanan')
     ->name('admin-pesanan');
 Route::get('/pengantaran', 'DashboardController@pengantaran')
     ->name('admin-pengantaran');
+
+// Admin Authentication Related Routes
+Route::get('/admin/login', 'AuthController@loginAdmin')
+    ->name('admin-login');
+Route::post('/admin/login', 'AuthController@authenticateAdmin')
+    ->name('admin-authenticate');
+Route::post('/admin/register', 'AuthController@registerAdmin')
+    ->name('admin-register');
+Route::get('/admin/logout', 'AuthController@logout')
+    ->name('admin-logout');

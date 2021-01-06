@@ -72,7 +72,7 @@
                                                     <b>Rp. 840.012</b>
                                                 </td>
                                                 <td>
-                                                    <a href="img/pembelian/default-150x150.png" target="_blank"><img src="img/pembelian/default-150x150.png"></a>
+                                                    <a href="@" target="_blank"><img src="{{ asset('images/default-150x150.png') }}"></a>
                                                 </td>
                                                 <td>
                                                     <span class="badge badge-success">Aktif</span>

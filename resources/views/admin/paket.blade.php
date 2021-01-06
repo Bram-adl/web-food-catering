@@ -50,7 +50,7 @@
                             <tr>
                                 <td class="products-list">
                                         <div class="product-img">
-                                            <img src="img/paket/default-150x150.png" alt="Product Image" class="img-size-50">
+                                            <img src="{{ asset('images/default-150x150.png') }}" alt="Product Image" class="img-size-50">
                                         </div>
                                         <div class="product-info">
                                             <b>Nasi Putih - 6 Porsi</b>
