@@ -73,7 +73,7 @@
                                 target="_blank"
                                 :href="pelanggan.rumah_maps"
                             >
-                                <span>{{ pelanggan.rumah_teks }}, {{ pelanggan.kelurahan }}, {{ pelanggan.kecamatan }}, {{ pelanggan.kota }}</span>
+                                <span>{{ pelanggan.rumah_teks }}, {{ `${rumah.kelurahan.kelurahan}, ${rumah.kecamatan.kecamatan}, ${rumah.kota.kota}` }}</span>
                                 <i
                                     class="fas fa-external-link-alt text-sm ml-2"
                                 ></i>
@@ -176,12 +176,45 @@ export default {
 
     data() {
         return {
-            pelanggan: pelanggan[0],
+            pelanggan: pelanggan,
+
+            kota: [],
+            kecamatan: [],
+            kelurahan: [],
+            
             data: {
                 state: false,
                 form: null
             }
         };
+    },
+
+    computed: {
+        rumah() {
+            let kota = this.kota.filter(kt => kt.id === this.pelanggan.rumah_kota)[0];
+            let kecamatan = this.kecamatan.filter(kt => kt.id === this.pelanggan.rumah_kecamatan)[0];
+            let kelurahan = this.kelurahan.filter(kt => kt.id === this.pelanggan.rumah_kelurahan)[0];
+            
+            return {
+                kota,
+                kecamatan,
+                kelurahan,
+            }
+        }
+    },
+
+    mounted() {
+        // fetch kota
+        axios.get('/kota')
+            .then(({data}) => this.kota = data);
+        
+        // fetch kecamatan
+        axios.get('/kecamatan')
+            .then(({data}) => this.kecamatan = data);
+
+        // fetch kelurahan
+        axios.get('/kelurahan')
+            .then(({data}) => this.kelurahan = data);
     },
 
     methods: {

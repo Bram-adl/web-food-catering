@@ -2387,12 +2387,54 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      pelanggan: pelanggan[0],
+      pelanggan: pelanggan,
+      kota: [],
+      kecamatan: [],
+      kelurahan: [],
       data: {
         state: false,
         form: null
       }
     };
+  },
+  computed: {
+    rumah: function rumah() {
+      var _this = this;
+
+      var kota = this.kota.filter(function (kt) {
+        return kt.id === _this.pelanggan.rumah_kota;
+      })[0];
+      var kecamatan = this.kecamatan.filter(function (kt) {
+        return kt.id === _this.pelanggan.rumah_kecamatan;
+      })[0];
+      var kelurahan = this.kelurahan.filter(function (kt) {
+        return kt.id === _this.pelanggan.rumah_kelurahan;
+      })[0];
+      return {
+        kota: kota,
+        kecamatan: kecamatan,
+        kelurahan: kelurahan
+      };
+    }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    // fetch kota
+    axios.get('/kota').then(function (_ref) {
+      var data = _ref.data;
+      return _this2.kota = data;
+    }); // fetch kecamatan
+
+    axios.get('/kecamatan').then(function (_ref2) {
+      var data = _ref2.data;
+      return _this2.kecamatan = data;
+    }); // fetch kelurahan
+
+    axios.get('/kelurahan').then(function (_ref3) {
+      var data = _ref3.data;
+      return _this2.kelurahan = data;
+    });
   },
   methods: {
     showProfileForm: function showProfileForm() {
@@ -39138,11 +39180,13 @@ var render = function() {
                               _vm._v(
                                 _vm._s(_vm.pelanggan.rumah_teks) +
                                   ", " +
-                                  _vm._s(_vm.pelanggan.kelurahan) +
-                                  ", " +
-                                  _vm._s(_vm.pelanggan.kecamatan) +
-                                  ", " +
-                                  _vm._s(_vm.pelanggan.kota)
+                                  _vm._s(
+                                    _vm.rumah.kelurahan.kelurahan +
+                                      ", " +
+                                      _vm.rumah.kecamatan.kecamatan +
+                                      ", " +
+                                      _vm.rumah.kota.kota
+                                  )
                               )
                             ]),
                             _vm._v(" "),
