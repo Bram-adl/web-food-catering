@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Pelanggan extends Model
+class Pelanggan extends Authenticatable
 {
+    use Notifiable;
+    
     const CREATED_AT = 'waktu_simpan';
     const UPDATED_AT = 'waktu_edit';
 

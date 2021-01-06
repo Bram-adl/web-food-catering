@@ -8,19 +8,23 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+// Client Main Views Related Routes
 Route::get('/', 'HomeController@index')
     ->name('client-index');
-
+Route::get('/profile/{id}/{nama}', 'HomeController@profile')
+    ->name('client-profile')
+    ->where('id', '[0-9]+');
 Route::get('/paket/{id}', 'HomeController@package')
     ->name('client-package');
 
-Route::get('/login', 'HomeController@login')
+// Client Authentication Related Routes
+Route::get('/login', 'AuthController@login')
     ->name('client-login');
-Route::post('/login', 'HomeController@authenticate')
+Route::post('/login', 'AuthController@authenticate')
     ->name('client-authenticate');
-Route::post('/register', 'HomeController@register')
+Route::post('/register', 'AuthController@register')
     ->name('client-register');
-Route::post('/logout', 'HomeController@logout')
+Route::post('/logout', 'AuthController@logout')
     ->name('client-logout');
 
 /*

@@ -66,15 +66,15 @@ return [
     */
 
     'providers' => [
-        // 'users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Pelanggan::class,
-        // ],
-
         'users' => [
-            'driver' => 'database',
-            'table' => 'pelanggan',
+            'driver' => 'eloquent',
+            'model' => App\Pelanggan::class,
         ],
+
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'pelanggan',
+        // ],
     ],
 
     /*

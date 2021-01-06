@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
+    {{ Auth::user() }}
+    
     <form action="{{ url('/logout') }}" method="post">
         @csrf
         <button type="submit">logout</button>

@@ -22,6 +22,9 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <!-- Main Script -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
     <div id="app" class="main-wrapper">
@@ -55,11 +58,22 @@
 
                     <div>
                         <ul class="nav-link flex items-center justify-center text-gray-800">
+                            @auth
                             <li class="text-red-500 relative">
-                                <a href="/login">
-                                    <button class="focus:outline-none border border-red-500 py-2 px-8 hover:text-gray-50 hover:bg-red-500 transition ease-out duration-300">Login</button>
+                                <a href="/profile/{{ Auth::id() }}/{{ Auth::user()->nama }}">
+                                    <button class="focus:outline-none border border-red-500 py-2 px-8 hover:text-gray-50 hover:bg-red-500 transition ease-out duration-300">
+                                        <i class="fas fa-user"></i>
+                                        {{ Auth::user()->nama }}
+                                    </button>
                                 </a>
                             </li>
+                            @else
+                            <li class="text-red-500 relative">
+                                <a href="/login">
+                                <button class="focus:outline-none border border-red-500 py-2 px-8 hover:text-gray-50 hover:bg-red-500 transition ease-out duration-300">Login</button>
+                                </a>
+                            </li>
+                            @endauth
                         </ul>
                     </div>
                     <!-- /.header-links -->
@@ -79,7 +93,7 @@
                     <p class="text-sm font-light">Solusi kebutuhan panganmu. Pesan berbagai menu untuk keperluan kantor hingga menu anak kos. Dapatkan paket untuk dapat membeli menu dengan porsi lebih. Tidak perlu khawatir, kebutuhan makanan kamu akan kami penuhi.</p>
                 </div>
                 <div class="mt-8">
-                    <a href="/daftar-menu">
+                    <a href="#daftar-menu">
                         <button class="focus:outline-none border border-yellow-500 text-yellow-500 py-2 px-8 hover:text-gray-50 hover:bg-yellow-500 transition ease-out duration-300">Daftar Menu</button>
                     </a>
                 </div>
@@ -122,7 +136,7 @@
         <!-- ./daily-catering-section -->
 
         <section class="daily-catering-section text-gray-50 py-16 lg:py-36">
-            <daily-catering></daily-catering>
+            <daily-catering id="daftar-menu"></daily-catering>
         </section>
 
         <section class="text-gray-800 py-16 lg:py-36 px-10 xl:px-0">
@@ -318,6 +332,5 @@
         const user = @json($user);
         window.foods = foods;
     </script>
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

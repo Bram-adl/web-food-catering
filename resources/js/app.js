@@ -9,6 +9,8 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import 'animate.css';
+import Swal from 'sweetalert2';
+window.Swal = Swal;
 
 /**
  * The following block of code may be used to automatically register your

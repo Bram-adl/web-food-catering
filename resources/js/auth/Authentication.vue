@@ -43,22 +43,23 @@
                     <input
                         type="email"
                         class="focus:outline-none bg-transparent w-full border-b rounded-md block px-4 py-2 text-md text-gray-800"
-                        :class="login.errors != null ? 'border-red-500' : 'border-yellow-500'"
+                        :class="login.errors.email != null ? 'border-red-500' : 'border-yellow-500'"
                         v-model="login.email"
                         placeholder="Email Address"
+                        ref="loginEmail"
                     />
-                    <span class="text-red-500 text-xs">{{ login.errors != null ? login.errors.email[0] : '' }}</span>
+                    <span class="text-red-500 text-xs">{{ login.errors.email != null ? login.errors.email[0] : '' }}</span>
                 </div>
 
                 <div class="my-4 w-full px-16">
                     <input
                         type="password"
                         class="focus:outline-none bg-transparent w-full border-b rounded-md block px-4 py-2 text-md text-gray-800"
-                        :class="login.errors != null ? 'border-red-500' : 'border-yellow-500'"
+                        :class="login.errors.password != null ? 'border-red-500' : 'border-yellow-500'"
                         v-model="login.password"
                         placeholder="Password"
                     />
-                    <span class="text-red-500 text-xs">{{ login.errors != null ? login.errors.password[0] : '' }}</span>
+                    <span class="text-red-500 text-xs">{{ login.errors.password != null ? login.errors.password[0] : '' }}</span>
                 </div>
 
                 <div class="my-4 w-full px-16 text-center">
@@ -110,33 +111,34 @@
                     <input
                         type="text"
                         class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
-                        :class="register.errors != null ? 'border-red-500' : 'border-yellow-500'"
+                        :class="register.errors.nama != null ? 'border-red-500' : 'border-yellow-500'"
                         v-model="register.nama"
                         placeholder="Nama Lengkap"
+                        ref="registerNama"
                     />
-                    <span class="text-xs text-red-500">{{ register.errors != null ? register.errors.nama[0] : '' }}</span>
+                    <span class="text-xs text-red-500">{{ register.errors.nama != null ? register.errors.nama[0] : '' }}</span>
                 </div>
 
                 <div class="my-4 w-full px-16">
                     <input
                         type="email"
                         class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
-                        :class="register.errors != null ? 'border-red-500' : 'border-yellow-500'"
+                        :class="register.errors.email != null ? 'border-red-500' : 'border-yellow-500'"
                         v-model="register.email"
                         placeholder="Email Address"
                     />
-                    <span class="text-xs text-red-500">{{ register.errors != null ? register.errors.email[0] : '' }}</span>
+                    <span class="text-xs text-red-500">{{ register.errors.email != null ? register.errors.email[0] : '' }}</span>
                 </div>
 
                 <div class="my-4 w-full px-16">
                     <input
                         type="password"
                         class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
-                        :class="register.errors != null ? 'border-red-500' : 'border-yellow-500'"
+                        :class="register.errors.password != null ? 'border-red-500' : 'border-yellow-500'"
                         v-model="register.password"
                         placeholder="Password"
                     />
-                    <span class="text-xs text-red-500">{{ register.errors != null ? register.errors.password[0] : '' }}</span>
+                    <span class="text-xs text-red-500">{{ register.errors.password != null ? register.errors.password[0] : '' }}</span>
                 </div>
 
                 <div class="my-4 w-full px-16 text-center">
@@ -159,17 +161,25 @@ export default {
 
     data() {
         return {
+            redirectTo,
             login: {
                 email: "",
                 password: "",
-                errors: null,
+                errors: {
+                    email: null,
+                    password: null,
+                },
                 errorMessage: null,
             },
             register: {
                 nama: "",
                 email: "",
                 password: "",
-                errors: null,
+                errors: {
+                    nama: null,
+                    email: null,
+                    password: null,
+                },
                 errorMessage: null,
             }
         };
@@ -180,19 +190,33 @@ export default {
             axios
                 .post("/login", {
                     email: this.login.email,
-                    password: this.login.password
+                    password: this.login.password,
                 })
                 .then(response => {
                     if (response.data.success) {
-                        location.href = response.data.message;
+                        location.href = this.redirectTo != null ? `paket/${this.redirectTo}` : '/';
                     } else {
+                        // set the errorMessage
                         this.login.errorMessage = response.data.message;
+
+                        // reset the form data
                         this.login.email = '';
                         this.login.password = '';
+                        this.login.errors = {
+                            email: null,
+                            password: null,
+                        };
+
+                        // focus the email input
+                        this.$refs.loginEmail.focus();
                     }
                 })
                 .catch(error => {
+                    // show the errors
                     this.login.errors = error.response.data.errors;
+
+                    // clear the errorMessage
+                    this.login.errorMessage = null;
                 });
         },
 
@@ -205,16 +229,32 @@ export default {
                 })
                 .then(response => {
                     if (response.data.success) {
-                        location.href = response.data.message;
+                        // redirect to index page
+                        location.href = `/`;
                     } else {
+                        // set the errorMessage
                         this.register.errorMessage = response.data.message;
+
+                        // reset the form data
                         this.register.nama = '';
                         this.register.email = '';
                         this.register.password = '';
+                        this.register.errors = {
+                            nama: null,
+                            email: null,
+                            password: null,
+                        };
+
+                        // focus the nama input
+                        this.$refs.registerNama.focus();
                     }
                 })
                 .catch(error => {
+                    // show the errors
                     this.register.errors = error.response.data.errors;
+
+                    // clear the errorMessage
+                    this.register.errorMessage = null;
                 })
         },
 

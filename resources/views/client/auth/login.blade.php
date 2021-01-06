@@ -24,5 +24,11 @@
     <div id="app" class="main-wrapper">
         <authentication></authentication>
     </div>
+
+    <script>
+        const redirectTo = @json($redirect_to);
+        const user = @json($user);
+        window.redirectTo = redirectTo;
+    </script>
 </body>
 </html>
