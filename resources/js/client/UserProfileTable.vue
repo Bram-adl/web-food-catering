@@ -1,5 +1,5 @@
 <template>
-    <table class="table-fixed border border-collapse w-full">
+    <table class="inline-block xl:table-fixed border-collapse sm:w-full">
         <thead>
             <tr>
                 <th class="p-2 border w-1/12">#</th>

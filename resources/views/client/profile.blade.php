@@ -30,22 +30,22 @@
     <div id="app" class="main-wrapper h-screen overflow-hidden bg-gray-200 flex flex-col">
         <nav class="bg-gray-50 shadow-sm">
             <div class="container mx-auto flex items-center justify-between py-4 px-10 xl:px-0">
-                <div>
-                    <img src="/images/logo.jpg" alt="Logo" class="w-16 h-16 rounded-full">
+                <div class="flex-1">
+                    <img src="/images/logo.jpg" alt="Logo" class="w-10 h-10 sm:w-16 sm:h-16 rounded-full">
                 </div>
 
                 <div class="text-gray-800 text-sm">
-                    <ul class="text-sm flex-1 inline-block">
-                        <li class="grid grid-cols-2 gap-4">
-                            <a class="opacity-50 text-right hover:opacity-100 transition ease-out duration-300" href="/">Home</a>
-                            <a class="opacity-50 text-left hover:opacity-100 transition ease-out duration-300" href="/#daftar-menu">Daftar Menu</a>
+                    <ul class="text-sm inline-block">
+                        <li class="flex items-center justify-center sm:grid grid-cols-2 gap-4">
+                            <a class="opacity-50 hover:opacity-100 transition ease-out duration-300" href="/">Home</a>
+                            <a class="opacity-50 hover:opacity-100 transition ease-out duration-300" href="/#daftar-menu">Daftar Menu</a>
                         </li>
                     </ul>
                     
-                    <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout').submit()" class="ml-10">
+                    <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout').submit()" class="ml-5 sm:ml-10">
                         <button class="group">
                             <i class="fas fa-power-off text-red-500"></i>
-                            <span class="group-hover:text-red-500 transition ease-out duration-300 ml-2">Logout</span>
+                            <span class="group-hover:text-red-500 transition ease-out duration-300 ml-1 sm:ml-2">Logout</span>
                         </button>
                     </a>
 

@@ -7,7 +7,7 @@
         
         <div class="p-6 pb-0 flex items-center justify-between">
             <h1 class="text-lg">{{ pelanggan.nama }}</h1>
-            <button class="focus:outline-none text-xs bg-green-500 text-gray-50 rounded-md py-2 px-4 hover:bg-green-600 transition duration-300 ease-out" @click="showModal">
+            <button class="focus:outline-none text-xs bg-green-500 text-gray-50 rounded-md py-3 px-4 hover:bg-green-600 transition duration-300 ease-out" @click="showModal">
                 <i class="fas fa-edit"></i>
                 <span>Edit Profil</span>
             </button>
@@ -18,13 +18,13 @@
             <span class="mx-2">Active</span>
         </div>
 
-        <div class="p-6 pt-0 pb-4 grid grid-cols-2 divide-x text-gray-500">
+        <div class="p-6 pt-0 pb-4 grid sm:grid-cols-2 sm:divide-x text-gray-500">
             <div class="text-left">
                 <i class="fas fa-envelope"></i>
                 <span class="ml-2">{{ pelanggan.email }}</span>
             </div>
 
-            <div class="text-right">
+            <div class="sm:text-right">
                 <i class="fab fa-whatsapp"></i>
                 <span class="ml-2">{{ pelanggan.wa || '(Belum menyimpan nomor whatsapp)' }}</span>
             </div>

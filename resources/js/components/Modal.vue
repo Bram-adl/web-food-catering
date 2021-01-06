@@ -8,18 +8,18 @@
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
             <div
-                class="inline-block align-bottom w-64 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="modal-headline"
             >
                 <div v-if="data.form == 'profile'">
-                    <div class="bg-gray-50 px-4 py-2 sm:px-6 sm:py-4">
+                    <div class="bg-gray-50 px-4 py-6 sm:px-6 sm:py-4">
                         <h2 class="font-semibold text-gray-800 text-xl">Form Biodata</h2>
                     </div>
                     <div class="px-4 py-2">
                         <div class="sm:grid grid-cols-2 gap-4 my-4">
-                            <div>
+                            <div class="mb-4 sm:mb-0">
                                 <input type="text" placeholder="Nama lengkap" class="bg-gray-50 shadow-sm text-gray-800 rounded-md py-3 px-4 w-full focus:outline-none">
                                 <!-- <span class="text-xs text-red-500">hm</span> -->
                             </div>
@@ -41,7 +41,7 @@
                             <!-- <span class="text-xs text-red-500">hm</span> -->
                         </div>
                         <div class="sm:grid grid-cols-3 gap-2 my-4">
-                            <div class="relative">
+                            <div class="relative mb-4 sm:mb-0">
                                 <select class="appearance-none w-full bg-gray-50 text-gray-800 py-3 px-4 pr-8 rounded-md">
                                     <option value="" selected disabled hidden>Kota Rumah</option>
                                     <option>Kab. Malang</option>
@@ -51,7 +51,7 @@
                                     <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                 </div>
                             </div>
-                            <div class="relative">
+                            <div class="relative mb-4 sm:mb-0">
                                 <select class="appearance-none w-full bg-gray-50 text-gray-800 py-3 px-4 pr-8 rounded-md">
                                     <option value="" selected disabled hidden>Kec. Rumah</option>
                                     <option>Kab. Malang</option>
@@ -61,7 +61,7 @@
                                     <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                 </div>
                             </div>
-                            <div class="relative">
+                            <div class="relative mb-4 sm:mb-0">
                                 <select class="appearance-none w-full bg-gray-50 text-gray-800 py-3 px-4 pr-8 rounded-md">
                                     <option value="" selected disabled hidden>Kel. Rumah</option>
                                     <option>Kab. Malang</option>
@@ -77,7 +77,7 @@
                             <!-- <span class="text-xs text-red-500">hm</span> -->
                         </div>
                         <div class="sm:grid grid-cols-3 gap-2 my-4">
-                            <div class="relative">
+                            <div class="relative mb-4 sm:mb-0">
                                 <select class="appearance-none w-full bg-gray-50 text-gray-800 py-3 px-4 pr-8 rounded-md">
                                     <option value="" selected disabled hidden>Kota Kantor</option>
                                     <option>Kab. Malang</option>
@@ -87,7 +87,7 @@
                                     <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                 </div>
                             </div>
-                            <div class="relative">
+                            <div class="relative mb-4 sm:mb-0">
                                 <select class="appearance-none w-full bg-gray-50 text-gray-800 py-3 px-4 pr-8 rounded-md">
                                     <option value="" selected disabled hidden>Kec. Kantor</option>
                                     <option>Kab. Malang</option>
@@ -97,7 +97,7 @@
                                     <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                 </div>
                             </div>
-                            <div class="relative">
+                            <div class="relative mb-4 sm:mb-0">
                                 <select class="appearance-none w-full bg-gray-50 text-gray-800 py-3 px-4 pr-8 rounded-md">
                                     <option value="" selected disabled hidden>Kel. Kantor</option>
                                     <option>Kab. Malang</option>

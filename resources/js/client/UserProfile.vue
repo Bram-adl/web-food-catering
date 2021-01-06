@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-full container mx-auto py-10 text-gray-800">
+    <div class="w-full h-full container mx-auto py-10 overflow-auto px-10 xl:px-0 text-gray-800">
         <Modal :data="data" @closeModal="closeModal"/>
         
         <div>
@@ -11,9 +11,9 @@
 
             <div class="bg-gray-50 rounded-sm text-sm shadow-md my-10 lg:my-0">
                 <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <h1 class="font-semibold text-xl">Halo, {{ pelanggan.nama }}!</h1>
-                        <button class="focus:outline-none text-xs bg-green-500 text-gray-50 rounded-md py-2 px-4 hover:bg-green-600 transition duration-300 ease-out" @click="showModal">
+                    <div class="flex items-center flex-col flex-col-reverse sm:flex-row justify-between">
+                        <h1 class="font-semibold text-xl w-full sm:w-auto mt-4 sm:mt-0">Halo, {{ pelanggan.nama }}!</h1>
+                        <button class="focus:outline-none text-xs bg-green-500 text-gray-50 w-full sm:w-auto rounded-md py-3 px-4 hover:bg-green-600 transition duration-300 ease-out" @click="showModal">
                             <i class="fas fa-plus"></i>
                             <span>Request Pengantaran</span>
                         </button>
@@ -28,7 +28,7 @@
             <!-- /.information-card -->
         </div>
 
-        <div class="bg-gray-50 rounded-sm shadow-md text-sm p-6">
+        <div class="bg-gray-50 rounded-sm shadow-md text-sm p-6 overflow-auto">
             <user-profile-table></user-profile-table>
         </div>
     </div>

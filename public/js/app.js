@@ -38713,7 +38713,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "w-full h-full container mx-auto py-10 text-gray-800" },
+    {
+      staticClass:
+        "w-full h-full container mx-auto py-10 overflow-auto px-10 xl:px-0 text-gray-800"
+    },
     [
       _c("Modal", {
         attrs: { data: _vm.data },
@@ -38738,17 +38741,25 @@ var render = function() {
               _c("div", { staticClass: "p-6" }, [
                 _c(
                   "div",
-                  { staticClass: "flex items-center justify-between" },
+                  {
+                    staticClass:
+                      "flex items-center flex-col flex-col-reverse sm:flex-row justify-between"
+                  },
                   [
-                    _c("h1", { staticClass: "font-semibold text-xl" }, [
-                      _vm._v("Halo, " + _vm._s(_vm.pelanggan.nama) + "!")
-                    ]),
+                    _c(
+                      "h1",
+                      {
+                        staticClass:
+                          "font-semibold text-xl w-full sm:w-auto mt-4 sm:mt-0"
+                      },
+                      [_vm._v("Halo, " + _vm._s(_vm.pelanggan.nama) + "!")]
+                    ),
                     _vm._v(" "),
                     _c(
                       "button",
                       {
                         staticClass:
-                          "focus:outline-none text-xs bg-green-500 text-gray-50 rounded-md py-2 px-4 hover:bg-green-600 transition duration-300 ease-out",
+                          "focus:outline-none text-xs bg-green-500 text-gray-50 w-full sm:w-auto rounded-md py-3 px-4 hover:bg-green-600 transition duration-300 ease-out",
                         on: { click: _vm.showModal }
                       },
                       [
@@ -38770,7 +38781,10 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "bg-gray-50 rounded-sm shadow-md text-sm p-6" },
+        {
+          staticClass:
+            "bg-gray-50 rounded-sm shadow-md text-sm p-6 overflow-auto"
+        },
         [_c("user-profile-table")],
         1
       )
@@ -38856,7 +38870,7 @@ var render = function() {
           "button",
           {
             staticClass:
-              "focus:outline-none text-xs bg-green-500 text-gray-50 rounded-md py-2 px-4 hover:bg-green-600 transition duration-300 ease-out",
+              "focus:outline-none text-xs bg-green-500 text-gray-50 rounded-md py-3 px-4 hover:bg-green-600 transition duration-300 ease-out",
             on: { click: _vm.showModal }
           },
           [
@@ -38872,7 +38886,8 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "p-6 pt-0 pb-4 grid grid-cols-2 divide-x text-gray-500"
+          staticClass:
+            "p-6 pt-0 pb-4 grid sm:grid-cols-2 sm:divide-x text-gray-500"
         },
         [
           _c("div", { staticClass: "text-left" }, [
@@ -38883,7 +38898,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "text-right" }, [
+          _c("div", { staticClass: "sm:text-right" }, [
             _c("i", { staticClass: "fab fa-whatsapp" }),
             _vm._v(" "),
             _c("span", { staticClass: "ml-2" }, [
@@ -39057,7 +39072,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "table",
-      { staticClass: "table-fixed border border-collapse w-full" },
+      { staticClass: "inline-block xl:table-fixed border-collapse sm:w-full" },
       [
         _c("thead", [
           _c("tr", [
@@ -39438,7 +39453,7 @@ var render = function() {
               "div",
               {
                 staticClass:
-                  "inline-block align-bottom w-64 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full",
+                  "inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full",
                 attrs: {
                   role: "dialog",
                   "aria-modal": "true",
@@ -39463,101 +39478,113 @@ var render = function() {
                           "div",
                           { staticClass: "sm:grid grid-cols-3 gap-2 my-4" },
                           [
-                            _c("div", { staticClass: "relative" }, [
-                              _vm._m(6),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
-                                },
-                                [
-                                  _c(
-                                    "svg",
-                                    {
-                                      staticClass: "h-4 w-4",
-                                      attrs: {
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 20 20"
-                                      }
-                                    },
-                                    [
-                                      _c("path", {
+                            _c(
+                              "div",
+                              { staticClass: "relative mb-4 sm:mb-0" },
+                              [
+                                _vm._m(6),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "h-4 w-4",
                                         attrs: {
-                                          d:
-                                            "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          viewBox: "0 0 20 20"
                                         }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]),
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "relative" }, [
-                              _vm._m(7),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
-                                },
-                                [
-                                  _c(
-                                    "svg",
-                                    {
-                                      staticClass: "h-4 w-4",
-                                      attrs: {
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 20 20"
-                                      }
-                                    },
-                                    [
-                                      _c("path", {
+                            _c(
+                              "div",
+                              { staticClass: "relative mb-4 sm:mb-0" },
+                              [
+                                _vm._m(7),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "h-4 w-4",
                                         attrs: {
-                                          d:
-                                            "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          viewBox: "0 0 20 20"
                                         }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]),
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "relative" }, [
-                              _vm._m(8),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
-                                },
-                                [
-                                  _c(
-                                    "svg",
-                                    {
-                                      staticClass: "h-4 w-4",
-                                      attrs: {
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 20 20"
-                                      }
-                                    },
-                                    [
-                                      _c("path", {
+                            _c(
+                              "div",
+                              { staticClass: "relative mb-4 sm:mb-0" },
+                              [
+                                _vm._m(8),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "h-4 w-4",
                                         attrs: {
-                                          d:
-                                            "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          viewBox: "0 0 20 20"
                                         }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              )
-                            ])
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
                           ]
                         ),
                         _vm._v(" "),
@@ -39567,101 +39594,113 @@ var render = function() {
                           "div",
                           { staticClass: "sm:grid grid-cols-3 gap-2 my-4" },
                           [
-                            _c("div", { staticClass: "relative" }, [
-                              _vm._m(10),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
-                                },
-                                [
-                                  _c(
-                                    "svg",
-                                    {
-                                      staticClass: "h-4 w-4",
-                                      attrs: {
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 20 20"
-                                      }
-                                    },
-                                    [
-                                      _c("path", {
+                            _c(
+                              "div",
+                              { staticClass: "relative mb-4 sm:mb-0" },
+                              [
+                                _vm._m(10),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "h-4 w-4",
                                         attrs: {
-                                          d:
-                                            "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          viewBox: "0 0 20 20"
                                         }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]),
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "relative" }, [
-                              _vm._m(11),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
-                                },
-                                [
-                                  _c(
-                                    "svg",
-                                    {
-                                      staticClass: "h-4 w-4",
-                                      attrs: {
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 20 20"
-                                      }
-                                    },
-                                    [
-                                      _c("path", {
+                            _c(
+                              "div",
+                              { staticClass: "relative mb-4 sm:mb-0" },
+                              [
+                                _vm._m(11),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "h-4 w-4",
                                         attrs: {
-                                          d:
-                                            "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          viewBox: "0 0 20 20"
                                         }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]),
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "relative" }, [
-                              _vm._m(12),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
-                                },
-                                [
-                                  _c(
-                                    "svg",
-                                    {
-                                      staticClass: "h-4 w-4",
-                                      attrs: {
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 20 20"
-                                      }
-                                    },
-                                    [
-                                      _c("path", {
+                            _c(
+                              "div",
+                              { staticClass: "relative mb-4 sm:mb-0" },
+                              [
+                                _vm._m(12),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "pointer-events-none absolute right-0 inset-y-1/2 flex items-center px-2 text-grey-darker"
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "h-4 w-4",
                                         attrs: {
-                                          d:
-                                            "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          viewBox: "0 0 20 20"
                                         }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              )
-                            ])
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
                           ]
                         ),
                         _vm._v(" "),
@@ -39872,7 +39911,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bg-gray-50 px-4 py-2 sm:px-6 sm:py-4" }, [
+    return _c("div", { staticClass: "bg-gray-50 px-4 py-6 sm:px-6 sm:py-4" }, [
       _c("h2", { staticClass: "font-semibold text-gray-800 text-xl" }, [
         _vm._v("Form Biodata")
       ])
@@ -39883,7 +39922,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "sm:grid grid-cols-2 gap-4 my-4" }, [
-      _c("div", [
+      _c("div", { staticClass: "mb-4 sm:mb-0" }, [
         _c("input", {
           staticClass:
             "bg-gray-50 shadow-sm text-gray-800 rounded-md py-3 px-4 w-full focus:outline-none",
