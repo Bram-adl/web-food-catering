@@ -29,14 +29,6 @@ Route::post('/register', 'AuthController@register')
 Route::post('/logout', 'AuthController@logout')
     ->name('client-logout');
 
-// Resources Related Routes
-Route::resources([
-    'pelanggan' => 'PelangganController',
-    'kota' => 'KotaController',
-    'kecamatan' => 'KecamatanController',
-    'kelurahan' => 'KelurahanController',
-]);
-
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -48,8 +40,6 @@ Route::get('/dashboard', 'DashboardController@index')
     ->name('admin-dashboard');
 Route::get('/profil/{id}', 'DashboardController@profil')
     ->name('admin-profil');
-Route::get('/personel', 'DashboardController@personel')
-    ->name('admin-personel');
 Route::get('/jabatan', 'DashboardController@jabatan')
     ->name('admin-jabatan');
 Route::get('/paket', 'DashboardController@paket')
@@ -74,3 +64,16 @@ Route::post('/admin/register', 'AuthController@registerAdmin')
     ->name('admin-register');
 Route::get('/admin/logout', 'AuthController@logout')
     ->name('admin-logout');
+
+/*
+|--------------------------------------------------------------------------
+| Resources Routes
+|--------------------------------------------------------------------------
+*/
+Route::resources([
+    'pelanggan' => 'PelangganController',
+    'kota' => 'KotaController',
+    'kecamatan' => 'KecamatanController',
+    'kelurahan' => 'KelurahanController',
+    'personel' => 'Admin\PersonelController',
+]);

@@ -27,16 +27,6 @@ class DashboardController extends Controller
     }
 
     /**
-     * Return the personel page.
-     * 
-     * @return view
-     */
-    public function personel()
-    {
-        return view('admin.personel');
-    }
-
-    /**
      * Return the jabatan page.
      * 
      * @return view

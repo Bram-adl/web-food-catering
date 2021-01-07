@@ -21,7 +21,7 @@
     @stack('styles')
 </head>
 <body class="hold-transition sidebar-mini">
-	<div class="wrapper">
+	<div class="wrapper" id="app">
 		@include('admin.layouts.partials.nav')
 
 		@include('admin.layouts.partials.sidebar')
