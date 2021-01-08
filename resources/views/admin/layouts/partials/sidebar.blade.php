@@ -52,24 +52,23 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview">
+                <li class="nav-item has-treeview" id="kelola-paket-menu">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-hamburger"></i>
                         <p>
-                            Paket
+                            Kelola Paket
                             <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">2</span>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/paket" class="nav-link">
+                            <a href="/paket" class="nav-link" id="paket-menu">
                                 <i class="fas fa-hamburger nav-icon"></i>
                                 <p>Paket</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/kategori-paket" class="nav-link">
+                            <a href="/kategori-paket" class="nav-link" id="kategori-paket-menu">
                                 <i class="fas fa-store nav-icon"></i>
                                 <p>Kategori Paket</p>
                             </a>

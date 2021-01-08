@@ -1,13 +1,5 @@
 @extends('admin.layouts.app')
 
-@push('styles')
-<!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('front-end-admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('front-end-admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-<!-- Toastr -->
-<link rel="stylesheet" href="{{ asset('front-end-admin/plugins/toastr/toastr.min.css') }}">
-@endpush
-
 @section('content-header')
 <div class="row mb-2">
     <div class="col-sm-6">
@@ -30,7 +22,7 @@
         <!-- general form elements -->
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Edit Data Personel</h3>
+                <h3 class="card-title">Edit Data Jabatan</h3>
             </div>
             <!-- /.card-header -->
 

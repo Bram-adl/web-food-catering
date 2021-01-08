@@ -77,4 +77,5 @@ Route::resources([
     'kelurahan' => 'KelurahanController',
     'personel' => 'Admin\PersonelController',
     'jabatan' => 'Admin\JabatanController',
+    'paket' => 'Admin\PaketController',
 ]);
