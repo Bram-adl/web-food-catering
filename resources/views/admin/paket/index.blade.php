@@ -74,7 +74,7 @@
                             <td>Rp. {{ number_format($p->harga, 0, ',', '.') }}</td>
                             <td>
                                 <a href="/paket/{{ $p->id }}/edit" class="btn btn-xs bg-warning"><i class="fas fa-pencil-alt"></i></a>
-                                <a href="#" class="btn btn-xs bg-danger" data-id="{{ $p->id }}" onclick="hapusPaket(this)"><i class="fas fa-trash"></i></a>
+                                <button class="btn btn-xs bg-danger" data-id="{{ $p->id }}" onclick="hapusPaket(this)"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         @endforeach

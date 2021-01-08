@@ -21,7 +21,7 @@ class Kategori extends Model
      * 
      * @var array
      */
-    protected $fillables = [
+    protected $fillable = [
         'kategori', 'keterangan',
     ];
 

@@ -68,7 +68,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/kategori-paket" class="nav-link" id="kategori-paket-menu">
+                            <a href="/kategori" class="nav-link" id="kategori-menu">
                                 <i class="fas fa-store nav-icon"></i>
                                 <p>Kategori Paket</p>
                             </a>
