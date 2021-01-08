@@ -27,6 +27,9 @@ class Pelanggan extends Authenticatable
      */
     protected $fillable = [
         'nama', 'email', 'password', 'wa',
+        'rumah_teks', 'rumah_maps', 'rumah_kota', 'rumah_kecamatan', 'rumah_kelurahan',
+        'kantor_teks', 'kantor_maps', 'kantor_kota', 'kantor_kecamatan', 'kantor_kelurahan',
+        'keterangan', 'porsi',
     ];
 
     /**

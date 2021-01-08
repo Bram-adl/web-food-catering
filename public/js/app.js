@@ -39153,7 +39153,9 @@ var render = function() {
                     _c("span", { staticClass: "ml-2" }, [_vm._v("Porsi Makan")])
                   ]),
                   _vm._v(" "),
-                  _vm._m(2)
+                  _c("div", [
+                    _c("span", {}, [_vm._v(_vm._s(_vm.pelanggan.keterangan))])
+                  ])
                 ]
               ),
               _vm._v(" "),
@@ -39198,7 +39200,7 @@ var render = function() {
                         )
                       ])
                     ])
-                  : _c("ul", [_vm._m(3)]),
+                  : _c("ul", [_vm._m(2)]),
                 _vm._v(" "),
                 _vm.pelanggan.kantor_teks
                   ? _c("ul", { staticClass: "mt-4 text-gray-500" }, [
@@ -39233,7 +39235,7 @@ var render = function() {
                         )
                       ])
                     ])
-                  : _c("ul", { staticClass: "mt-4" }, [_vm._m(4)])
+                  : _c("ul", { staticClass: "mt-4" }, [_vm._m(3)])
               ])
             ]
           ),
@@ -39284,7 +39286,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(5)
+                _vm._m(4)
               ])
             ]
           )
@@ -39328,12 +39330,6 @@ var staticRenderFns = [
         _c("span", { staticClass: "mx-2" }, [_vm._v("Active")])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("span", {}, [_vm._v("Tidak terdapat alergi")])])
   },
   function() {
     var _vm = this

@@ -60,7 +60,7 @@
                     </div>
 
                     <div>
-                        <span class="">Tidak terdapat alergi</span>
+                        <span class="">{{ pelanggan.keterangan }}</span>
                     </div>
                 </div>
 

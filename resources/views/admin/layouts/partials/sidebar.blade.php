@@ -76,7 +76,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="/pelanggan" class="nav-link">
+                    <a href="/pelanggan" class="nav-link" id="pelanggan-menu">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Pelanggan

@@ -79,4 +79,5 @@ Route::resources([
     'jabatan' => 'Admin\JabatanController',
     'paket' => 'Admin\PaketController',
     'kategori' => 'Admin\KategoriController',
+    'pelanggan' => 'Admin\PelangganController',
 ]);
