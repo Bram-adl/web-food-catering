@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/dashboard" class="brand-link">
-        <img src="{{ asset('images/logo-100.jpg') }}" alt="AdminLTE Logo" class="brand-image elevation-3" style="opacity: .8">
+        <img src="{{ asset('/images/logo-100.jpg') }}" alt="AdminLTE Logo" class="brand-image elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Senjani Kitchen</span>
     </a>
 
@@ -11,7 +11,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('images/personel/ibeng-160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('images/personel/1610071790.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="/profil/1" class="d-block">Ibeng Abdul Latif</a>
@@ -23,29 +23,29 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="/dashboard" class="nav-link">
+                    <a href="/dashboard" class="nav-link" id="dashboard-menu">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item has-treeview">
+                <li class="nav-item has-treeview" id="kelola-personel-menu">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
                         <p>
-                            Personel
+                            Kelola Personel
                             <i class="fas fa-angle-left right"></i>
                             <span class="badge badge-info right">2</span>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/personel" class="nav-link">
+                            <a href="/personel" class="nav-link" id="personel-menu">
                                 <i class="fas fa-user-tie nav-icon"></i>
                                 <p>Personel</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/jabatan" class="nav-link">
+                            <a href="/jabatan" class="nav-link" id="jabatan-menu">
                                 <i class="fas fa-address-card nav-icon"></i>
                                 <p>Jabatan</p>
                             </a>

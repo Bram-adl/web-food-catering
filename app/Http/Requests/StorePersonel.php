@@ -57,7 +57,7 @@ class StorePersonel extends FormRequest
             'nik.numeric' => 'NIK harus berupa digit',
             'email.required' => 'Email wajib diisi',
             'email.unique' => 'Email sudah digunakan akun lain.',
-            'email.ends_with' => 'Email wajib berakhiran @senjadi.id',
+            'email.ends_with' => 'Email wajib berakhiran @senjani.id',
             'nama.required' => 'Nama wajib diisi',
             'nama.string' => 'Nama harus berupa huruf',
             'password.required' => 'Password wajib diisi',

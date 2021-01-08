@@ -58,6 +58,8 @@
 	<script src="{{ asset('front-end-admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 	<!-- AdminLTE -->
     <script src="{{ asset('front-end-admin/js/adminlte.js') }}"></script>
+	<!-- Axios -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
     
     @stack('scripts')
 </body>

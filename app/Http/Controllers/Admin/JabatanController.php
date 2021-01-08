@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreJabatan;
+use App\Http\Requests\UpdateJabatan;
 use App\Jabatan;
 use Illuminate\Http\Request;
 
@@ -15,19 +17,11 @@ class JabatanController extends Controller
      */
     public function index()
     {
-        $jabatan = Jabatan::all();
+        $jabatan = Jabatan::latest()->get();
 
-        
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('admin.jabatan.index', [
+            'jabatan' => $jabatan,
+        ]);
     }
 
     /**
@@ -36,20 +30,18 @@ class JabatanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreJabatan $request)
     {
-        //
-    }
+        $validated = $request->validated();
+        
+        Jabatan::create([
+            'jabatan' => $validated['jabatan'],
+            'keterangan' => $validated['keterangan'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()
+            ->route('jabatan.index')
+            ->with('status', 'Jabatan berhasil disimpan!');
     }
 
     /**
@@ -60,7 +52,11 @@ class JabatanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jabatan = Jabatan::find($id);
+
+        return view('admin.jabatan.edit', [
+            'jabatan' => $jabatan,
+        ]);
     }
 
     /**
@@ -70,9 +66,19 @@ class JabatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateJabatan $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        $jabatan = Jabatan::find($id);
+        $jabatan->jabatan = $validated['jabatan'];
+        $jabatan->keterangan = $validated['keterangan'];
+        
+        $jabatan->save();
+
+        return redirect()
+                ->route('jabatan.index')
+                ->with('status', 'Jabatan berhasil diperbaharui!');
     }
 
     /**
@@ -83,6 +89,12 @@ class JabatanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $jabatan = Jabatan::find($id);
+        $jabatan->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil menghapus data!',
+        ]);
     }
 }

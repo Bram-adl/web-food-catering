@@ -157,6 +157,12 @@ class PersonelController extends Controller
     public function destroy($id)
     {
         $personel = Personel::find($id);
+
+        $personel_foto = $personel->foto;
+        if (file_exists(public_path('images/personel/') . $personel_foto)) {
+            unlink(public_path('images/personel/') . $personel_foto);
+        }
+        
         $personel->delete();
     }
 }

@@ -329,4 +329,9 @@
 
 <!-- PAGE SCRIPTS -->
 <script src="{{ asset('front-end-admin/js/pages/dashboard2.js') }}"></script>
+
+<script>
+    const dashboardMenu = document.getElementById('dashboard-menu')
+    dashboardMenu.classList.add('active')
+</script>
 @endpush

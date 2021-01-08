@@ -187,8 +187,12 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('front-end-admin/js/demo.js') }}"></script>
-<script src="{{ asset('front-end-admin/js/pages/dashboard3.js') }}"></script>
-<!-- PAGE SCRIPTS -->
-<script src="{{ asset('front-end-admin/js/pages/dashboard2.js') }}"></script>
+<script>
+    const kelolaPersonelMenu = document.getElementById('kelola-personel-menu')
+    const personelMenu = document.getElementById('personel-menu')
+
+    kelolaPersonelMenu.classList.add('menu-open')
+    kelolaPersonelMenu.children[0].classList.add('active')
+    personelMenu.classList.add('active')
+</script>
 @endpush

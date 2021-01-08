@@ -279,7 +279,7 @@
                     <div class="form-group row">
                         <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" placeholder="Alamat Lengkap" name="alamat"></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Alamat Lengkap" name="alamat">{{ old('alamat') }}</textarea>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -377,6 +377,15 @@
             }
         })
     }
+</script>
+
+<script>
+    const kelolaPersonelMenu = document.getElementById('kelola-personel-menu')
+    const personelMenu = document.getElementById('personel-menu')
+
+    kelolaPersonelMenu.classList.add('menu-open')
+    kelolaPersonelMenu.children[0].classList.add('active')
+    personelMenu.classList.add('active')
 </script>
 
 @if ($errors->any())
