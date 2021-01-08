@@ -40,4 +40,9 @@ class Pelanggan extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function pembelian()
+    {
+        return $this->hasOne('App\Pembelian', 'id_pelanggan');
+    }
 }

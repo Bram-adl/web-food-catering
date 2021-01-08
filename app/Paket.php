@@ -31,4 +31,9 @@ class Paket extends Model
     public function kategori() {
         return $this->belongsTo('App\Kategori', 'id_kategori');
     }
+
+    public function pembelian()
+    {
+        return $this->hasOne('App\Pembelian', 'id_paket');
+    }
 }

@@ -85,7 +85,7 @@
                 </li>
                 <li class="nav-header">TRANSAKSI</li>
                 <li class="nav-item">
-                    <a href="/pembelian" class="nav-link">
+                    <a href="/pembelian" class="nav-link" id="pembelian-menu">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             Pembelian
@@ -94,7 +94,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/pesanan" class="nav-link">
+                    <a href="/pesanan" class="nav-link" id="pesanan-menu">
                         <i class="nav-icon fas fa-shopping-basket"></i>
                         <p>
                             Pesanan
@@ -103,7 +103,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/pengantaran" class="nav-link">
+                    <a href="/pengantaran" class="nav-link" id="pengantaran-menu">
                         <i class="nav-icon fas fa-truck"></i>
                         <p>
                             Pengantaran

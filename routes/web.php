@@ -80,4 +80,5 @@ Route::resources([
     'paket' => 'Admin\PaketController',
     'kategori' => 'Admin\KategoriController',
     'pelanggan' => 'Admin\PelangganController',
+    'pembelian' => 'Admin\PembelianController',
 ]);

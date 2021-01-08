@@ -29,7 +29,7 @@
             <div class="card-header">
                 <h3 class="card-title">Data Pelanggan</h3>
                 <div class="card-tools">
-                    <a href="#" class="btn bg-primary btn-sm" data-toggle="modal" data-target="#modal-tambah">
+                    <a href="#" class="btn bg-primary" data-toggle="modal" data-target="#modal-tambah">
                         <i class="fas fa-plus"></i> Tambah Data
                     </a>
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
