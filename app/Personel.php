@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Personel extends Model
+class Personel extends Authenticatable
 {
+    use Notifiable;
+    
     const CREATED_AT = 'waktu_simpan';
     const UPDATED_AT = 'waktu_edit';
     
@@ -26,6 +30,15 @@ class Personel extends Model
         'nik', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir',
         'wa', 'alamat', 'id_kota', 'id_kecamatan', 'id_kelurahan',
         'foto'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
     ];
     
     /**

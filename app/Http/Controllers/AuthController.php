@@ -35,6 +35,11 @@ class AuthController extends Controller
         ]);
     }
 
+    public function loginAdmin()
+    {
+        return view('admin.auth.login');
+    }
+
     /**
      * Authenticated the user.
      * 
@@ -60,6 +65,21 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => 'Akun tidak ditemukan',
             ]);
+        }
+    }
+
+    public function authenticateAdmin(Request $request)
+    {
+        if (Auth::guard('personel')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            $details = Auth::guard('personel')->user();
+            $user = $details['original'];
+            return redirect()
+                ->route('admin-dashboard')
+                ->with('personel', $user);
+        } else {
+            return redirect()
+                ->route('admin-login')
+                ->with('status', 'Akun tidak ditemukan');
         }
     }
 
@@ -112,5 +132,12 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect()->route('client-index');
+    }
+
+    public function logoutAdmin()
+    {
+        Auth::guard('personel')->logout();
+
+        return redirect()->route('admin-login');
     }
 }

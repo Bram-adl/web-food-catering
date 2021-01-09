@@ -61,7 +61,7 @@ Route::post('/admin/login', 'AuthController@authenticateAdmin')
     ->name('admin-authenticate');
 Route::post('/admin/register', 'AuthController@registerAdmin')
     ->name('admin-register');
-Route::get('/admin/logout', 'AuthController@logout')
+Route::post('/admin/logout', 'AuthController@logoutAdmin')
     ->name('admin-logout');
 
 /*
@@ -73,15 +73,20 @@ Route::get('/admin/logout', 'AuthController@logout')
 Route::post('/pembelian/verifikasi/{id}', 'Admin\PembelianController@verifikasi');
 Route::post('/pembelian/selesai/{id}', 'Admin\PembelianController@selesai');
 
-Route::resources([
-    'pelanggan' => 'PelangganController',
-    'kota' => 'KotaController',
-    'kecamatan' => 'KecamatanController',
-    'kelurahan' => 'KelurahanController',
-    'personel' => 'Admin\PersonelController',
-    'jabatan' => 'Admin\JabatanController',
-    'paket' => 'Admin\PaketController',
-    'kategori' => 'Admin\KategoriController',
-    'pelanggan' => 'Admin\PelangganController',
-    'pembelian' => 'Admin\PembelianController',
-]);
+/**
+ * Middlewares Routes
+ */
+// Route::group(['middleware' => 'guest:personel'], function () {
+    Route::resources([
+        'pelanggan' => 'PelangganController',
+        'kota' => 'KotaController',
+        'kecamatan' => 'KecamatanController',
+        'kelurahan' => 'KelurahanController',
+        'personel' => 'Admin\PersonelController',
+        'jabatan' => 'Admin\JabatanController',
+        'paket' => 'Admin\PaketController',
+        'kategori' => 'Admin\KategoriController',
+        'pelanggan' => 'Admin\PelangganController',
+        'pembelian' => 'Admin\PembelianController',
+    ]);
+// });

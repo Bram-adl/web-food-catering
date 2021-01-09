@@ -113,12 +113,13 @@
                 </li>
                 <li class="nav-header">LOGOUT</li>
                 <li class="nav-item">
-                    <a href="/logout" class="nav-link">
+                    <a href="/logout" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout').submit()">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             Logout
                         </p>
                     </a>
+                    <form action="{{ url('/admin/logout') }}" id="logout" method="POST" class="d-none">@csrf</form>
                 </li>
             </ul>
         </nav>
