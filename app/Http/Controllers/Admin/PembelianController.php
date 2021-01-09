@@ -121,6 +121,28 @@ class PembelianController extends Controller
                 ->with('status', 'Pembelian berhasil diperbaharui!');
     }
 
+    public function verifikasi($id)
+    {
+        $pembelian = Pembelian::find($id);
+        $pembelian->status = 'Aktif';
+        $pembelian->save();
+
+        return redirect()
+                ->route('pembelian.index')
+                ->with('status', 'Berhasil verifikasi pembelian!');
+    }
+
+    public function selesai($id)
+    {
+        $pembelian = Pembelian::find($id);
+        $pembelian->status = 'Selesai';
+        $pembelian->save();
+
+        return redirect()
+                ->route('pembelian.index')
+                ->with('status', 'Pembelian telah diselesaikan!');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -143,7 +165,7 @@ class PembelianController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Data berhasil dihapus!',
+            'message' => 'Berhasil menghapus pembelian!',
         ]);
     }
 }

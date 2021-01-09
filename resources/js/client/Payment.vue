@@ -81,7 +81,11 @@ export default {
                 this.$router.push(nextRoute);
             })
             .catch(error => {
-                console.log(error);
+                this.start = false;
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Mohon masukkan tanggal setelah hari ini!',
+                });
             })
         },
 
@@ -97,10 +101,17 @@ export default {
             })
                 .then(({data}) => {
                     this.start = false;
-                    Swal.fire(
-                        'success',
-                        'Berhasil membuat pembelian!',
-                    );
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Pembelian berhasil dilakukan!',
+                        icon: 'success',
+                        confirmButtonText: 'Ok',
+                    })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            location.href = '/profile/' + this.user.id + '/' + this.user.nama.split(' ').join('');
+                        }
+                    });
                 })
         }
     }

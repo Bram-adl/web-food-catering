@@ -48,6 +48,7 @@
                 <div class="my-4">
                     <select class="bg-gray-200 text-gray-600 text-sm py-3 px-4 w-full rounded-md" @change="pilihWaktuPengiriman">
                         <option value="" selected disabled hidden>-- Pilih Waktu --</option>
+                        <option value="default">Pilih Hari Sendiri</option>
                         <option value="hari: senin-sabtu | waktu: pagi, siang, sore">Senin - Sabtu : Pagi, Siang, Sore</option>
                         <option value="hari: senin-sabtu | waktu: pagi, siang">Senin - Sabtu : Pagi dan Siang</option>
                         <option value="hari: senin-sabtu | waktu: pagi, sore">Senin - Sabtu : Pagi dan Sore</option>
@@ -62,7 +63,6 @@
                         <option value="hari: senin-jumat | waktu: pagi">Senin - Jumat : Pagi Saja</option>
                         <option value="hari: senin-jumat | waktu: siang">Senin - Jumat : Siang Saja</option>
                         <option value="hari: senin-jumat | waktu: sore">Senin - Jumat : Sore Saja</option>
-                        <option value="default">Pilih Hari Sendiri</option>
                     </select>
                 </div>
                 <div>

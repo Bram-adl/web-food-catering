@@ -69,6 +69,10 @@ Route::get('/admin/logout', 'AuthController@logout')
 | Resources Routes
 |--------------------------------------------------------------------------
 */
+
+Route::post('/pembelian/verifikasi/{id}', 'Admin\PembelianController@verifikasi');
+Route::post('/pembelian/selesai/{id}', 'Admin\PembelianController@selesai');
+
 Route::resources([
     'pelanggan' => 'PelangganController',
     'kota' => 'KotaController',

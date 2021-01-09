@@ -55,6 +55,12 @@ class HomeController extends Controller
     public function profile($id, $nama)
     {
         $pelanggan = Pelanggan::find($id);
+
+        $pelanggan = DB::table('pelanggan')
+                        ->join('pembelian', 'pembelian.id_pelanggan', 'pelanggan.id')
+                        ->join('paket', 'pembelian.id_paket', 'paket.id')
+                        ->where('pelanggan.id', $id)
+                        ->get();
         
         return view('client.profile', [
             'pelanggan' => $pelanggan,

@@ -176,7 +176,7 @@ export default {
 
     data() {
         return {
-            pelanggan: pelanggan,
+            pelanggan: pelanggan[0],
 
             kota: [],
             kecamatan: [],

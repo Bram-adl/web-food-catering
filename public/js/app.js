@@ -2293,7 +2293,11 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.$router.push(nextRoute);
       })["catch"](function (error) {
-        console.log(error);
+        _this2.start = false;
+        Toast.fire({
+          icon: 'error',
+          title: 'Mohon masukkan tanggal setelah hari ini!'
+        });
       });
     },
     selesaikanPembayaran: function selesaikanPembayaran(data) {
@@ -2308,7 +2312,16 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (_ref) {
         var data = _ref.data;
         _this3.start = false;
-        Swal.fire('success', 'Berhasil membuat pembelian!');
+        Swal.fire({
+          title: 'Berhasil!',
+          text: 'Pembelian berhasil dilakukan!',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        }).then(function (result) {
+          if (result.isConfirmed) {
+            location.href = '/profile/' + _this3.user.id + '/' + _this3.user.nama.split(' ').join('');
+          }
+        });
       });
     }
   }
@@ -2950,7 +2963,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      pelanggan: pelanggan,
+      pelanggan: pelanggan[0],
       kota: [],
       kecamatan: [],
       kelurahan: [],
@@ -40156,6 +40169,10 @@ var render = function() {
                 [_vm._v("-- Pilih Waktu --")]
               ),
               _vm._v(" "),
+              _c("option", { attrs: { value: "default" } }, [
+                _vm._v("Pilih Hari Sendiri")
+              ]),
+              _vm._v(" "),
               _c(
                 "option",
                 {
@@ -40246,11 +40263,7 @@ var render = function() {
                 "option",
                 { attrs: { value: "hari: senin-jumat | waktu: sore" } },
                 [_vm._v("Senin - Jumat : Sore Saja")]
-              ),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "default" } }, [
-                _vm._v("Pilih Hari Sendiri")
-              ])
+              )
             ]
           )
         ]),

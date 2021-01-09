@@ -41,6 +41,7 @@
                     <thead>
                         <tr>
                             <th>Paket</th>
+                            <th>Porsi</th>
                             <th>Pengiriman</th>
                             <th>Harga</th>
                             <th>Opsi</th>
@@ -60,6 +61,7 @@
                                     </span>
                                 </div>
                             </td>
+                            <td>{{ $p->porsi }} Porsi</td>
                             <td>
                                 @if ($p->pagi)
                                 <span class="badge badge-success">pagi</span>

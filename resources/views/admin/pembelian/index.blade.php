@@ -155,16 +155,344 @@
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="verifikasi">
-                    
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Kode Unik</th>
+                                    <th>Pelangan</th>
+                                    <th>Paket</th>
+                                    <th>Lokasi</th>
+                                    <th>Alamat Pengiriman</th>
+                                    <th>Waktu Pengiriman</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Bukti Bayar</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($pembelian as $p)
+                                    @if ($p->status == 'Proses verifikasi')
+                                    <tr>
+                                        <td>
+                                            SK_{{ $p->kode_unik }}
+                                        </td>
+                                        <td>
+                                            <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
+                                        </td>
+                                        <td>
+                                            <span>{{ $p->paket->paket }}</span>
+                                            <br>
+                                            <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
+                                        </td>
+                                        <td>
+                                            {{ strtoupper(substr($p->lokasi, 0, 1)) . substr($p->lokasi, 1) }}
+                                        </td>
+                                        <td>
+                                            {{ $p->alamat }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $hari = explode('|', $p->waktu_pengiriman)[0];
+                                                $waktu = explode('|', $p->waktu_pengiriman)[1];
+
+                                                $perhari = explode(':', $hari)[1];
+                                                $perwaktu = explode(':', $waktu)[1];
+                                            @endphp
+                                            <strong>{{ $perhari }}</strong>
+                                            <div class="d-flex align-items-center justify-center">
+                                                @foreach (explode(',', $perwaktu) as $w)
+                                                    @if (trim($w) == 'pagi')
+                                                        <span class="badge badge-primary">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'siang')
+                                                        <span class="badge badge-success">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'sore')
+                                                        <span class="badge badge-warning">{{ $w }}</span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                $bulan = [
+                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                                                ];
+                                                $tanggal = date('d-m-Y', strtotime($p->tanggal_mulai));
+                                                $explode = explode('-', $tanggal);
+
+                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
+                                                echo $test;
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 50px; height: 50px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm bg-success" onclick="verifikasiPembelian(this)">Verifikasi</button>
+                                            <form action="{{ url('/pembelian/verifikasi/' . $p->id) }}" method="POST" class="d-none">@csrf</form>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                     <div class="tab-pane" id="belum">
-                        
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Kode Unik</th>
+                                    <th>Pelangan</th>
+                                    <th>Paket</th>
+                                    <th>Lokasi</th>
+                                    <th>Alamat Pengiriman</th>
+                                    <th>Waktu Pengiriman</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Bukti Bayar</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($pembelian as $p)
+                                    @if ($p->status == 'Belum bayar')
+                                    <tr>
+                                        <td>
+                                            SK_{{ $p->kode_unik }}
+                                        </td>
+                                        <td>
+                                            <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
+                                        </td>
+                                        <td>
+                                            <span>{{ $p->paket->paket }}</span>
+                                            <br>
+                                            <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
+                                        </td>
+                                        <td>
+                                            {{ strtoupper(substr($p->lokasi, 0, 1)) . substr($p->lokasi, 1) }}
+                                        </td>
+                                        <td>
+                                            {{ $p->alamat }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $hari = explode('|', $p->waktu_pengiriman)[0];
+                                                $waktu = explode('|', $p->waktu_pengiriman)[1];
+
+                                                $perhari = explode(':', $hari)[1];
+                                                $perwaktu = explode(':', $waktu)[1];
+                                            @endphp
+                                            <strong>{{ $perhari }}</strong>
+                                            <div class="d-flex align-items-center justify-center">
+                                                @foreach (explode(',', $perwaktu) as $w)
+                                                    @if (trim($w) == 'pagi')
+                                                        <span class="badge badge-primary">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'siang')
+                                                        <span class="badge badge-success">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'sore')
+                                                        <span class="badge badge-warning">{{ $w }}</span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                $bulan = [
+                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                                                ];
+                                                $tanggal = date('d-m-Y', strtotime($p->tanggal_mulai));
+                                                $explode = explode('-', $tanggal);
+
+                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
+                                                echo $test;
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 50px; height: 50px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm bg-danger" onclick="batalkanPembelian(this)">Batalkan</button>
+                                            <form action="{{ url('/pembelian/' . $p->id) }}" method="POST" class="d-none">@csrf @method('DELETE')</form>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                     <div class="tab-pane" id="aktif">
-                        
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Kode Unik</th>
+                                    <th>Pelangan</th>
+                                    <th>Paket</th>
+                                    <th>Lokasi</th>
+                                    <th>Alamat Pengiriman</th>
+                                    <th>Waktu Pengiriman</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Bukti Bayar</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($pembelian as $p)
+                                    @if ($p->status == 'Aktif')
+                                    <tr>
+                                        <td>
+                                            SK_{{ $p->kode_unik }}
+                                        </td>
+                                        <td>
+                                            <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
+                                        </td>
+                                        <td>
+                                            <span>{{ $p->paket->paket }}</span>
+                                            <br>
+                                            <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
+                                        </td>
+                                        <td>
+                                            {{ strtoupper(substr($p->lokasi, 0, 1)) . substr($p->lokasi, 1) }}
+                                        </td>
+                                        <td>
+                                            {{ $p->alamat }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $hari = explode('|', $p->waktu_pengiriman)[0];
+                                                $waktu = explode('|', $p->waktu_pengiriman)[1];
+
+                                                $perhari = explode(':', $hari)[1];
+                                                $perwaktu = explode(':', $waktu)[1];
+                                            @endphp
+                                            <strong>{{ $perhari }}</strong>
+                                            <div class="d-flex align-items-center justify-center">
+                                                @foreach (explode(',', $perwaktu) as $w)
+                                                    @if (trim($w) == 'pagi')
+                                                        <span class="badge badge-primary">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'siang')
+                                                        <span class="badge badge-success">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'sore')
+                                                        <span class="badge badge-warning">{{ $w }}</span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                $bulan = [
+                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                                                ];
+                                                $tanggal = date('d-m-Y', strtotime($p->tanggal_mulai));
+                                                $explode = explode('-', $tanggal);
+
+                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
+                                                echo $test;
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 50px; height: 50px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm bg-success" onclick="selesaikanPembelian(this)">Selesai</button>
+                                            <form action="{{ url('/pembelian/selesai/' . $p->id) }}" method="POST" class="d-none">@csrf</form>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                     <div class="tab-pane" id="selesai">
-                        
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Kode Unik</th>
+                                    <th>Pelangan</th>
+                                    <th>Paket</th>
+                                    <th>Lokasi</th>
+                                    <th>Alamat Pengiriman</th>
+                                    <th>Waktu Pengiriman</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Bukti Bayar</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($pembelian as $p)
+                                    @if ($p->status == 'Selesai')
+                                    <tr>
+                                        <td>
+                                            SK_{{ $p->kode_unik }}
+                                        </td>
+                                        <td>
+                                            <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
+                                        </td>
+                                        <td>
+                                            <span>{{ $p->paket->paket }}</span>
+                                            <br>
+                                            <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
+                                        </td>
+                                        <td>
+                                            {{ strtoupper(substr($p->lokasi, 0, 1)) . substr($p->lokasi, 1) }}
+                                        </td>
+                                        <td>
+                                            {{ $p->alamat }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $hari = explode('|', $p->waktu_pengiriman)[0];
+                                                $waktu = explode('|', $p->waktu_pengiriman)[1];
+
+                                                $perhari = explode(':', $hari)[1];
+                                                $perwaktu = explode(':', $waktu)[1];
+                                            @endphp
+                                            <strong>{{ $perhari }}</strong>
+                                            <div class="d-flex align-items-center justify-center">
+                                                @foreach (explode(',', $perwaktu) as $w)
+                                                    @if (trim($w) == 'pagi')
+                                                        <span class="badge badge-primary">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'siang')
+                                                        <span class="badge badge-success">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'sore')
+                                                        <span class="badge badge-warning">{{ $w }}</span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                $bulan = [
+                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                                                ];
+                                                $tanggal = date('d-m-Y', strtotime($p->tanggal_mulai));
+                                                $explode = explode('-', $tanggal);
+
+                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
+                                                echo $test;
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 50px; height: 50px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm bg-success" onclick="selesaikanPembelian(this)">Selesai</button>
+                                            <form action="{{ url('/pembelian/selesai/' . $p->id) }}" method="POST" class="d-none">@csrf</form>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                     <!-- /.tab-pane -->
                 </div>
@@ -302,59 +630,6 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<!-- /.modal edit data-->
-<!-- MODAL EDIT DATA-->
-<div class="modal fade" id="modal-edit">
-    <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Data Pembelian</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group row">
-                                <label for="pelanggan" class="col-sm-2 col-form-label">Pelanggan</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="nama" class="form-control" value="Olly Rizqi Hanifah" disabled="">
-                                </div>
-                        </div>
-                        <div class="form-group row">
-                                <label for="paket" class="col-sm-2 col-form-label">Paket</label>
-                                <div class="col-sm-10">
-                                    <select class="custom-select">
-                                        <option>Daily Catering | Reusable Box - Nasi Putih - 6 Porsi</option>
-                                    </select>
-                                </div>
-                        </div>
-                        <div class="form-group row">
-                                <label for="foto" class="col-sm-2 col-form-label">Bukti Bayar</label>
-                                <div class="col-sm-10">
-                                    <input type="file" class="custom-file-input" name="foto">
-                                    <label class="custom-file-label" for="foto">Kosongkan jika tidak ingin mengganti bukti bayar</label>
-                                </div>
-                        </div>
-                        <div class="form-group row">
-                                <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                <div class="col-sm-10">
-                                    <select class="custom-select">
-                                        <option>Belum bayar</option>
-                                        <option>Proses verifikasi</option>
-                                        <option>Aktif</option>
-                                        <option>Selesai</option>
-                                    </select>
-                                </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal edit data-->
 <!-- MODAL HAPUS DATA-->
 <div class="modal fade" id="modal-hapus">
     <div class="modal-dialog modal-sm">
@@ -433,6 +708,26 @@
                     }, 1000);
                 })
         });
+    }
+
+    function verifikasiPembelian(element) {
+        element.nextElementSibling.submit();
+    }
+
+    function batalkanPembelian(element) {
+        let batalkan = confirm('Batalkan pembelian ?');
+
+        if (batalkan) {
+            element.nextElementSibling.submit();
+        }
+    }
+
+    function selesaikanPembelian(element) {
+        let selesai = confirm('Apakah pembelian telah selsai ?');
+
+        if (selesai) {
+            element.nextElementSibling.submit();
+        }
     }
 </script>
 
