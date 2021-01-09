@@ -18,6 +18,15 @@ Route::get('/profile/{id}/{nama}', 'HomeController@profile')
     ->where('id', '[0-9]+');
 Route::get('/paket/{id}', 'HomeController@package')
     ->name('client-package');
+Route::get('/payment', 'HomeController@payment')
+    ->name('client-payment');
+Route::get('/order', 'HomeController@order')
+    ->name('client-order');
+
+Route::put('/pelanggan/update/{id}', 'PelangganController@update');
+Route::post('/pembelian/store', 'PembelianController@store');
+Route::get('/pembelian/{id_pembelian}/user/{id_pelanggan}', 'PembelianController@pembelian');
+Route::put('/pembelian/{id_pembelian}/user/{id_pelanggan}', 'PembelianController@updatePembelian');
 
 // Client Authentication Related Routes
 Route::get('/login', 'AuthController@login')
@@ -40,16 +49,6 @@ Route::get('/dashboard', 'DashboardController@index')
     ->name('admin-dashboard');
 Route::get('/profil/{id}', 'DashboardController@profil')
     ->name('admin-profil');
-Route::get('/jabatan', 'DashboardController@jabatan')
-    ->name('admin-jabatan');
-Route::get('/paket', 'DashboardController@paket')
-    ->name('admin-paket');
-Route::get('/kategori-paket', 'DashboardController@kategori_paket')
-    ->name('admin-kategori-paket');
-Route::get('/pelanggan', 'DashboardController@pelanggan')
-    ->name('admin-pelanggan');
-Route::get('/pembelian', 'DashboardController@pembelian')
-    ->name('admin-pembelian');
 Route::get('/pesanan', 'DashboardController@pesanan')
     ->name('admin-pesanan');
 Route::get('/pengantaran', 'DashboardController@pengantaran')

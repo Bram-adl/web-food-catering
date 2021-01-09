@@ -54,6 +54,10 @@ class PembelianController extends Controller
             'id_paket' => $validated['id_paket'],
             'bukti_bayar' => $foto,
             'status' => $validated['status'],
+            'lokasi' => $validated['lokasi'],
+            'alamat' => $validated['alamat'],
+            'waktu_pengiriman' => $validated['waktu_pengiriman'],
+            'tanggal_mulai' => $validated['tanggal_mulai'],
             'kode_unik' => $kode_unik,
         ]);
         
@@ -128,9 +132,11 @@ class PembelianController extends Controller
         $pembelian = Pembelian::find($id);
         $bukti_bayar = $pembelian->bukti_bayar;
 
-        // hapus foto bukti pembayaran
-        if (file_exists(public_path('images/bukti/') . $bukti_bayar)) {
-            unlink(public_path('images/bukti/') . $bukti_bayar);
+        if (!is_null($bukti_bayar)) {
+            // hapus foto bukti pembayaran
+            if (file_exists(public_path('images/bukti/') . $bukti_bayar)) {
+                unlink(public_path('images/bukti/') . $bukti_bayar);
+            }
         }
 
         $pembelian->delete();

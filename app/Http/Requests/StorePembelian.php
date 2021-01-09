@@ -27,7 +27,11 @@ class StorePembelian extends FormRequest
             'id_pelanggan' => 'required',
             'id_paket' => 'required',
             'bukti_bayar' => 'nullable|image|mimes:jpeg, jpg, png, svg|max:2048',
-            'status' => 'required|string',
+            'status' => 'nullalbe|string',
+            'lokasi' => 'required|string',
+            'alamat' => 'required|string',
+            'waktu_pengiriman' => 'required|string',
+            'tanggal_mulai' => 'required|string',
         ];
     }
 

@@ -41,8 +41,8 @@
             <div class="card-body p-0">
                 <ul class="nav nav-pills m-4">
                     <li class="nav-item"><a class="nav-link active" href="#semua" data-toggle="tab"><i class="fas fa-shopping-bag"></i> Semua</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#verifikasi" data-toggle="tab"><i class="fas fa-search-dollar"></i> Verifikasi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#belum" data-toggle="tab"><i class="fas fa-hand-holding-usd"></i> Belum Bayar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#verifikasi" data-toggle="tab"><i class="fas fa-search-dollar"></i> Verifikasi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#aktif" data-toggle="tab"><i class="fa fa-money-bill"></i> Aktif</a></li>
                     <li class="nav-item"><a class="nav-link" href="#selesai" data-toggle="tab"><i class="fas fa-check-double"></i> Selesai</a></li>
                 </ul>
@@ -57,9 +57,12 @@
                                         <th>Kode Unik</th>
                                         <th>Pelangan</th>
                                         <th>Paket</th>
+                                        <th>Lokasi</th>
+                                        <th>Alamat Pengiriman</th>
+                                        <th>Waktu Pengiriman</th>
+                                        <th>Tanggal Mulai</th>
                                         <th>Bukti Bayar</th>
                                         <th>Status</th>
-                                        <th>Waktu</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -78,7 +81,49 @@
                                             <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
                                         </td>
                                         <td>
-                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 150px; height: 150px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
+                                            {{ strtoupper(substr($p->lokasi, 0, 1)) . substr($p->lokasi, 1) }}
+                                        </td>
+                                        <td>
+                                            {{ $p->alamat }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $hari = explode('|', $p->waktu_pengiriman)[0];
+                                                $waktu = explode('|', $p->waktu_pengiriman)[1];
+
+                                                $perhari = explode(':', $hari)[1];
+                                                $perwaktu = explode(':', $waktu)[1];
+                                            @endphp
+                                            <strong>{{ $perhari }}</strong>
+                                            <div class="d-flex align-items-center justify-center">
+                                                @foreach (explode(',', $perwaktu) as $w)
+                                                    @if (trim($w) == 'pagi')
+                                                        <span class="badge badge-primary">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'siang')
+                                                        <span class="badge badge-success">{{ $w }}</span>
+                                                    @endif
+                                                    @if (trim($w) == 'sore')
+                                                        <span class="badge badge-warning">{{ $w }}</span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                $bulan = [
+                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                                                ];
+                                                $tanggal = date('d-m-Y', strtotime($p->tanggal_mulai));
+                                                $explode = explode('-', $tanggal);
+
+                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
+                                                echo $test;
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 50px; height: 50px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
                                         </td>
                                         <td>
                                             @if ($p->status == 'Aktif')
@@ -96,19 +141,6 @@
                                             <!-- Selsai = sudah di-approve oleh admin -->
                                             <span class="badge badge-danger">Selesai</span>
                                             @endif
-                                        </td>
-                                        <td>
-                                            <?php
-                                                $bulan = [
-                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                                                ];
-                                                $tanggal = date('d-m-Y', strtotime($p->waktu_simpan));
-                                                $explode = explode('-', $tanggal);
-
-                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
-                                                echo $test;
-                                            ?>
                                         </td>
                                         <td>
                                             <a href="/pembelian/{{ $p->id }}/edit" class="btn btn-xs bg-warning"><i class="fas fa-pencil-alt"></i></a>
@@ -123,288 +155,16 @@
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="verifikasi">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Kode Unik</th>
-                                    <th>Pelangan</th>
-                                    <th>Paket</th>
-                                    <th>Bukti Bayar</th>
-                                    <th>Status</th>
-                                    <th>Waktu</th>
-                                    <th>Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($pembelian as $p)
-                                    @if ($p->status == 'Proses verifikasi')
-                                    <tr>
-                                        <td>
-                                            SK_{{ $p->kode_unik }}
-                                        </td>
-                                        <td>
-                                            <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
-                                        </td>
-                                        <td>
-                                            <span>{{ $p->paket->paket }}</span>
-                                            <br>
-                                            <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
-                                        </td>
-                                        <td>
-                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 150px; height: 150px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
-                                        </td>
-                                        <td>
-                                            @if ($p->status == 'Aktif')
-                                            <span class="badge badge-success">Aktif</span>
-                                            <br>
-                                            @elseif ($p->status == 'Belum bayar')
-                                            <!-- Belum bayar = belum mengunggah bukti pembayaran -->
-                                            <span class="badge badge-info">Belum bayar</span>
-                                            <br>
-                                            @elseif ($p->status == 'Proses verifikasi')
-                                            <!-- Proses verifikasi = sudah mengunggah tetapi belum di-approve admin -->
-                                            <span class="badge badge-warning">Proses verifikasi</span>
-                                            <br>
-                                            @else
-                                            <!-- Selsai = sudah di-approve oleh admin -->
-                                            <span class="badge badge-danger">Selesai</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <?php
-                                                $bulan = [
-                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                                                ];
-                                                $tanggal = date('d-m-Y', strtotime($p->waktu_simpan));
-                                                $explode = explode('-', $tanggal);
-
-                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
-                                                echo $test;
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="/pembelian/{{ $p->id }}/edit" class="btn btn-xs bg-warning"><i class="fas fa-pencil-alt"></i></a>
-                                            <button class="btn btn-xs bg-danger" data-id="{{ $p->id }}" onclick="hapusPembelian(this)"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
+                    
                     </div>
                     <div class="tab-pane" id="belum">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Kode Unik</th>
-                                    <th>Pelangan</th>
-                                    <th>Paket</th>
-                                    <th>Bukti Bayar</th>
-                                    <th>Status</th>
-                                    <th>Waktu</th>
-                                    <th>Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($pembelian as $p)
-                                    @if ($p->status == 'Belum bayar')
-                                    <tr>
-                                        <td>
-                                            SK_{{ $p->kode_unik }}
-                                        </td>
-                                        <td>
-                                            <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
-                                        </td>
-                                        <td>
-                                            <span>{{ $p->paket->paket }}</span>
-                                            <br>
-                                            <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
-                                        </td>
-                                        <td>
-                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 150px; height: 150px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
-                                        </td>
-                                        <td>
-                                            @if ($p->status == 'Aktif')
-                                            <span class="badge badge-success">Aktif</span>
-                                            <br>
-                                            @elseif ($p->status == 'Belum bayar')
-                                            <!-- Belum bayar = belum mengunggah bukti pembayaran -->
-                                            <span class="badge badge-info">Belum bayar</span>
-                                            <br>
-                                            @elseif ($p->status == 'Proses verifikasi')
-                                            <!-- Proses verifikasi = sudah mengunggah tetapi belum di-approve admin -->
-                                            <span class="badge badge-warning">Proses verifikasi</span>
-                                            <br>
-                                            @else
-                                            <!-- Selsai = sudah di-approve oleh admin -->
-                                            <span class="badge badge-danger">Selesai</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <?php
-                                                $bulan = [
-                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                                                ];
-                                                $tanggal = date('d-m-Y', strtotime($p->waktu_simpan));
-                                                $explode = explode('-', $tanggal);
-
-                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
-                                                echo $test;
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="/pembelian/{{ $p->id }}/edit" class="btn btn-xs bg-warning"><i class="fas fa-pencil-alt"></i></a>
-                                            <button class="btn btn-xs bg-danger" data-id="{{ $p->id }}" onclick="hapusPembelian(this)"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
+                        
                     </div>
                     <div class="tab-pane" id="aktif">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Kode Unik</th>
-                                    <th>Pelangan</th>
-                                    <th>Paket</th>
-                                    <th>Bukti Bayar</th>
-                                    <th>Status</th>
-                                    <th>Waktu</th>
-                                    <th>Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($pembelian as $p)
-                                    @if ($p->status == 'Aktif')
-                                    <tr>
-                                        <td>
-                                            SK_{{ $p->kode_unik }}
-                                        </td>
-                                        <td>
-                                            <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
-                                        </td>
-                                        <td>
-                                            <span>{{ $p->paket->paket }}</span>
-                                            <br>
-                                            <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
-                                        </td>
-                                        <td>
-                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 150px; height: 150px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
-                                        </td>
-                                        <td>
-                                            @if ($p->status == 'Aktif')
-                                            <span class="badge badge-success">Aktif</span>
-                                            <br>
-                                            @elseif ($p->status == 'Belum bayar')
-                                            <!-- Belum bayar = belum mengunggah bukti pembayaran -->
-                                            <span class="badge badge-info">Belum bayar</span>
-                                            <br>
-                                            @elseif ($p->status == 'Proses verifikasi')
-                                            <!-- Proses verifikasi = sudah mengunggah tetapi belum di-approve admin -->
-                                            <span class="badge badge-warning">Proses verifikasi</span>
-                                            <br>
-                                            @else
-                                            <!-- Selsai = sudah di-approve oleh admin -->
-                                            <span class="badge badge-danger">Selesai</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <?php
-                                                $bulan = [
-                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                                                ];
-                                                $tanggal = date('d-m-Y', strtotime($p->waktu_simpan));
-                                                $explode = explode('-', $tanggal);
-
-                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
-                                                echo $test;
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="/pembelian/{{ $p->id }}/edit" class="btn btn-xs bg-warning"><i class="fas fa-pencil-alt"></i></a>
-                                            <button class="btn btn-xs bg-danger" data-id="{{ $p->id }}" onclick="hapusPembelian(this)"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
+                        
                     </div>
                     <div class="tab-pane" id="selesai">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Kode Unik</th>
-                                    <th>Pelangan</th>
-                                    <th>Paket</th>
-                                    <th>Bukti Bayar</th>
-                                    <th>Status</th>
-                                    <th>Waktu</th>
-                                    <th>Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($pembelian as $p)
-                                    @if ($p->status == 'Selesai')
-                                    <tr>
-                                        <td>
-                                            SK_{{ $p->kode_unik }}
-                                        </td>
-                                        <td>
-                                            <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
-                                        </td>
-                                        <td>
-                                            <span>{{ $p->paket->paket }}</span>
-                                            <br>
-                                            <b>Rp. {{ number_format($p->paket->harga, 0, ',', '.') }}</b>
-                                        </td>
-                                        <td>
-                                            <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 150px; height: 150px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
-                                        </td>
-                                        <td>
-                                            @if ($p->status == 'Aktif')
-                                            <span class="badge badge-success">Aktif</span>
-                                            <br>
-                                            @elseif ($p->status == 'Belum bayar')
-                                            <!-- Belum bayar = belum mengunggah bukti pembayaran -->
-                                            <span class="badge badge-info">Belum bayar</span>
-                                            <br>
-                                            @elseif ($p->status == 'Proses verifikasi')
-                                            <!-- Proses verifikasi = sudah mengunggah tetapi belum di-approve admin -->
-                                            <span class="badge badge-warning">Proses verifikasi</span>
-                                            <br>
-                                            @else
-                                            <!-- Selsai = sudah di-approve oleh admin -->
-                                            <span class="badge badge-danger">Selesai</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <?php
-                                                $bulan = [
-                                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                                                ];
-                                                $tanggal = date('d-m-Y', strtotime($p->waktu_simpan));
-                                                $explode = explode('-', $tanggal);
-
-                                                $test = $explode[0] . ' ' . $bulan[(int)$explode[1] - 1] . ' ' .$explode[2];
-                                                echo $test;
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="/pembelian/{{ $p->id }}/edit" class="btn btn-xs bg-warning"><i class="fas fa-pencil-alt"></i></a>
-                                            <button class="btn btn-xs bg-danger" data-id="{{ $p->id }}" onclick="hapusPembelian(this)"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
+                        
                     </div>
                     <!-- /.tab-pane -->
                 </div>

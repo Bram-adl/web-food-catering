@@ -8,9 +8,20 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import router from './router';
+
 import 'animate.css';
+
 import Swal from 'sweetalert2';
 window.Swal = Swal;
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+});
+window.Toast = Toast;
 
 /**
  * The following block of code may be used to automatically register your
@@ -23,6 +34,9 @@ window.Swal = Swal;
 Vue.component('daily-catering', require('./components/DailyCatering.vue').default);
 Vue.component('authentication', require('./auth/Authentication.vue').default);
 Vue.component('user-profile', require('./client/UserProfile.vue').default);
+Vue.component('payment', require('./client/Payment.vue').default);
+
+window.eventBus = new Vue();
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -32,4 +46,5 @@ Vue.component('user-profile', require('./client/UserProfile.vue').default);
 
 const app = new Vue({
     el: '#app',
+    router,
 });

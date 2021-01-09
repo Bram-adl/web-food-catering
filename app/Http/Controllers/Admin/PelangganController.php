@@ -94,7 +94,7 @@ class PelangganController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdatePelanggan $request, $id)
-    {
+    {   
         $validated = $request->validated();
         $pelanggan = Pelanggan::find($id);
         

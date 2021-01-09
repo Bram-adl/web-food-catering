@@ -302,10 +302,10 @@ export default {
         },
         
         updateProfile() {
-            axios.put(`/pelanggan/${this.pelanggan.id}`, {
+            axios.put(`/pelanggan/update/${this.pelanggan.id}`, {
                 nama: this.nama,
                 email: this.email,
-                password: this.password,
+                password: this.password || null,
                 wa: this.wa,
                 rumah_teks: this.rumah_teks,
                 rumah_maps: this.rumah_maps,

@@ -14,6 +14,7 @@ module.exports = {
       translate: ['hover', 'group-hover'],
       inset: ['hover', 'group-hover'],
       transitionProperty: ['hover', 'group-hover'],
+      fontWeight: ['hover', 'group-hover'],
     },
   },
   plugins: [],

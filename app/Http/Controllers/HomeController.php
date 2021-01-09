@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Paket;
 use App\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,9 +71,48 @@ class HomeController extends Controller
         if (!Auth::check()) {
             return redirect()->route('client-login', ['auth/redirect_package' => $id]);
         }
+
+        return redirect()
+                ->route('client-payment', ['checkout/process_package' => $id]);
         
-        return view('client.package', ['id' => $id]);
+        
     }
 
-    
+    /**
+     * Return the payment page.
+     * 
+     * @return view
+     */
+    public function payment(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('client-login');
+        }
+        
+        $id = explode('process_package=', $request->fullUrl())[1];
+        $paket = Paket::find($id);
+        
+        return view('client.package', [
+            'paket' => $paket,
+        ]);
+    }
+
+    /**
+     * Return the order page
+     * 
+     * @return view
+     */
+    public function order(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('client-login');
+        }
+
+        $id = explode('process_package=', $request->fullUrl())[1];
+        $paket = Paket::find($id);
+        
+        return view('client.package', [
+            'paket' => $paket,
+        ]);
+    }
 }

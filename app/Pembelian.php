@@ -12,7 +12,8 @@ class Pembelian extends Model
     protected $table = 'pembelian';
     protected $fillable = [
         'id_pelanggan', 'id_paket', 'kode_unik',
-        'bukti_bayar', 'status'
+        'bukti_bayar', 'status', 'lokasi', 'alamat',
+        'waktu_pengiriman', 'tanggal_mulai',
     ];
 
     public function pelanggan()
