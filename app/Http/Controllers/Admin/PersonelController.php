@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePersonel;
 use App\Jabatan;
 use App\Personel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -34,6 +35,7 @@ class PersonelController extends Controller
             'kota' => $kota,
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 
@@ -95,6 +97,7 @@ class PersonelController extends Controller
             'kota' => $kota,
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 

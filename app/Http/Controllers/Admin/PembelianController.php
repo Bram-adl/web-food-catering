@@ -9,6 +9,7 @@ use App\Paket;
 use App\Pelanggan;
 use App\Pembelian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PembelianController extends Controller
 {
@@ -27,6 +28,7 @@ class PembelianController extends Controller
             'pembelian' => $pembelian,
             'pelanggan' => $pelanggan,
             'paket' => $paket,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 
@@ -82,6 +84,7 @@ class PembelianController extends Controller
             'pembelian' => $pembelian,
             'pelanggan' => $pelanggan,
             'paket' => $paket,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 

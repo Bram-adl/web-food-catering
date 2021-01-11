@@ -37,6 +37,10 @@ class AuthController extends Controller
 
     public function loginAdmin()
     {
+        if (Auth::guard('personel')->check()) {
+            return redirect()->route('admin-dashboard');
+        }
+        
         return view('admin.auth.login');
     }
 
@@ -71,11 +75,11 @@ class AuthController extends Controller
     public function authenticateAdmin(Request $request)
     {
         if (Auth::guard('personel')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            $details = Auth::guard('personel')->user();
-            $user = $details['original'];
+            $user = Auth::guard('personel')->user();
+            
             return redirect()
                 ->route('admin-dashboard')
-                ->with('personel', $user);
+                ->with('status', 'Selamat datang, ' . $user->nama . '!');
         } else {
             return redirect()
                 ->route('admin-login')

@@ -63,8 +63,6 @@
 <script src="{{ asset('front-end-admin/plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('front-end-admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('front-end-admin/dist/js/adminlte.min.js') }}"></script>
 <!-- SweetAlert 2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 

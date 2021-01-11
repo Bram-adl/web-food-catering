@@ -9,7 +9,11 @@
 @layer base {}
 
 /* Tailwind Components */
-@layer components {}
+@layer components {
+    .rowheader {
+        @apply flex-1 text-center font-semibold text-base border-b border-t border-r whitespace-nowrap px-3 py-2;
+    }
+}
 
 /*  */
 @layer utilities {}

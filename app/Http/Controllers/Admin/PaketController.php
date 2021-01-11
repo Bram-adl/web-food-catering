@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePaket;
 use App\Kategori;
 use App\Paket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaketController extends Controller
 {
@@ -24,6 +25,7 @@ class PaketController extends Controller
         return view('admin.paket.index', [
             'paket' => $paket,
             'kategori' => $kategori,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 
@@ -73,6 +75,7 @@ class PaketController extends Controller
         return view('admin.paket.edit', [
             'paket' => $paket,
             'kategori' => $kategori,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 

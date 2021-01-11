@@ -326,12 +326,32 @@
 
 <!-- ChartJS -->
 <script src="{{ asset('front-end-admin/plugins/chart.js/Chart.min.js') }}"></script>
+<!-- SweetAlert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <!-- PAGE SCRIPTS -->
 <script src="{{ asset('front-end-admin/js/pages/dashboard2.js') }}"></script>
+
 
 <script>
     const dashboardMenu = document.getElementById('dashboard-menu')
     dashboardMenu.classList.add('active')
 </script>
+
+@if (session('status'))
+<script>
+    const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: @json(session('status')),
+        })
+</script>
+@endif
 @endpush

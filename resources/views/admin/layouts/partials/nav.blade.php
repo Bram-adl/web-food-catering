@@ -24,13 +24,13 @@
                 <i class="fas fa-user"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a href="/profil/1" class="dropdown-item">
+                <a href="/profil/{{ $user->id }}" class="dropdown-item">
                     <h3 class="dropdown-item-title">
                         Edit profil
                     </h3>
                 </a>
                 <div class="dropdown-divider"></div>
-            <a href="/logout" class="dropdown-item">
+            <a href="/logout" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout').submit()">
                     <h3 class="dropdown-item-title">
                         Logout
                     </h3>

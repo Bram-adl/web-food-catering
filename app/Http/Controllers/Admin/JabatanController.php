@@ -7,6 +7,7 @@ use App\Http\Requests\StoreJabatan;
 use App\Http\Requests\UpdateJabatan;
 use App\Jabatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JabatanController extends Controller
 {
@@ -21,6 +22,7 @@ class JabatanController extends Controller
 
         return view('admin.jabatan.index', [
             'jabatan' => $jabatan,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 
@@ -56,6 +58,7 @@ class JabatanController extends Controller
 
         return view('admin.jabatan.edit', [
             'jabatan' => $jabatan,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 

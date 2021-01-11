@@ -7,6 +7,7 @@ use App\Http\Requests\StorePelanggan;
 use App\Http\Requests\UpdatePelanggan;
 use App\Pelanggan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,6 +30,7 @@ class PelangganController extends Controller
             'kota' => $kota,
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 
@@ -83,6 +85,7 @@ class PelangganController extends Controller
             'kota' => $kota,
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 

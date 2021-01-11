@@ -35,14 +35,14 @@ class HomeController extends Controller
      */
     public function profileRedirect()
     {
-        if(Auth::check()) {
-            return redirect()->route('client-profile', [
-                'id' => Auth::id(),
-                'nama' => (join("", explode(" ", Auth::user()->nama))), 
-            ]);
-        } else {
+        if (!Auth::check()) {
             return redirect()->route('client-login');
         }
+
+        return redirect()->route('client-profile', [
+            'id' => Auth::id(),
+            'nama' => (join("", explode(" ", Auth::user()->nama))), 
+        ]);
     }
 
     /**
@@ -54,16 +54,20 @@ class HomeController extends Controller
      */
     public function profile($id, $nama)
     {
-        $pelanggan = Pelanggan::find($id);
-
-        $pelanggan = DB::table('pelanggan')
-                        ->join('pembelian', 'pembelian.id_pelanggan', 'pelanggan.id')
-                        ->join('paket', 'pembelian.id_paket', 'paket.id')
-                        ->where('pelanggan.id', $id)
-                        ->get();
+        if (!Auth::check()) {
+            return redirect()->route('client-login');
+        }
+        
+        $user = Auth::user();
+        $kota = DB::table('kota')->get();
+        $kecamatan = DB::table('kecamatan')->get();
+        $kelurahan = DB::table('kelurahan')->get();
         
         return view('client.profile', [
-            'pelanggan' => $pelanggan,
+            'user' => $user,
+            'kota' => $kota,
+            'kecamatan' => $kecamatan,
+            'kelurahan' => $kelurahan,
         ]);
     }
 
@@ -80,8 +84,6 @@ class HomeController extends Controller
 
         return redirect()
                 ->route('client-payment', ['checkout/process_package' => $id]);
-        
-        
     }
 
     /**

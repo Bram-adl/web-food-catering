@@ -76,17 +76,15 @@ Route::post('/pembelian/selesai/{id}', 'Admin\PembelianController@selesai');
 /**
  * Middlewares Routes
  */
-// Route::group(['middleware' => 'guest:personel'], function () {
-    Route::resources([
-        'pelanggan' => 'PelangganController',
-        'kota' => 'KotaController',
-        'kecamatan' => 'KecamatanController',
-        'kelurahan' => 'KelurahanController',
-        'personel' => 'Admin\PersonelController',
-        'jabatan' => 'Admin\JabatanController',
-        'paket' => 'Admin\PaketController',
-        'kategori' => 'Admin\KategoriController',
-        'pelanggan' => 'Admin\PelangganController',
-        'pembelian' => 'Admin\PembelianController',
-    ]);
-// });
+Route::resources([
+    'pelanggan' => 'PelangganController',
+    'kota' => 'KotaController',
+    'kecamatan' => 'KecamatanController',
+    'kelurahan' => 'KelurahanController',
+    'personel' => 'Admin\PersonelController',
+    'jabatan' => 'Admin\JabatanController',
+    'paket' => 'Admin\PaketController',
+    'kategori' => 'Admin\KategoriController',
+    'pelanggan' => 'Admin\PelangganController',
+    'pembelian' => 'Admin\PembelianController',
+]);

@@ -11,10 +11,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('images/personel/1610071790.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('images/personel/' . $user->foto) }}" class="img-circle elevation-2" style="width: 2.4rem; height: 2.4rem; object-fit: cover;" alt="User Image">
             </div>
             <div class="info">
-                <a href="/profil/1" class="d-block">Ibeng Abdul Latif</a>
+                <a href="/profil/{{ $user->id }}" class="d-block">{{ $user->nama }}</a>
             </div>
         </div>
 

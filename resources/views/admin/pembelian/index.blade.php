@@ -485,8 +485,7 @@
                                             <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 50px; height: 50px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm bg-success" onclick="selesaikanPembelian(this)">Selesai</button>
-                                            <form action="{{ url('/pembelian/selesai/' . $p->id) }}" method="POST" class="d-none">@csrf</form>
+                                            <button class="btn btn-sm bg-success" data-id="{{ $p->id }}" onclick="hapusPembelian(this)">Hapus</button>
                                         </td>
                                     </tr>
                                     @endif

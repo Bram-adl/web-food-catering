@@ -7,6 +7,7 @@ use App\Http\Requests\StoreKategori;
 use App\Http\Requests\UpdateKategori;
 use App\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KategoriController extends Controller
 {
@@ -20,6 +21,7 @@ class KategoriController extends Controller
         $kategori = Kategori::latest()->get();
         return view('admin.kategori.index', [
             'kategori' => $kategori,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 
@@ -54,6 +56,7 @@ class KategoriController extends Controller
         $kategori = Kategori::find($id);
         return view('admin.kategori.edit', [
             'kategori' => $kategori,
+            'user' => Auth::guard('personel')->user(),
         ]);
     }
 
