@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import ProfileNavbar from './ProfileNavbar';
 import ProfileUser from './ProfileUser';
 import ProfileInfo from './ProfileInfo';
 import ProfileTable from './ProfileTable';
@@ -47,7 +46,6 @@ export default {
     name: 'Profile',
 
     components: {
-        ProfileNavbar,
         ProfileUser,
         ProfileInfo,
         ProfileTable

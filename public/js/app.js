@@ -2787,10 +2787,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ProfileNavbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProfileNavbar */ "./resources/js/client/ProfileNavbar.vue");
-/* harmony import */ var _ProfileUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfileUser */ "./resources/js/client/ProfileUser.vue");
-/* harmony import */ var _ProfileInfo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProfileInfo */ "./resources/js/client/ProfileInfo.vue");
-/* harmony import */ var _ProfileTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ProfileTable */ "./resources/js/client/ProfileTable.vue");
+/* harmony import */ var _ProfileUser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProfileUser */ "./resources/js/client/ProfileUser.vue");
+/* harmony import */ var _ProfileInfo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfileInfo */ "./resources/js/client/ProfileInfo.vue");
+/* harmony import */ var _ProfileTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProfileTable */ "./resources/js/client/ProfileTable.vue");
 //
 //
 //
@@ -2830,17 +2829,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Profile',
   components: {
-    ProfileNavbar: _ProfileNavbar__WEBPACK_IMPORTED_MODULE_0__["default"],
-    ProfileUser: _ProfileUser__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ProfileInfo: _ProfileInfo__WEBPACK_IMPORTED_MODULE_2__["default"],
-    ProfileTable: _ProfileTable__WEBPACK_IMPORTED_MODULE_3__["default"]
+    ProfileUser: _ProfileUser__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ProfileInfo: _ProfileInfo__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ProfileTable: _ProfileTable__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
@@ -2937,7 +2934,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ProfileNavbar'
+  name: 'ProfileNavbar',
+  data: function data() {
+    return {
+      user: user
+    };
+  }
 });
 
 /***/ }),
@@ -3028,15 +3030,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Modal */ "./resources/js/components/Modal.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _components_Loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Loader */ "./resources/js/components/Loader.vue");
 //
 //
 //
@@ -3265,10 +3259,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProfileUser',
   components: {
-    Modal: _components_Modal__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Modal: _components_Modal__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Loader: _components_Loader__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
     user: {
@@ -3290,8 +3286,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      modal: true,
-      test: 'hehehe'
+      modal: false,
+      loader: false,
+      nama: this.user.nama,
+      email: this.user.email,
+      password: null,
+      wa: this.user.wa,
+      rumah_teks: this.user.rumah_teks,
+      rumah_maps: this.user.rumah_maps,
+      rumah_kota: this.user.rumah_kota,
+      rumah_kecamatan: this.user.rumah_kecamatan,
+      rumah_kelurahan: this.user.rumah_kelurahan,
+      kantor_teks: this.user.kantor_teks,
+      kantor_maps: this.user.kantor_maps,
+      kantor_kota: this.user.kantor_kota,
+      kantor_kecamatan: this.user.kantor_kecamatan,
+      kantor_kelurahan: this.user.kantor_kelurahan,
+      keterangan: this.user.keterangan
     };
   },
   computed: {
@@ -3328,7 +3339,46 @@ __webpack_require__.r(__webpack_exports__);
       this.modal = false;
     },
     updateProfile: function updateProfile() {
-      alert(this.test);
+      var _this = this;
+
+      this.loader = true;
+
+      if (this.password != null) {
+        if (this.password.length == 0) this.password = null;
+      }
+
+      axios.put('/pelanggan/update/' + this.user.id, {
+        nama: this.nama,
+        email: this.email,
+        password: this.password,
+        wa: this.wa,
+        rumah_teks: this.rumah_teks,
+        rumah_maps: this.rumah_maps,
+        rumah_kota: this.rumah_kota,
+        rumah_kecamatan: this.rumah_kecamatan,
+        rumah_kelurahan: this.rumah_kelurahan,
+        kantor_teks: this.kantor_teks,
+        kantor_maps: this.kantor_maps,
+        kantor_kota: this.kantor_kota,
+        kantor_kecamatan: this.kantor_kecamatan,
+        kantor_kelurahan: this.kantor_kelurahan,
+        keterangan: this.keterangan
+      }).then(function (_ref) {
+        var data = _ref.data;
+        _this.loader = false;
+
+        if (data.success) {
+          Toast.fire({
+            icon: "success",
+            title: data.message
+          });
+          setTimeout(function () {
+            location.reload();
+          }, 1000);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -3651,7 +3701,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".loader[data-v-e79ec684] {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.lds-roller[data-v-e79ec684] {\n  display: inline-block;\n  position: relative;\n  width: 80px;\n  height: 80px;\n}\n.lds-roller div[data-v-e79ec684] {\n  -webkit-animation: lds-roller-data-v-e79ec684 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n          animation: lds-roller-data-v-e79ec684 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  transform-origin: 40px 40px;\n}\n.lds-roller div[data-v-e79ec684]:after {\n  content: \" \";\n  display: block;\n  position: absolute;\n  width: 7px;\n  height: 7px;\n  border-radius: 50%;\n  background: #fff;\n  margin: -4px 0 0 -4px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(1) {\n  -webkit-animation-delay: -0.036s;\n          animation-delay: -0.036s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(1):after {\n  top: 63px;\n  left: 63px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(2) {\n  -webkit-animation-delay: -0.072s;\n          animation-delay: -0.072s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(2):after {\n  top: 68px;\n  left: 56px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(3) {\n  -webkit-animation-delay: -0.108s;\n          animation-delay: -0.108s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(3):after {\n  top: 71px;\n  left: 48px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(4) {\n  -webkit-animation-delay: -0.144s;\n          animation-delay: -0.144s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(4):after {\n  top: 72px;\n  left: 40px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(5) {\n  -webkit-animation-delay: -0.18s;\n          animation-delay: -0.18s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(5):after {\n  top: 71px;\n  left: 32px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(6) {\n  -webkit-animation-delay: -0.216s;\n          animation-delay: -0.216s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(6):after {\n  top: 68px;\n  left: 24px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(7) {\n  -webkit-animation-delay: -0.252s;\n          animation-delay: -0.252s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(7):after {\n  top: 63px;\n  left: 17px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(8) {\n  -webkit-animation-delay: -0.288s;\n          animation-delay: -0.288s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(8):after {\n  top: 56px;\n  left: 12px;\n}\n@-webkit-keyframes lds-roller-data-v-e79ec684 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n@keyframes lds-roller-data-v-e79ec684 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n", ""]);
+exports.push([module.i, ".loader[data-v-e79ec684] {\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 10000;\n}\n.lds-roller[data-v-e79ec684] {\n  display: inline-block;\n  position: relative;\n  width: 80px;\n  height: 80px;\n}\n.lds-roller div[data-v-e79ec684] {\n  -webkit-animation: lds-roller-data-v-e79ec684 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n          animation: lds-roller-data-v-e79ec684 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;\n  transform-origin: 40px 40px;\n}\n.lds-roller div[data-v-e79ec684]:after {\n  content: \" \";\n  display: block;\n  position: absolute;\n  width: 7px;\n  height: 7px;\n  border-radius: 50%;\n  background: #fff;\n  margin: -4px 0 0 -4px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(1) {\n  -webkit-animation-delay: -0.036s;\n          animation-delay: -0.036s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(1):after {\n  top: 63px;\n  left: 63px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(2) {\n  -webkit-animation-delay: -0.072s;\n          animation-delay: -0.072s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(2):after {\n  top: 68px;\n  left: 56px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(3) {\n  -webkit-animation-delay: -0.108s;\n          animation-delay: -0.108s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(3):after {\n  top: 71px;\n  left: 48px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(4) {\n  -webkit-animation-delay: -0.144s;\n          animation-delay: -0.144s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(4):after {\n  top: 72px;\n  left: 40px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(5) {\n  -webkit-animation-delay: -0.18s;\n          animation-delay: -0.18s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(5):after {\n  top: 71px;\n  left: 32px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(6) {\n  -webkit-animation-delay: -0.216s;\n          animation-delay: -0.216s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(6):after {\n  top: 68px;\n  left: 24px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(7) {\n  -webkit-animation-delay: -0.252s;\n          animation-delay: -0.252s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(7):after {\n  top: 63px;\n  left: 17px;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(8) {\n  -webkit-animation-delay: -0.288s;\n          animation-delay: -0.288s;\n}\n.lds-roller div[data-v-e79ec684]:nth-child(8):after {\n  top: 56px;\n  left: 12px;\n}\n@-webkit-keyframes lds-roller-data-v-e79ec684 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n@keyframes lds-roller-data-v-e79ec684 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n", ""]);
 
 // exports
 
@@ -41118,7 +41168,41 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
-        _vm._m(1),
+        _c(
+          "div",
+          { staticClass: "flex-1 flex items-center justify-end md:mx-10" },
+          [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300",
+                attrs: { href: "/" }
+              },
+              [_vm._v("Home")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass:
+                  "mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300",
+                attrs: { href: "/#daftar-menu" }
+              },
+              [_vm._v("Daftar Menu")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass:
+                  "mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300",
+                attrs: { href: "/profile/" + _vm.user.id + "/pembelian" }
+              },
+              [_vm._v("Daftar Pembelian")]
+            )
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",
@@ -41144,46 +41228,6 @@ var staticRenderFns = [
         attrs: { src: "/images/logo.jpg", alt: "logo" }
       })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "flex-1 flex items-center justify-end md:mx-10" },
-      [
-        _c(
-          "a",
-          {
-            staticClass:
-              "mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300",
-            attrs: { href: "/" }
-          },
-          [_vm._v("Home")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass:
-              "mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300",
-            attrs: { href: "/#daftar-menu" }
-          },
-          [_vm._v("Daftar Menu")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass:
-              "mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300",
-            attrs: { href: "/profile/id/pembelian" }
-          },
-          [_vm._v("Daftar Pembelian")]
-        )
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -41709,6 +41753,14 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.nama,
+                          expression: "nama"
+                        }
+                      ],
                       staticClass:
                         "focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2",
                       attrs: {
@@ -41717,6 +41769,15 @@ var render = function() {
                         id: "nama",
                         autocomplete: "given-name",
                         placeholder: "Nama Lengkap"
+                      },
+                      domProps: { value: _vm.nama },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.nama = $event.target.value
+                        }
                       }
                     })
                   ]),
@@ -41732,6 +41793,14 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.email,
+                          expression: "email"
+                        }
+                      ],
                       staticClass:
                         "focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2",
                       attrs: {
@@ -41740,6 +41809,15 @@ var render = function() {
                         id: "email",
                         autocomplete: "email",
                         placeholder: "Email"
+                      },
+                      domProps: { value: _vm.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.email = $event.target.value
+                        }
                       }
                     })
                   ]),
@@ -41755,6 +41833,14 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.password,
+                          expression: "password"
+                        }
+                      ],
                       staticClass:
                         "focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2",
                       attrs: {
@@ -41763,6 +41849,15 @@ var render = function() {
                         id: "password",
                         autocomplete: "family-name",
                         placeholder: "Kosongkan jika tidak merubah"
+                      },
+                      domProps: { value: _vm.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.password = $event.target.value
+                        }
                       }
                     })
                   ]),
@@ -41778,6 +41873,14 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.wa,
+                          expression: "wa"
+                        }
+                      ],
                       staticClass:
                         "focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2",
                       attrs: {
@@ -41786,6 +41889,15 @@ var render = function() {
                         id: "wa",
                         autocomplete: "family-name",
                         placeholder: "Nomor WA"
+                      },
+                      domProps: { value: _vm.wa },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.wa = $event.target.value
+                        }
                       }
                     })
                   ]),
@@ -41806,6 +41918,14 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "mt-1" }, [
                       _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.rumah_teks,
+                            expression: "rumah_teks"
+                          }
+                        ],
                         staticClass:
                           "focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2",
                         attrs: {
@@ -41813,6 +41933,15 @@ var render = function() {
                           name: "rumah_teks",
                           rows: "3",
                           placeholder: "Tuliskan alamat rumah lengkap"
+                        },
+                        domProps: { value: _vm.rumah_teks },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.rumah_teks = $event.target.value
+                          }
                         }
                       })
                     ])
@@ -41855,6 +41984,14 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.rumah_maps,
+                                expression: "rumah_maps"
+                              }
+                            ],
                             staticClass:
                               "focus:outline-none flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300 px-3 py-2",
                             attrs: {
@@ -41862,6 +41999,15 @@ var render = function() {
                               name: "rumah_maps",
                               id: "rumah_maps",
                               placeholder: "www.example.com"
+                            },
+                            domProps: { value: _vm.rumah_maps },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.rumah_maps = $event.target.value
+                              }
                             }
                           })
                         ]
@@ -41885,21 +42031,45 @@ var render = function() {
                         _c(
                           "select",
                           {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.rumah_kota,
+                                expression: "rumah_kota"
+                              }
+                            ],
                             staticClass:
                               "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
                             attrs: {
                               id: "rumah_kota",
                               name: "rumah_kota",
                               autocomplete: "rumah_kota"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.rumah_kota = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
                             }
                           },
-                          [
-                            _c("option", [_vm._v("United States")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Canada")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Mexico")])
-                          ]
+                          _vm._l(_vm.kota, function(k) {
+                            return _c(
+                              "option",
+                              { key: k.id, domProps: { value: k.id } },
+                              [_vm._v(_vm._s(k.kota))]
+                            )
+                          }),
+                          0
                         )
                       ]),
                       _vm._v(" "),
@@ -41917,21 +42087,45 @@ var render = function() {
                         _c(
                           "select",
                           {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.rumah_kecamatan,
+                                expression: "rumah_kecamatan"
+                              }
+                            ],
                             staticClass:
                               "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
                             attrs: {
                               id: "kecamatan",
                               name: "kecamatan",
                               autocomplete: "kecamatan"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.rumah_kecamatan = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
                             }
                           },
-                          [
-                            _c("option", [_vm._v("United States")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Canada")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Mexico")])
-                          ]
+                          _vm._l(_vm.kecamatan, function(k) {
+                            return _c(
+                              "option",
+                              { key: k.id, domProps: { value: k.id } },
+                              [_vm._v(_vm._s(k.kecamatan))]
+                            )
+                          }),
+                          0
                         )
                       ]),
                       _vm._v(" "),
@@ -41949,21 +42143,45 @@ var render = function() {
                         _c(
                           "select",
                           {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.rumah_kelurahan,
+                                expression: "rumah_kelurahan"
+                              }
+                            ],
                             staticClass:
                               "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
                             attrs: {
                               id: "kelurahan",
                               name: "kelurahan",
                               autocomplete: "kelurahan"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.rumah_kelurahan = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
                             }
                           },
-                          [
-                            _c("option", [_vm._v("United States")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Canada")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Mexico")])
-                          ]
+                          _vm._l(_vm.kelurahan, function(k) {
+                            return _c(
+                              "option",
+                              { key: k.id, domProps: { value: k.id } },
+                              [_vm._v(_vm._s(k.kelurahan))]
+                            )
+                          }),
+                          0
                         )
                       ])
                     ])
@@ -41985,6 +42203,14 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "mt-1" }, [
                       _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.kantor_teks,
+                            expression: "kantor_teks"
+                          }
+                        ],
                         staticClass:
                           "focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2",
                         attrs: {
@@ -41992,6 +42218,15 @@ var render = function() {
                           name: "kantor_teks",
                           rows: "3",
                           placeholder: "Tuliskan alamat kantor lengkap"
+                        },
+                        domProps: { value: _vm.kantor_teks },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.kantor_teks = $event.target.value
+                          }
                         }
                       })
                     ])
@@ -42034,6 +42269,14 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.kantor_maps,
+                                expression: "kantor_maps"
+                              }
+                            ],
                             staticClass:
                               "focus:outline-none flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300 px-3 py-2",
                             attrs: {
@@ -42041,6 +42284,15 @@ var render = function() {
                               name: "kantor_maps",
                               id: "kantor_maps",
                               placeholder: "www.example.com"
+                            },
+                            domProps: { value: _vm.kantor_maps },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.kantor_maps = $event.target.value
+                              }
                             }
                           })
                         ]
@@ -42064,21 +42316,45 @@ var render = function() {
                         _c(
                           "select",
                           {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.kantor_kota,
+                                expression: "kantor_kota"
+                              }
+                            ],
                             staticClass:
                               "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
                             attrs: {
                               id: "kantor_kota",
                               name: "kantor_kota",
                               autocomplete: "kantor_kota"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.kantor_kota = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
                             }
                           },
-                          [
-                            _c("option", [_vm._v("United States")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Canada")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Mexico")])
-                          ]
+                          _vm._l(_vm.kota, function(k) {
+                            return _c(
+                              "option",
+                              { key: k.id, domProps: { value: k.id } },
+                              [_vm._v(_vm._s(k.kota))]
+                            )
+                          }),
+                          0
                         )
                       ]),
                       _vm._v(" "),
@@ -42096,21 +42372,45 @@ var render = function() {
                         _c(
                           "select",
                           {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.kantor_kecamatan,
+                                expression: "kantor_kecamatan"
+                              }
+                            ],
                             staticClass:
                               "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
                             attrs: {
                               id: "kecamatan",
                               name: "kecamatan",
                               autocomplete: "kecamatan"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.kantor_kecamatan = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
                             }
                           },
-                          [
-                            _c("option", [_vm._v("United States")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Canada")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Mexico")])
-                          ]
+                          _vm._l(_vm.kecamatan, function(k) {
+                            return _c(
+                              "option",
+                              { key: k.id, domProps: { value: k.id } },
+                              [_vm._v(_vm._s(k.kecamatan))]
+                            )
+                          }),
+                          0
                         )
                       ]),
                       _vm._v(" "),
@@ -42128,21 +42428,45 @@ var render = function() {
                         _c(
                           "select",
                           {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.kantor_kelurahan,
+                                expression: "kantor_kelurahan"
+                              }
+                            ],
                             staticClass:
                               "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
                             attrs: {
                               id: "kelurahan",
                               name: "kelurahan",
                               autocomplete: "kelurahan"
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.kantor_kelurahan = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
                             }
                           },
-                          [
-                            _c("option", [_vm._v("United States")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Canada")]),
-                            _vm._v(" "),
-                            _c("option", [_vm._v("Mexico")])
-                          ]
+                          _vm._l(_vm.kelurahan, function(k) {
+                            return _c(
+                              "option",
+                              { key: k.id, domProps: { value: k.id } },
+                              [_vm._v(_vm._s(k.kelurahan))]
+                            )
+                          }),
+                          0
                         )
                       ])
                     ])
@@ -42164,6 +42488,14 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "mt-1" }, [
                       _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.keterangan,
+                            expression: "keterangan"
+                          }
+                        ],
                         staticClass:
                           "focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2",
                         attrs: {
@@ -42172,6 +42504,15 @@ var render = function() {
                           rows: "3",
                           placeholder:
                             "Tuliskan keterangan seperti alergi dan lainnya."
+                        },
+                        domProps: { value: _vm.keterangan },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.keterangan = $event.target.value
+                          }
                         }
                       })
                     ])
@@ -42181,7 +42522,9 @@ var render = function() {
             : _vm._e()
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("Loader", { attrs: { start: _vm.loader } })
     ],
     1
   )
@@ -42536,7 +42879,7 @@ var render = function() {
                   "button",
                   {
                     staticClass:
-                      "px-4 bg-transparent py-3 rounded-lg text-green-500 hover:bg-gray-100 hover:text-green-400 mr-2",
+                      "px-3 py-2 bg-transparent rounded-lg text-green-500 hover:bg-gray-100 hover:text-green-400 mr-2",
                     on: { click: _vm.closeModal }
                   },
                   [_vm._v("Tutup")]
@@ -42546,7 +42889,7 @@ var render = function() {
                   "button",
                   {
                     staticClass:
-                      "modal-close px-4 bg-green-500 py-3 rounded-lg text-gray-50 hover:bg-green-400",
+                      "modal-close px-3 py-2 bg-green-500 rounded-lg text-gray-50 hover:bg-green-400",
                     on: { click: _vm.submitAction }
                   },
                   [_vm._v(_vm._s(_vm.action))]

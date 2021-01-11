@@ -7,7 +7,7 @@
             <div class="flex-1 flex items-center justify-end md:mx-10">
                 <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" href="/">Home</a>
                 <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" href="/#daftar-menu">Daftar Menu</a>
-                <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" href="/profile/id/pembelian">Daftar Pembelian</a>
+                <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" :href="`/profile/${user.id}/pembelian`">Daftar Pembelian</a>
             </div>
             <div class="fixed right-4 bottom-4 md:static flex items-center justify-center bg-red-500 md:bg-transparent w-10 md:w-auto h-10 md:h-auto rounded-full opacity-50 hover:opacity-100 transition ease-out duration-300">
                 <slot></slot>
@@ -19,5 +19,11 @@
 <script>
 export default {
     name: 'ProfileNavbar',
+
+    data() {
+        return {
+            user,
+        }
+    }
 }
 </script>

@@ -19,8 +19,8 @@
 
                 <!--Footer-->
                 <div class="flex justify-end pt-2">
-                    <button class="px-4 bg-transparent py-3 rounded-lg text-green-500 hover:bg-gray-100 hover:text-green-400 mr-2" @click="closeModal">Tutup</button>
-                    <button class="modal-close px-4 bg-green-500 py-3 rounded-lg text-gray-50 hover:bg-green-400" @click="submitAction">{{ action }}</button>
+                    <button class="px-3 py-2 bg-transparent rounded-lg text-green-500 hover:bg-gray-100 hover:text-green-400 mr-2" @click="closeModal">Tutup</button>
+                    <button class="modal-close px-3 py-2 bg-green-500 rounded-lg text-gray-50 hover:bg-green-400" @click="submitAction">{{ action }}</button>
                 </div>
             
             </div>
