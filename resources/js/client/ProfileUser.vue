@@ -67,33 +67,33 @@
                 <div class="mt-2">
                     <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
                     <input type="text" name="nama" id="nama" autocomplete="given-name" class="focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2" placeholder="Nama Lengkap" v-model="nama">
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['nama']">
+                        {{ errors.nama[0] }}
+                    </p>
                 </div>
 
                 <div class="mt-2">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                     <input type="email" name="email" id="email" autocomplete="email" class="focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2" placeholder="Email" v-model="email">
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['email']">
+                        {{ errors.email[0] }}
+                    </p>
                 </div>
 
                 <div class="mt-2">
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" name="password" id="password" autocomplete="family-name" class="focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2" placeholder="Kosongkan jika tidak merubah" v-model="password">
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['password']">
+                        {{ errors.password[0] }}
+                    </p>
                 </div>
 
                 <div class="mt-2">
                     <label for="wa" class="block text-sm font-medium text-gray-700">Nomor WA</label>
                     <input type="number" name="wa" id="wa" autocomplete="family-name" class="focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2" placeholder="Nomor WA" v-model="wa">
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['wa']">
+                        {{ errors.wa[0] }}
+                    </p>
                 </div>
             
                 <div class="mt-2">
@@ -103,9 +103,9 @@
                     <div class="mt-1">
                         <textarea id="rumah_teks" name="rumah_teks" rows="3" class="focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2" placeholder="Tuliskan alamat rumah lengkap" v-model="rumah_teks"></textarea>
                     </div>
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['rumah_teks']">
+                        {{ errors.rumah_teks[0] }}
+                    </p>
                 </div>
 
                 <div class="mt-2">
@@ -120,9 +120,9 @@
                             <input type="text" name="rumah_maps" id="rumah_maps" class="focus:outline-none flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300 px-3 py-2" placeholder="www.example.com" v-model="rumah_maps">
                         </div>
                     </div>
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['rumah_maps']">
+                        {{ errors.rumah_maps[0] }}
+                    </p>
                 </div>
                 
                 <div class="mt-2 mb-2">
@@ -146,9 +146,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error
-                    </p> -->
                 </div>
 
                 <div class="mt-2">
@@ -158,9 +155,9 @@
                     <div class="mt-1">
                         <textarea id="kantor_teks" name="kantor_teks" rows="3" class="focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2" placeholder="Tuliskan alamat kantor lengkap" v-model="kantor_teks"></textarea>
                     </div>
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['kantor_teks']">
+                        {{ errors.kantor_teks[0] }}
+                    </p>
                 </div>
 
                 <div class="mt-2">
@@ -175,9 +172,9 @@
                             <input type="text" name="kantor_maps" id="kantor_maps" class="focus:outline-none flex-1 block w-full rounded-none rounded-r-md sm:text-sm border border-gray-300 px-3 py-2" placeholder="www.example.com" v-model="kantor_maps">
                         </div>
                     </div>
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['kantor_maps']">
+                        {{ errors.kantor_maps[0] }}
+                    </p>
                 </div>
                 
                 <div class="mt-2 mb-2">
@@ -201,9 +198,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error
-                    </p> -->
                 </div>
 
                 <div class="mt-2">
@@ -213,9 +207,9 @@
                     <div class="mt-1">
                         <textarea id="keterangan" name="keterangan" rows="3" class="focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2" placeholder="Tuliskan keterangan seperti alergi dan lainnya." v-model="keterangan"></textarea>
                     </div>
-                    <!-- <p class="mt-1 text-sm text-red-400 italic">
-                        Error feedback
-                    </p> -->
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['keterangan']">
+                        {{ errors.keterangan[0] }}
+                    </p>
                 </div>
             </modal>
         </transition>
@@ -279,6 +273,8 @@ export default {
             kantor_kecamatan: this.user.kantor_kecamatan,
             kantor_kelurahan: this.user.kantor_kelurahan,
             keterangan: this.user.keterangan,
+
+            errors: [],
         }
     },
 
@@ -370,7 +366,7 @@ export default {
                 if (this.password.length == 0) this.password = null;
             }
 
-            axios.put('/profile/update/' + this.user.id, {
+            axios.put('/profile/' + this.user.id + '/update', {
                 nama: this.nama,
                 email: this.email,
                 password: this.password,
@@ -402,7 +398,17 @@ export default {
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    this.loader = false;
+                    
+                    // ada field yang kosong
+                    if (error.response.status == 422) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Mohon periksa kembali formnya!',
+                        });
+                        
+                        this.errors = error.response.data.errors;
+                    }
                 })
         }
     }

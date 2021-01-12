@@ -56,7 +56,9 @@ export default {
 
         submitAction() {
             if (this.method == 'updateProfile') {
-                this.$emit('updateProfile')
+                this.$emit('updateProfile');
+            } else {
+                this.$emit('storePengantaran');
             }
         }
     }

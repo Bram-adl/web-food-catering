@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePengantaran;
+use App\Http\Requests\UpdatePelanggan;
 use App\Pelanggan;
+use App\Pembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -56,30 +59,8 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePelanggan $request, $id)
     {
-        $request->validate([
-            'nama' => 'required|string|max:100',
-            'email' => 'required|email|max:255|unique:pelanggan,email,'.$id,
-            'password' => 'sometimes',
-            'wa' => [
-                'nullable',
-                'numeric',
-                'regex:/^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/',
-            ],
-            'rumah_teks' => 'nullable|string',
-            'rumah_maps' => 'nullable|url',
-            'rumah_kota' => 'nullable|numeric',
-            'rumah_kecamatan' => 'nullable|numeric',
-            'rumah_kelurahan' => 'nullable|numeric',
-            'kantor_teks' => 'nullable|string',
-            'kantor_maps' => 'nullable|url',
-            'kantor_kota' => 'nullable|numeric',
-            'kantor_kecamatan' => 'nullable|numeric',
-            'kantor_kelurahan' => 'nullable|numeric',
-            'keterangan' => 'nullable|string',
-        ]);
-
         $pelanggan = Pelanggan::find($id);
 
         // wether the user changes their password.
@@ -115,5 +96,17 @@ class ProfileController extends Controller
                 'message' => 'An error occured unexpectedly.',
             ]);
         }
+    }
+
+    /**
+     * Store the newly created request pengantaran
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
+    public function storePengantaran(StorePengantaran $request, $id)
+    {
+        // simpan pengantaran
     }
 }

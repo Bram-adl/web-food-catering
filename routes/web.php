@@ -37,7 +37,8 @@ Route::post('/logout', 'AuthController@logout')
     ->name('client-logout');
 
 // Client Requests Related Routes
-Route::put('/profile/update/{id}', 'ProfileController@update');
+Route::put('/profile/{id}/update', 'ProfileController@update');
+Route::post('/profile/{id}/pengantaran/create', 'ProfileController@storePengantaran');
 
 
 /*

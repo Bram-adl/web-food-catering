@@ -5,6 +5,7 @@
                 <img src="/images/logo.jpg" alt="logo" class="w-14 h-14 md:w-20 md:h-20">
             </div>
             <div class="flex-1 flex items-center justify-end md:mx-10">
+                <a href="/" class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300">Home</a>
                 <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" :class="{'font-bold': active == 'dashboard'}" :href="`/profile/${user.nama.split(' ').join('')}`">Dashboard</a>
                 <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" :class="{'font-bold': active == 'pembelian'}" :href="`/profile/${user.nama.split(' ').join('')}/pembelian`">Daftar Pembelian</a>
             </div>

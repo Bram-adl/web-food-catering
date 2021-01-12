@@ -21,7 +21,6 @@
                     <profile-info
                         :user="user"
                     >
-
                     </profile-info>
                 </div>
 
