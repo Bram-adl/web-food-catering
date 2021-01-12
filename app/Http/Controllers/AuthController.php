@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Paket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,16 +23,14 @@ class AuthController extends Controller
                 'nama' => (join("", explode(" ", Auth::user()->nama))), 
             ]);
         }
-        
-        $redirect_to = null;
 
+        $redirect_to = null;
         if ($request->query()) {
-            $redirect_to = $request->query()['auth/redirect_package'];
+            $redirect_to = $request->query()['auth/redirect_to'];
         }
         
         return view('client.auth.login', [
             'redirect_to' => $redirect_to,
-            'user' => Auth::user(),
         ]);
     }
 
@@ -51,7 +50,7 @@ class AuthController extends Controller
      * @return redirect
      */
     public function authenticate(Request $request)
-    {
+    {   
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -59,16 +58,24 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            return response()->json([
-                'success' => true,
-                'message' => '/',
-            ]);
+        if (!Auth::attempt($credentials)) {
+            return redirect()
+                    ->back()
+                    ->with('status', 'User not found.');
         } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Akun tidak ditemukan',
-            ]);
+            if (!$request->has('query')) {
+                return redirect()->route('client-profile', [
+                    'nama' => implode(explode(" ", Auth::user()->nama)),
+                ]);
+            } else {
+                $id_paket = $request["query"];
+                $id_user = Auth::user()->id;
+        
+                return redirect()->route('client-pengiriman', [                    // required params
+                    'id_paket' => $id_paket,
+                    'client_id' => $id_user,
+                ]);
+            }
         }
     }
 

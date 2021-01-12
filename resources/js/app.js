@@ -38,8 +38,6 @@ Vue.component('authentication', require('./auth/Authentication.vue').default);
 Vue.component('profile', require('./client/Profile').default);
 Vue.component('profileNavbar', require('./client/ProfileNavbar').default);
 
-Vue.component('payment', require('./client/Payment.vue').default);
-
 window.eventBus = new Vue();
 
 /**

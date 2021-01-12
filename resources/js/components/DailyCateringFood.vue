@@ -16,7 +16,7 @@
             </p>
             <div>
                 <a
-                    :href="'/paket/' + food.id"
+                    :href="`/paket/${food.id}`"
                     class="purchase-button transition ease-out duration-300"
                 >
                     <button class="focus:outline-none">

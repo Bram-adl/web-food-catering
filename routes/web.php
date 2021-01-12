@@ -11,32 +11,36 @@ use Illuminate\Support\Facades\Route;
 // Client Main Views Related Routes
 Route::get('/', 'HomeController@index')
     ->name('client-index');
-Route::get('/profile', 'HomeController@profileRedirect')
-    ->name('client-profile-redirect');
-Route::get('/profile/{id}/{nama}', 'HomeController@profile')
-    ->name('client-profile')
-    ->where('id', '[0-9]+');
-Route::get('/paket/{id}', 'HomeController@package')
-    ->name('client-package');
-Route::get('/payment', 'HomeController@payment')
-    ->name('client-payment');
-Route::get('/order', 'HomeController@order')
-    ->name('client-order');
 
-Route::put('/pelanggan/update/{id}', 'PelangganController@update');
-Route::post('/pembelian/store', 'PembelianController@store');
-Route::get('/pembelian/{id_pembelian}/user/{id_pelanggan}', 'PembelianController@pembelian');
-Route::put('/pembelian/{id_pembelian}/user/{id_pelanggan}', 'PembelianController@updatePembelian');
+Route::get('/profile/{nama}', 'HomeController@profile')
+    ->name('client-profile')
+    ->where('nama', '[a-zA-Z]+');
+
+Route::get('/paket/{id_paket}', 'PembelianController@process')
+    ->name('client-process');
+
+Route::get('/paket/{id_paket}/pengiriman', 'PembelianController@pengiriman')
+    ->name('client-pengiriman');
+
+Route::get('/paket/{id_paket}/pembayaran', 'PembelianController@pembayaran')
+    ->name('client-pembayaran');
 
 // Client Authentication Related Routes
 Route::get('/login', 'AuthController@login')
     ->name('client-login');
+
 Route::post('/login', 'AuthController@authenticate')
     ->name('client-authenticate');
+
 Route::post('/register', 'AuthController@register')
     ->name('client-register');
+
 Route::post('/logout', 'AuthController@logout')
     ->name('client-logout');
+
+// Client Requests Related Routes
+Route::put('/pelanggan/update/{id}', 'PelangganController@update');
+
 
 /*
 |--------------------------------------------------------------------------

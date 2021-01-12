@@ -283,12 +283,36 @@ export default {
     },
 
     computed: {
+        rumahTeks() {
+            let kota = this.kota.filter(k => k.id == this.user.rumah_kota)[0];
+            let kecamatan = this.kecamatan.filter(k => k.id == this.user.rumah_kecamatan)[0];
+            let kelurahan = this.kelurahan.filter(k => k.id == this.user.rumah_kelurahan)[0];
+
+            return {
+                kota,
+                kecamatan,
+                kelurahan,
+            }
+        },
+
+        kotaTeks() {
+            let kota = this.kota.filter(k => k.id == this.user.kantor_kota)[0];
+            let kecamatan = this.kecamatan.filter(k => k.id == this.user.kantor_kecamatan)[0];
+            let kelurahan = this.kelurahan.filter(k => k.id == this.user.kantor_kelurahan)[0];
+
+            return {
+                kota,
+                kecamatan,
+                kelurahan,
+            }
+        },
+
         alamatRumah() {
             if (this.user.rumah_teks && this.user.rumah_maps) {
                 // jika alamat rumah terisi dan maps terisi
                 return `
                     <a class="text-gray-500 flex items-center" href="${this.user.rumah_maps}">
-                        <span>${this.user.rumah_teks}, ${this.user.rumah_kelurahan}, ${this.user.rumah_kecamatan}, ${this.user.rumah_kota}</span>
+                        <span>${this.user.rumah_teks}, ${this.rumahTeks.kelurahan.kelurahan}, ${this.rumahTeks.kecamatan.kecamatan}, ${this.rumahTeks.kota.kota}</span>
                         <i class="fas fa-external-link-alt ml-2"></i>
                     </a>
                 `;
@@ -296,7 +320,7 @@ export default {
                 // jika alamat rumah terisi dan maps tidak terisi
                 return `
                     <a class="text-gray-500 flex items-center" href="#">
-                        <span>${this.user.rumah_teks}, ${this.user.rumah_kelurahan}, ${this.user.rumah_kecamatan}, ${this.user.rumah_kota}</span>
+                        <span>${this.user.rumah_teks}, ${this.rumahTeks.kelurahan.kelurahan}, ${this.rumahTeks.kecamatan.kecamatan}, ${this.rumahTeks.kota.kota}</span>
                         <i class="fas fa-external-link-alt ml-2"></i>
                     </a>
                 `;
@@ -311,7 +335,7 @@ export default {
                 // jika alamat kantor terisi dan maps terisi
                 return `
                     <a class="text-gray-500 flex items-center" href="${this.user.kantor_maps}">
-                        <span>${this.user.kantor_teks}, ${this.user.kantor_kelurahan}, ${this.user.kantor_kecamatan}, ${this.user.kantor_kota}</span>
+                        <span>${this.user.rumah_teks}, ${this.kantorTeks.kelurahan.kelurahan}, ${this.kantorTeks.kecamatan.kecamatan}, ${this.kantorTeks.kota.kota}</span>
                         <i class="fas fa-external-link-alt ml-2"></i>
                     </a>
                 `;
@@ -319,7 +343,7 @@ export default {
                 // jika alamat kantor terisi dan maps tidak terisi
                 return `
                     <a class="text-gray-500 flex items-center" href="#">
-                        <span>${this.user.kantor_teks}, ${this.user.kantor_kelurahan}, ${this.user.kantor_kecamatan}, ${this.user.kantor_kota}</span>
+                        <span>${this.user.rumah_teks}, ${this.kantorTeks.kelurahan.kelurahan}, ${this.kantorTeks.kecamatan.kecamatan}, ${this.kantorTeks.kota.kota}</span>
                         <i class="fas fa-external-link-alt ml-2"></i>
                     </a>
                 `;

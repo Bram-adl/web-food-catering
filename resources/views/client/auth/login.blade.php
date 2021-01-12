@@ -22,13 +22,119 @@
 </head>
 <body>
     <div id="app" class="main-wrapper">
-        <authentication></authentication>
+        <authentication>
+            <template #login-form>
+                <form
+                    action="{{ action('AuthController@authenticate', ['query' => $redirect_to]) }}"
+                    method="post"
+                    class="flex flex-col items-center justify-center w-full h-full"
+                >
+                    @csrf
+                    <div>
+                        <img src="/images/logo.jpg" class="w-20 h-20" alt="Logo" />
+                    </div>
+
+                    <div class="my-4 w-full px-16">
+                        <input
+                            type="email"
+                            class="focus:outline-none bg-transparent w-full border-b rounded-md block px-4 py-2 text-md text-gray-800 @error('email') border-red-500 @enderror"
+                            name="email"
+                            value="{{ old('email') }}"
+                            placeholder="Email Address"
+                            ref="loginEmail"
+                        />
+                        @error('email')
+                            <div class="span text-sm text-red-500 italic mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="my-4 w-full px-16">
+                        <input
+                            type="password"
+                            class="focus:outline-none bg-transparent w-full border-b rounded-md block px-4 py-2 text-md text-gray-800 @error('password') border-red-500 @enderror"
+                            name="password"
+                            value="{{ old('password') }}"
+                            placeholder="Password"
+                        />
+                        @error('password')
+                            <div class="span text-sm text-red-500 italic mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="my-4 w-full px-16 text-center">
+                        <button
+                            type="submit"
+                            class="focus:outline-none px-8 py-2 text-yellow-500 border border-yellow-500 rounded-lg hover:text-gray-50 hover:bg-yellow-500 transition ease-out duration-300"
+                        >
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </template>
+
+            <template #register-form>
+                <form
+                    action="{{ action('AuthController@register') }}"
+                    method="post"
+                    class="flex flex-col items-center justify-center w-full h-full"
+                >
+                    <div class="my-4 w-full px-16">
+                        <input
+                            type="text"
+                            class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
+                            placeholder="Nama Lengkap"
+                            ref="registerNama"
+                        />
+                    </div>
+
+                    <div class="my-4 w-full px-16">
+                        <input
+                            type="email"
+                            class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
+                            placeholder="Email Address"
+                        />
+                    </div>
+
+                    <div class="my-4 w-full px-16">
+                        <input
+                            type="password"
+                            class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
+                            placeholder="Password"
+                        />
+                    </div>
+
+                    <div class="my-4 w-full px-16 text-center">
+                        <button
+                            type="submit"
+                            class="focus:outline-none px-8 py-2 text-yellow-500 border rounded-lg hover:text-gray-50 hover:bg-yellow-500 transition ease-out duration-300"
+                        >
+                            Daftar
+                        </button>
+                    </div>
+                </form>
+            </template>
+        </authentication>
     </div>
 
-    <script>
-        const redirectTo = @json($redirect_to);
-        const user = @json($user);
-        window.redirectTo = redirectTo;
-    </script>
+    <!-- SweetAlert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <!-- Page Script -->
+    @if(session('status'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            })
+
+            Toast.fire({
+                icon: 'error',
+                title: @json(session('status')),
+            })
+        </script>
+    @endif
 </body>
 </html>
