@@ -12,34 +12,32 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index')
     ->name('client-index');
 
-Route::get('/profile/{nama}', 'HomeController@profile')
+Route::get('/profile/{nama}', 'ProfileController@profile')
     ->name('client-profile')
     ->where('nama', '[a-zA-Z]+');
+Route::get('/profile/{nama}/pembelian', 'ProfileController@profilePembelian')
+    ->name('client-profilePembelian')
+    ->where('nam', '[a-zA-Z]+');
 
-Route::get('/paket/{id_paket}', 'PembelianController@process')
+Route::get('/paket/{id_paket}', 'PaketController@process')
     ->name('client-process');
-
-Route::get('/paket/{id_paket}/pengiriman', 'PembelianController@pengiriman')
+Route::get('/paket/{id_paket}/pengiriman', 'PaketController@pengiriman')
     ->name('client-pengiriman');
-
-Route::get('/paket/{id_paket}/pembayaran', 'PembelianController@pembayaran')
+Route::get('/paket/{id_paket}/pembayaran', 'PaketController@pembayaran')
     ->name('client-pembayaran');
 
 // Client Authentication Related Routes
 Route::get('/login', 'AuthController@login')
     ->name('client-login');
-
 Route::post('/login', 'AuthController@authenticate')
     ->name('client-authenticate');
-
 Route::post('/register', 'AuthController@register')
     ->name('client-register');
-
 Route::post('/logout', 'AuthController@logout')
     ->name('client-logout');
 
 // Client Requests Related Routes
-Route::put('/pelanggan/update/{id}', 'PelangganController@update');
+Route::put('/profile/update/{id}', 'ProfileController@update');
 
 
 /*

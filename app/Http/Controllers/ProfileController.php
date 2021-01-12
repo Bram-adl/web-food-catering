@@ -4,37 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Pelanggan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class PelangganController extends Controller
+class ProfileController extends Controller
 {
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Return the profile page.
+     * 
+     * @return view
      */
-    public function show($id)
+    public function profile($nama)
     {
-        $pelanggan = DB::select('
-            SELECT p.id, p.nama, p.email, p.wa, 
-            p.rumah_teks, p.rumah_maps, p.rumah_kota, p.rumah_kecamatan, p.rumah_kelurahan, 
-            p.kantor_teks, p.kantor_maps, p.kantor_kota, p.kantor_kecamatan, p.kantor_kelurahan, 
-            p.keterangan, p.porsi, p.waktu_simpan, p.waktu_edit, p.waktu_hapus, 
-            kt.kota, kc.kecamatan, kl.kelurahan 
-            FROM pelanggan p 
-            JOIN kota kt ON kt.id = p.rumah_kota OR kt.id = p.kantor_kota 
-            JOIN kecamatan kc ON kc.id = p.rumah_kecamatan OR kc.id = p.kantor_kecamatan 
-            JOIN kelurahan kl ON kl.id = p.rumah_kelurahan OR kl.id = p.rumah_kelurahan 
-            WHERE p.id = ?
-        ', [$id]);
-
-        return $pelanggan;
+        if (!Auth::check()) {
+            return redirect()->route('client-login');
+        }
+        
+        return view('client.profile.index', [
+            'user' => Auth::user(),
+            'kota' => DB::table('kota')->get(),
+            'kecamatan' => DB::table('kecamatan')->get(),
+            'kelurahan' => DB::table('kelurahan')->get(),
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Return the pembelian page for the given user
+     * 
+     * @param String $nama
+     * @return view
+     */
+    public function profilePembelian($nama)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('client-login');
+        }
+        
+        return view('client.profile.pembelian', [
+            'user' => Auth::user(),
+            'kota' => DB::table('kota')->get(),
+            'kecamatan' => DB::table('kecamatan')->get(),
+            'kelurahan' => DB::table('kelurahan')->get(),
+        ]);
+    }
+
+    /**
+     * Update the specified profile.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -99,17 +115,5 @@ class PelangganController extends Controller
                 'message' => 'An error occured unexpectedly.',
             ]);
         }
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

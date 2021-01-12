@@ -27,19 +27,4 @@ class HomeController extends Controller
             'user' => $user,
         ]);
     }
-
-    /**
-     * Return the profile page.
-     * 
-     * @return view
-     */
-    public function profile($nama)
-    {
-        return view('client.profile', [
-            'user' => Auth::user(),
-            'kota' => DB::table('kota')->get(),
-            'kecamatan' => DB::table('kecamatan')->get(),
-            'kelurahan' => DB::table('kelurahan')->get(),
-        ]);
-    }
 }

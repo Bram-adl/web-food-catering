@@ -370,7 +370,7 @@ export default {
                 if (this.password.length == 0) this.password = null;
             }
 
-            axios.put('/pelanggan/update/' + this.user.id, {
+            axios.put('/profile/update/' + this.user.id, {
                 nama: this.nama,
                 email: this.email,
                 password: this.password,

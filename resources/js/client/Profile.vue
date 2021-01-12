@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="row my-10">
-                    <profile-table></profile-table>
+                    <profile-pengantaran></profile-pengantaran>
                 </div>
             </div>
         </main>
@@ -40,7 +40,7 @@
 <script>
 import ProfileUser from './ProfileUser';
 import ProfileInfo from './ProfileInfo';
-import ProfileTable from './ProfileTable';
+import ProfilePengantaran from './ProfilePengantaran';
 
 export default {
     name: 'Profile',
@@ -48,7 +48,7 @@ export default {
     components: {
         ProfileUser,
         ProfileInfo,
-        ProfileTable
+        ProfilePengantaran
     },
 
     data() {
