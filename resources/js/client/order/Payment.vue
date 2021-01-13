@@ -303,7 +303,7 @@ export default {
                     text: 'Kamu dapat melihat status pembelian di dashboard.',
                 });
                 setTimeout(() => {
-                    location.href= `/profile/${this.user.nama.split(' ').join('')}`;
+                    location.href= `/profile/${this.user.nama.split(' ').join('')}/pembelian`;
                 }, 1000)
             })
         },

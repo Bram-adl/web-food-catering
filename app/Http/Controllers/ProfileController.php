@@ -44,11 +44,19 @@ class ProfileController extends Controller
             return redirect()->route('client-login');
         }
         
+        $pembelian = Pembelian::where([
+            'id_pelanggan' => Auth::user()->id,
+        ])->get();
+        
+        $paket = [];
+        foreach ($pembelian as $p) {
+            $paket[] = $p->paket;
+        }
+        
         return view('client.profile.pembelian', [
             'user' => Auth::user(),
-            'kota' => DB::table('kota')->get(),
-            'kecamatan' => DB::table('kecamatan')->get(),
-            'kelurahan' => DB::table('kelurahan')->get(),
+            'pembelian' => $pembelian,
+            'paket' => $paket,
         ]);
     }
 

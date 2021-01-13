@@ -10,20 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PembelianController extends Controller
-{
-    /**
-     * Show the list of pembelian from storage
-     * 
-     * @param int $id
-     * @return \Illuminate\Http\Request $request
-     */
-    public function indexPembelian($id)
-    {
-        return Pembelian::where([
-            'id_pelanggan' => $id,
-        ])->get();
-    }
-    
+{ 
     /**
      * Store a newly created resource in storage.
      *
@@ -32,6 +19,10 @@ class PembelianController extends Controller
      */
     public function storePembelian(StorePembelian $request)
     {
+        if (!Auth::check()) {
+            return redirect()->route('client-login');
+        }
+        
         $length = 2;
         $kode_unik = substr(str_shuffle(str_repeat($x='123456789', ceil($length/strlen($x)) )),1,$length);
 
@@ -61,6 +52,10 @@ class PembelianController extends Controller
      */
     public function updatePembelian(Request $request, $id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('client-login');
+        }
+        
         $pembelian = Pembelian::find($id);
         
         $extensions = ['jpeg', 'jpg', 'png'];
@@ -96,6 +91,10 @@ class PembelianController extends Controller
      */
     public function deletePembelian($id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('client-login');
+        }
+        
         $pembelian = Pembelian::find($id);
         $pembelian->delete();
 

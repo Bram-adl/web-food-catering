@@ -43,9 +43,8 @@
 
     <script>
         var user = @json($user);
-        var kota = @json($kota);
-        var kecamatan = @json($kecamatan);
-        var kelurahan = @json($kelurahan);
+        var pembelian = @json($pembelian);
+        var paket = @json($paket);
     </script>
 </body>
 </html>
