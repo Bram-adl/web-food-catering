@@ -220,8 +220,8 @@
 </template>
 
 <script>
-import Modal from '../components/Modal';
-import Loader from '../components/Loader';
+import Modal from '../../components/Modal';
+import Loader from '../../components/Loader';
 
 export default {
     name: 'ProfileUser',

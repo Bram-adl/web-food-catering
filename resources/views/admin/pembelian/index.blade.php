@@ -70,7 +70,7 @@
                                     @foreach($pembelian as $p)
                                     <tr>
                                         <td>
-                                            SK_{{ $p->kode_unik }}
+                                            {{ $p->kode_unik }}
                                         </td>
                                         <td>
                                             <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
@@ -174,7 +174,7 @@
                                     @if ($p->status == 'Proses verifikasi')
                                     <tr>
                                         <td>
-                                            SK_{{ $p->kode_unik }}
+                                            {{ $p->kode_unik }}
                                         </td>
                                         <td>
                                             <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
@@ -259,7 +259,7 @@
                                     @if ($p->status == 'Belum bayar')
                                     <tr>
                                         <td>
-                                            SK_{{ $p->kode_unik }}
+                                            {{ $p->kode_unik }}
                                         </td>
                                         <td>
                                             <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
@@ -315,8 +315,7 @@
                                             <a href="{{ $p->bukti_bayar ? '/images/bukti/' . $p->bukti_bayar : '#' }}" target="_blank"><img style="width: 50px; height: 50px; object-fit: cover;" src="{{ $p->bukti_bayar ? asset('images/bukti/' . $p->bukti_bayar) : asset('images/default-150x150.png') }}"></a>
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm bg-danger" onclick="batalkanPembelian(this)">Batalkan</button>
-                                            <form action="{{ url('/pembelian/' . $p->id) }}" method="POST" class="d-none">@csrf @method('DELETE')</form>
+                                            <button class="btn btn-sm bg-danger" data-id="{{ $p->id }}" onclick="hapusPembelian(this)">Batalkan</button>
                                         </td>
                                     </tr>
                                     @endif
@@ -344,7 +343,7 @@
                                     @if ($p->status == 'Aktif')
                                     <tr>
                                         <td>
-                                            SK_{{ $p->kode_unik }}
+                                            {{ $p->kode_unik }}
                                         </td>
                                         <td>
                                             <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
@@ -429,7 +428,7 @@
                                     @if ($p->status == 'Selesai')
                                     <tr>
                                         <td>
-                                            SK_{{ $p->kode_unik }}
+                                            {{ $p->kode_unik }}
                                         </td>
                                         <td>
                                             <a href="https://wa.me/+62{{ $p->pelanggan->wa }}" target="_link">{{ $p->pelanggan->nama }}</a>
@@ -714,11 +713,7 @@
     }
 
     function batalkanPembelian(element) {
-        let batalkan = confirm('Batalkan pembelian ?');
-
-        if (batalkan) {
-            element.nextElementSibling.submit();
-        }
+        hapusPembelian(element);
     }
 
     function selesaikanPembelian(element) {

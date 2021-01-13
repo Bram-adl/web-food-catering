@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePembelian;
+use App\Http\Requests\UpdatePembelian;
 use App\Paket;
 use App\Pembelian;
 use Illuminate\Http\Request;
@@ -10,32 +12,32 @@ use Illuminate\Support\Facades\Auth;
 class PembelianController extends Controller
 {
     /**
+     * Show the list of pembelian from storage
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Request $request
+     */
+    public function indexPembelian($id)
+    {
+        return Pembelian::where([
+            'id_pelanggan' => $id,
+        ])->get();
+    }
+    
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storePembelian(StorePembelian $request)
     {
         $length = 2;
         $kode_unik = substr(str_shuffle(str_repeat($x='123456789', ceil($length/strlen($x)) )),1,$length);
-        
-        $request->validate([
-            'id_pelanggan' => 'required',
-            'id_paket' => 'required',
-            'bukti_bayar' => 'nullable|image|mimes:jpeg, jpg, png, svg|max:2048',
-            'status' => 'nullable',
-            'lokasi' => 'required|string',
-            'alamat' => 'required|string',
-            'waktu_pengiriman' => 'required',
-            'tanggal_mulai' => 'required|date|after:today',
-        ]);
 
-        Pembelian::create([
+        $pembelian = Pembelian::create([
             'id_pelanggan' => $request->id_pelanggan,
             'id_paket' => $request->id_paket,
-            'bukti_bayar' => $request->bukti_bayar,
-            'status' => $request->status,
             'lokasi' => $request->lokasi,
             'alamat' => $request->alamat,
             'waktu_pengiriman' => $request->waktu_pengiriman,
@@ -46,6 +48,60 @@ class PembelianController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Berhasil membuat pembelian!',
+            'data' => $pembelian,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePembelian(Request $request, $id)
+    {
+        $pembelian = Pembelian::find($id);
+        
+        $extensions = ['jpeg', 'jpg', 'png'];
+        $ext = last(explode('/', explode(';', $request->bukti_bayar)[0]));
+
+        if (!in_array($ext, $extensions)) {
+            return response()
+                    ->json([
+                        'success' => false,
+                        'message' => 'Ekstensi gambar tidak tepat!',
+                    ]);
+        }
+
+        $bukti_bayar = time() . '.' . $ext;
+        \Image::make($request->bukti_bayar)->save(public_path('images/bukti/') . $bukti_bayar);
+
+        $pembelian->bukti_bayar = $bukti_bayar;
+        $pembelian->status = 'Proses verifikasi';
+
+        $pembelian->save();
+           
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil melakukan pembayaran!',
+        ]);
+    }
+
+    /**
+     * Delete the specified resource in storage
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deletePembelian($id)
+    {
+        $pembelian = Pembelian::find($id);
+        $pembelian->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil membatalkan pembelian',
         ]);
     }
 }

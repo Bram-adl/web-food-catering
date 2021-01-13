@@ -40,6 +40,10 @@ Route::post('/logout', 'AuthController@logout')
 Route::put('/profile/{id}/update', 'ProfileController@update');
 Route::post('/profile/{id}/pengantaran/create', 'ProfileController@storePengantaran');
 
+Route::post('/pembelian/create', 'PembelianController@storePembelian');
+Route::put('/pembelian/{id}', 'PembelianController@updatePembelian');
+Route::delete('/pembelian/{id}', 'PembelianController@deletePembelian');
+
 
 /*
 |--------------------------------------------------------------------------

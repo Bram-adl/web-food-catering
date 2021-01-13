@@ -27,11 +27,11 @@ class StorePembelian extends FormRequest
             'id_pelanggan' => 'required',
             'id_paket' => 'required',
             'bukti_bayar' => 'nullable|image|mimes:jpeg, jpg, png, svg|max:2048',
-            'status' => 'nullalbe|string',
+            'status' => 'nullable|string',
             'lokasi' => 'required|string',
             'alamat' => 'required|string',
             'waktu_pengiriman' => 'required|string',
-            'tanggal_mulai' => 'required|string',
+            'tanggal_mulai' => 'required|date|after:today',
         ];
     }
 
@@ -45,7 +45,11 @@ class StorePembelian extends FormRequest
             'id_paket.required' => 'Paket wajib dipilih',
             'bukti_bayar.mimes' => 'Mohon pastikan foto dalam format jpeg, jpg, png, atau svg',
             'bukti_bayar.max' => 'Mohon pastikan foto tidak lebih dari 2mb',
-            'status' => 'Status wajib dipilih',
+            'lokasi.required' => 'Mohon memilih lokasi',
+            'alamat.required' => 'Mohon menuliskan alamat yang benar',
+            'waktu_pengiriman.required' => 'Mohon memilih waktu pengiriman',
+            'tanggal_mulai.required' => 'Mohon memilih tanggal mulai pengantaran',
+            'tanggal_mulai.after' => 'Pengantaran dapat dilakukan mulai besok hari',
         ];
     }
 }

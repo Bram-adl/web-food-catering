@@ -35,9 +35,12 @@ Vue.component('daily-catering', require('./components/DailyCatering.vue').defaul
 
 Vue.component('authentication', require('./auth/Authentication.vue').default);
 
-Vue.component('profile', require('./client/Profile').default);
-Vue.component('profilePembelian', require('./client/ProfilePembelian.vue').default);
-Vue.component('profileNavbar', require('./client/ProfileNavbar').default);
+Vue.component('profile', require('./client/profile/Profile.vue').default);
+Vue.component('list-pembelian', require('./client/profile/ListPembelian.vue').default);
+Vue.component('navbar', require('./components/Navbar.vue').default);
+
+Vue.component('order-delivery', require('./client/order/Delivery.vue').default);
+Vue.component('order-payment', require('./client/order/Payment.vue').default);
 
 window.eventBus = new Vue();
 

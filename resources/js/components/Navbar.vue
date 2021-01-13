@@ -6,8 +6,8 @@
             </div>
             <div class="flex-1 flex items-center justify-end md:mx-10">
                 <a href="/" class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300">Home</a>
-                <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" :class="{'font-bold': active == 'dashboard'}" :href="`/profile/${user.nama.split(' ').join('')}`">Dashboard</a>
-                <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" :class="{'font-bold': active == 'pembelian'}" :href="`/profile/${user.nama.split(' ').join('')}/pembelian`">Daftar Pembelian</a>
+                <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" :href="`/profile/${user.nama.split(' ').join('')}`">Dashboard</a>
+                <a class="mx-2 opacity-50 hover:opacity-100 transition ease-out duration-300" :href="`/profile/${user.nama.split(' ').join('')}/pembelian`">Daftar Pembelian</a>
             </div>
             <div class="fixed right-4 bottom-4 md:static flex items-center justify-center bg-red-500 md:bg-transparent w-10 md:w-auto h-10 md:h-auto rounded-full opacity-50 hover:opacity-100 transition ease-out duration-300">
                 <slot></slot>
@@ -25,11 +25,5 @@ export default {
             user,
         }
     },
-
-    computed: {
-        active() {
-            return this.$route.fullPath.split('/').length == 3 ? 'dashboard' : 'pembelian';
-        }
-    }
 }
 </script>

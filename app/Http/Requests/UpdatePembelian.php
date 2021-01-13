@@ -26,7 +26,7 @@ class UpdatePembelian extends FormRequest
         return [
             'id_pelanggan' => 'required',
             'id_paket' => 'required',
-            'bukti_bayar' => 'nullable|image|mimes:jpeg, jpg, png, svg|max:2048',
+            'bukti_bayar' => 'required|image|mimes:jpeg, jpg, png, svg|max:2048',
             'status' => 'required|string',
         ];
     }
@@ -39,6 +39,7 @@ class UpdatePembelian extends FormRequest
         return [
             'id_pelanggan.required' => 'Pelanggan wajib dipilih',
             'id_paket.required' => 'Paket wajib dipilih',
+            'bukti_bayar.required' => 'Mohon mengupload bukti bayar',
             'bukti_bayar.mimes' => 'Mohon pastikan foto dalam format jpeg, jpg, png, atau svg',
             'bukti_bayar.max' => 'Mohon pastikan foto tidak lebih dari 2mb',
             'status' => 'Status wajib dipilih',

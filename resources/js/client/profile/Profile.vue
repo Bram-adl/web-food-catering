@@ -39,7 +39,7 @@
 <script>
 import ProfileUser from './ProfileUser';
 import ProfileInfo from './ProfileInfo';
-import ProfilePengantaran from './ProfilePengantaran';
+import ProfilePengantaran from './ListPengantaran';
 
 export default {
     name: 'Profile',

@@ -30,13 +30,13 @@
     <div id="app" class="bg-gray-100 relative">
         <profile>
             <template #navbar>
-                <profile-navbar>
+                <navbar>
                     <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout').submit()">
                         <i class="fas fa-power-off text-white md:text-red-500"></i>
                         <span class="hidden md:inline-block ml-2">Logout</span>
                     </a>
                     <form action="{{ action('AuthController@logout') }}" method="post" id="logout">@csrf</form>
-                </profile-navbar>
+                </navbar>
             </template>
         </profile>
     </div>

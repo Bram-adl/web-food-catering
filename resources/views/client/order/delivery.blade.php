@@ -27,8 +27,8 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
-    <div id="app" class="bg-gray-100 relative">
-        <list-pembelian>
+    <div id="app">
+        <order-delivery>
             <template #navbar>
                 <navbar>
                     <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout').submit()">
@@ -38,14 +38,12 @@
                     <form action="{{ action('AuthController@logout') }}" method="post" id="logout">@csrf</form>
                 </navbar>
             </template>
-        </list-pembelian>
+        </order-delivery>
     </div>
 
     <script>
         var user = @json($user);
-        var kota = @json($kota);
-        var kecamatan = @json($kecamatan);
-        var kelurahan = @json($kelurahan);
+        var paket = @json($paket);
     </script>
 </body>
 </html>

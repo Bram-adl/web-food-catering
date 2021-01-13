@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .loader {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
