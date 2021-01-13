@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdatePelanggan extends FormRequest
 {
@@ -15,7 +16,7 @@ class UpdatePelanggan extends FormRequest
     {   
         return [
             'nama' => 'required|string',
-            'email' => 'required|email|unique:pelanggan,email,'.$this->pelanggan,
+            'email' => 'required|email|unique:pelanggan,email,'.Auth::user()->id,
             'password' => 'nullable|string|min:4',
             'wa' => [
                 'nullable',

@@ -71,7 +71,7 @@ class AuthController extends Controller
                 $id_paket = $request["query"];
                 $id_user = Auth::user()->id;
         
-                return redirect()->route('client-pengiriman', [                    // required params
+                return redirect()->route('client-pengiriman', [
                     'id_paket' => $id_paket,
                     'client_id' => $id_user,
                 ]);
@@ -119,17 +119,24 @@ class AuthController extends Controller
         // Immediately log the user after saving to database
         $credentials = $request->only('email', 'password');
 
-        // Redirect the user to the intended page or fallback to index page
-        if (Auth::attempt($credentials)) {
-            return response()->json([
-                'success' => true,
-                'message' => '/',
-            ]);
+        if (!Auth::attempt($credentials)) {
+            return redirect()
+                    ->back()
+                    ->with('status', 'User not found.');
         } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Akun tidak ditemukan',
-            ]);
+            if (!$request->has('query')) {
+                return redirect()->route('client-profile', [
+                    'nama' => implode(explode(" ", Auth::user()->nama)),
+                ]);
+            } else {
+                $id_paket = $request["query"];
+                $id_user = Auth::user()->id;
+        
+                return redirect()->route('client-pengiriman', [
+                    'id_paket' => $id_paket,
+                    'client_id' => $id_user,
+                ]);
+            }
         }
     }
 

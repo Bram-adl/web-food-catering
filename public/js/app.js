@@ -3358,6 +3358,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3425,7 +3426,7 @@ __webpack_require__.r(__webpack_exports__);
         kelurahan: kelurahan
       };
     },
-    kotaTeks: function kotaTeks() {
+    kantorTeks: function kantorTeks() {
       var _this2 = this;
 
       var kota = this.kota.filter(function (k) {
@@ -3458,10 +3459,10 @@ __webpack_require__.r(__webpack_exports__);
     alamatKantor: function alamatKantor() {
       if (this.user.kantor_teks && this.user.kantor_maps) {
         // jika alamat kantor terisi dan maps terisi
-        return "\n                    <a class=\"text-gray-500 flex items-center\" href=\"".concat(this.user.kantor_maps, "\">\n                        <span>").concat(this.user.rumah_teks, ", ").concat(this.kantorTeks.kelurahan.kelurahan, ", ").concat(this.kantorTeks.kecamatan.kecamatan, ", ").concat(this.kantorTeks.kota.kota, "</span>\n                        <i class=\"fas fa-external-link-alt ml-2\"></i>\n                    </a>\n                ");
+        return "\n                    <a class=\"text-gray-500 flex items-center\" href=\"".concat(this.user.kantor_maps, "\">\n                        <span>").concat(this.user.kantor_teks, ", ").concat(this.kantorTeks.kelurahan.kelurahan, ", ").concat(this.kantorTeks.kecamatan.kecamatan, ", ").concat(this.kantorTeks.kota.kota, "</span>\n                        <i class=\"fas fa-external-link-alt ml-2\"></i>\n                    </a>\n                ");
       } else if (this.user.kantor_teks && !this.user.kantor_maps) {
         // jika alamat kantor terisi dan maps tidak terisi
-        return "\n                    <a class=\"text-gray-500 flex items-center\" href=\"#\">\n                        <span>".concat(this.user.rumah_teks, ", ").concat(this.kantorTeks.kelurahan.kelurahan, ", ").concat(this.kantorTeks.kecamatan.kecamatan, ", ").concat(this.kantorTeks.kota.kota, "</span>\n                        <i class=\"fas fa-external-link-alt ml-2\"></i>\n                    </a>\n                ");
+        return "\n                    <a class=\"text-gray-500 flex items-center\" href=\"#\">\n                        <span>".concat(this.user.kantor_teks, ", ").concat(this.kantorTeks.kelurahan.kelurahan, ", ").concat(this.kantorTeks.kecamatan.kecamatan, ", ").concat(this.kantorTeks.kota.kota, "</span>\n                        <i class=\"fas fa-external-link-alt ml-2\"></i>\n                    </a>\n                ");
       } else {
         // jika alamat kantor tidak terisi meskipun maps terisi
         return "<a class=\"text-gray-500\" href=\"#\">Belum menuliskan alamat kantor.</a>";
@@ -62804,7 +62805,7 @@ var render = function() {
                           "td",
                           {
                             staticClass:
-                              "w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"
+                              "w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"
                           },
                           [
                             _c(
@@ -62827,7 +62828,7 @@ var render = function() {
                           "td",
                           {
                             staticClass:
-                              "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
+                              "w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
                           },
                           [
                             _c(
@@ -62879,7 +62880,7 @@ var render = function() {
                           "td",
                           {
                             staticClass:
-                              "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
+                              "w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
                           },
                           [
                             _c(
@@ -62902,7 +62903,7 @@ var render = function() {
                           "td",
                           {
                             staticClass:
-                              "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
+                              "w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
                           },
                           [
                             _c(
@@ -62925,7 +62926,7 @@ var render = function() {
                           "td",
                           {
                             staticClass:
-                              "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
+                              "w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
                           },
                           [
                             _c(
@@ -62948,7 +62949,7 @@ var render = function() {
                           "td",
                           {
                             staticClass:
-                              "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
+                              "w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
                           },
                           [
                             _c(
@@ -62984,7 +62985,43 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm._m(1, true)
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
+                          },
+                          [
+                            _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase"
+                              },
+                              [_vm._v("Actions")]
+                            ),
+                            _vm._v(" "),
+                            p.status != "Selesai"
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "text-blue-400 hover:text-blue-600 underline",
+                                    attrs: { href: "#" }
+                                  },
+                                  [_vm._v("Berhenti")]
+                                )
+                              : _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "text-blue-400 hover:text-blue-600 underline",
+                                    attrs: { href: "#" }
+                                  },
+                                  [_vm._v("Hapus")]
+                                )
+                          ]
+                        )
                       ]
                     )
                   }),
@@ -63070,46 +63107,6 @@ var staticRenderFns = [
         )
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "td",
-      {
-        staticClass:
-          "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
-      },
-      [
-        _c(
-          "span",
-          {
-            staticClass:
-              "lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase"
-          },
-          [_vm._v("Actions")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "text-blue-400 hover:text-blue-600 underline",
-            attrs: { href: "#" }
-          },
-          [_vm._v("Edit")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "text-blue-400 hover:text-blue-600 underline pl-6",
-            attrs: { href: "#" }
-          },
-          [_vm._v("Remove")]
-        )
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -64102,11 +64099,17 @@ var render = function() {
             _c("i", { staticClass: "fab fa-whatsapp" }),
             _vm._v(" "),
             _c("div", { staticClass: "ml-2" }, [
-              _c(
-                "a",
-                { attrs: { href: "https://wa.me/+62" + _vm.user.wa.slice(1) } },
-                [_vm._v(_vm._s(_vm.user.wa))]
-              )
+              _vm.user.wa
+                ? _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "https://wa.me/+62" + _vm.user.wa.slice(1)
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.user.wa))]
+                  )
+                : _c("span", [_vm._v("Belum menuliskan nomor whatsapp")])
             ])
           ])
         ]

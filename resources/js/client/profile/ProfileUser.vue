@@ -28,7 +28,8 @@
             <div class="flex items-center justify-center">
                 <i class="fab fa-whatsapp"></i>
                 <div class="ml-2">
-                    <a :href="`https://wa.me/+62${ user.wa.slice(1) }`">{{ user.wa }}</a>
+                    <a :href="`https://wa.me/+62${ user.wa.slice(1) }`" v-if="user.wa">{{ user.wa }}</a>
+                    <span v-else>Belum menuliskan nomor whatsapp</span>
                 </div>
             </div>
         </div>
@@ -291,7 +292,7 @@ export default {
             }
         },
 
-        kotaTeks() {
+        kantorTeks() {
             let kota = this.kota.filter(k => k.id == this.user.kantor_kota)[0];
             let kecamatan = this.kecamatan.filter(k => k.id == this.user.kantor_kecamatan)[0];
             let kelurahan = this.kelurahan.filter(k => k.id == this.user.kantor_kelurahan)[0];
@@ -331,7 +332,7 @@ export default {
                 // jika alamat kantor terisi dan maps terisi
                 return `
                     <a class="text-gray-500 flex items-center" href="${this.user.kantor_maps}">
-                        <span>${this.user.rumah_teks}, ${this.kantorTeks.kelurahan.kelurahan}, ${this.kantorTeks.kecamatan.kecamatan}, ${this.kantorTeks.kota.kota}</span>
+                        <span>${this.user.kantor_teks}, ${this.kantorTeks.kelurahan.kelurahan}, ${this.kantorTeks.kecamatan.kecamatan}, ${this.kantorTeks.kota.kota}</span>
                         <i class="fas fa-external-link-alt ml-2"></i>
                     </a>
                 `;
@@ -339,7 +340,7 @@ export default {
                 // jika alamat kantor terisi dan maps tidak terisi
                 return `
                     <a class="text-gray-500 flex items-center" href="#">
-                        <span>${this.user.rumah_teks}, ${this.kantorTeks.kelurahan.kelurahan}, ${this.kantorTeks.kecamatan.kecamatan}, ${this.kantorTeks.kota.kota}</span>
+                        <span>${this.user.kantor_teks}, ${this.kantorTeks.kelurahan.kelurahan}, ${this.kantorTeks.kecamatan.kecamatan}, ${this.kantorTeks.kota.kota}</span>
                         <i class="fas fa-external-link-alt ml-2"></i>
                     </a>
                 `;

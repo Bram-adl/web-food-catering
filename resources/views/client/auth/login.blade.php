@@ -74,16 +74,17 @@
 
             <template #register-form>
                 <form
-                    action="{{ action('AuthController@register') }}"
+                    action="{{ action('AuthController@register', ['query' => $redirect_to]) }}"
                     method="post"
                     class="flex flex-col items-center justify-center w-full h-full"
                 >
+                    @csrf
                     <div class="my-4 w-full px-16">
                         <input
                             type="text"
                             class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
                             placeholder="Nama Lengkap"
-                            ref="registerNama"
+                            name="nama"
                         />
                     </div>
 
@@ -92,6 +93,7 @@
                             type="email"
                             class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
                             placeholder="Email Address"
+                            name="email"
                         />
                     </div>
 
@@ -100,6 +102,7 @@
                             type="password"
                             class="focus:outline-none bg-transparent w-full border-b rounded-md px-4 py-2 text-md text-gray-800"
                             placeholder="Password"
+                            name="password"
                         />
                     </div>
 
