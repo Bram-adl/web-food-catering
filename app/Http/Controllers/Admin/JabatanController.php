@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class JabatanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:personel');
+    }
+    
     /**
      * Display a listing of the resource.
      *

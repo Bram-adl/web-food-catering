@@ -263,13 +263,13 @@ export default {
             }).then((result) => {
                 if (result.isConfirmed) {
                     this.loader = true;
-                    axios.delete(`/pembelian/${this.pembelian.id}`)
+                    axios.put(`/pembelian/${this.pembelian.id}/batalkan`)
                         .then(({ data }) => {
                             if (data.success) {
                                 this.loader = false;
                                 Toast.fire({
                                     icon: 'success',
-                                    title: 'Kamu telah membatalkan pembelian.', 
+                                    title: data.message,
                                 })
                                 setTimeout(() => {
                                     location.href = '/';

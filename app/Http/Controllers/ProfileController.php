@@ -45,8 +45,9 @@ class ProfileController extends Controller
         }
         
         $pembelian = Pembelian::where([
-            'id_pelanggan' => Auth::user()->id,
-        ])->get();
+                                    'id_pelanggan' => Auth::user()->id,
+                                ])
+                                ->get();
         
         $paket = [];
         foreach ($pembelian as $p) {

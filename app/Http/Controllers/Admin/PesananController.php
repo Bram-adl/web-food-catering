@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class PesananController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:personel');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -32,6 +37,7 @@ class PesananController extends Controller
         return view('admin.pesanan.index', [
             'user' => Auth::guard('personel')->user(),
             'pesanan' => $pesanan,
+            'tanggal' => date('d M Y', strtotime('today')),
         ]);
     }
 
@@ -53,6 +59,7 @@ class PesananController extends Controller
         return view('admin.pesanan.index', [
             'user' => Auth::guard('personel')->user(),
             'pesanan' => $pesanan,
+            'tanggal' => date('d M Y', strtotime($tanggal_kirim)),
         ]);
     }
 

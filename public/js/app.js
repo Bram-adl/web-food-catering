@@ -2598,14 +2598,14 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.isConfirmed) {
           _this2.loader = true;
-          axios["delete"]("/pembelian/".concat(_this2.pembelian.id)).then(function (_ref) {
+          axios.put("/pembelian/".concat(_this2.pembelian.id, "/batalkan")).then(function (_ref) {
             var data = _ref.data;
 
             if (data.success) {
               _this2.loader = false;
               Toast.fire({
                 icon: 'success',
-                title: 'Kamu telah membatalkan pembelian.'
+                title: data.message
               });
               setTimeout(function () {
                 location.href = '/';
@@ -2658,6 +2658,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Loader */ "./resources/js/components/Loader.vue");
 //
 //
 //
@@ -2741,13 +2742,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProfilePembelian',
+  components: {
+    Loader: _components_Loader__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       user: user,
       pembelian: pembelian,
-      paket: paket
+      paket: paket,
+      loader: false
     };
   },
   filters: {
@@ -2767,6 +2777,105 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return "SK".concat(invoice).concat(this.pembelian[index].id);
+    },
+    hapusPembelian: function hapusPembelian(id) {
+      var _this = this;
+
+      Swal.fire({
+        title: 'Hapus data pembelian?',
+        text: "Kamu masih dapat melakukan pembelian kembali",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Hapus!',
+        cancelButtonText: 'Tutup'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          _this.loader = true;
+          axios["delete"]('/pembelian/' + id + '/hapus').then(function (_ref) {
+            var data = _ref.data;
+            _this.loader = false;
+
+            if (data.success) {
+              Swal.fire('Berhasil!', data.message, 'success');
+              setTimeout(function () {
+                location.reload();
+              }, 1000);
+            }
+          })["catch"](function (_ref2) {
+            var response = _ref2.response;
+            _this.loader = false;
+            Swal.fire('Error!', response.data.message, 'error');
+          });
+        }
+      });
+    },
+    berhentiPembelian: function berhentiPembelian(id) {
+      var _this2 = this;
+
+      Swal.fire({
+        title: 'Berhentikan pembelian?',
+        text: "Kamu masih dapat melakukan pembelian kembali",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Berhenti!',
+        cancelButtonText: 'Tutup'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          _this2.loader = true;
+          axios.put('/pembelian/' + id + '/berhenti').then(function (_ref3) {
+            var data = _ref3.data;
+            _this2.loader = false;
+
+            if (data.success) {
+              Swal.fire('Berhasil!', data.message, 'success');
+              setTimeout(function () {
+                location.reload();
+              }, 1000);
+            }
+          })["catch"](function (_ref4) {
+            var response = _ref4.response;
+            _this2.loader = false;
+            Swal.fire('Error!', response.data.message, 'error');
+          });
+        }
+      });
+    },
+    batalkanPembelian: function batalkanPembelian(id) {
+      var _this3 = this;
+
+      Swal.fire({
+        title: 'Batalkan pembelian?',
+        text: "Kamu masih dapat melakukan pembelian kembali",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Batalkan!',
+        cancelButtonText: 'Tutup'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          _this3.loader = true;
+          axios.put('/pembelian/' + id + '/batalkan').then(function (_ref5) {
+            var data = _ref5.data;
+            _this3.loader = false;
+
+            if (data.success) {
+              Swal.fire('Berhasil!', data.message, 'success');
+              setTimeout(function () {
+                location.reload();
+              }, 1000);
+            }
+          })["catch"](function (_ref6) {
+            var response = _ref6.response;
+            _this3.loader = false;
+            Swal.fire('Error!', response.data.message, 'error');
+          });
+        }
+      });
     }
   }
 });
@@ -62971,7 +63080,8 @@ var render = function() {
                                   "bg-red-400": p.status == "Belum bayar",
                                   "bg-yellow-400":
                                     p.status == "Proses verifikasi",
-                                  "bg-blue-400": p.status == "Selesai"
+                                  "bg-blue-400": p.status == "Selesai",
+                                  "bg-gray-400": p.status == "Batal"
                                 }
                               },
                               [
@@ -63001,13 +63111,33 @@ var render = function() {
                               [_vm._v("Actions")]
                             ),
                             _vm._v(" "),
-                            p.status != "Selesai"
+                            p.status == "Batal" || p.status == "Selesai"
                               ? _c(
                                   "a",
                                   {
                                     staticClass:
                                       "text-blue-400 hover:text-blue-600 underline",
-                                    attrs: { href: "#" }
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.hapusPembelian(p.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Hapus")]
+                                )
+                              : p.status == "Aktif"
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "text-blue-400 hover:text-blue-600 underline",
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.berhentiPembelian(p.id)
+                                      }
+                                    }
                                   },
                                   [_vm._v("Berhenti")]
                                 )
@@ -63016,9 +63146,14 @@ var render = function() {
                                   {
                                     staticClass:
                                       "text-blue-400 hover:text-blue-600 underline",
-                                    attrs: { href: "#" }
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.batalkanPembelian(p.id)
+                                      }
+                                    }
                                   },
-                                  [_vm._v("Hapus")]
+                                  [_vm._v("Batalkan")]
                                 )
                           ]
                         )
@@ -63031,7 +63166,9 @@ var render = function() {
             )
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c("Loader", { attrs: { start: _vm.loader } })
     ],
     2
   )

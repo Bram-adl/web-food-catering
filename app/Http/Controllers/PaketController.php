@@ -126,6 +126,11 @@ class PaketController extends Controller
             return redirect()
                     ->route('client-index');
         }
+
+        if ($pembelian->status == 'Batal') {
+            return redirect()
+                    ->route('client-index');
+        }
         
         return view('client.order.payment', [
             'paket' => Paket::find($id),

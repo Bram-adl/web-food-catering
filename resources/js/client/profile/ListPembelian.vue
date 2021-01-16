@@ -62,7 +62,8 @@
                                         'bg-green-400': p.status == 'Aktif',
                                         'bg-red-400': p.status == 'Belum bayar',
                                         'bg-yellow-400': p.status == 'Proses verifikasi',
-                                        'bg-blue-400': p.status == 'Selesai'
+                                        'bg-blue-400': p.status == 'Selesai',
+                                        'bg-gray-400': p.status == 'Batal'
                                      }"
                                 >
                                     {{ p.status }}
@@ -70,26 +71,36 @@
                             </td>
                             <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Actions</span>
-                                <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-if="p.status != 'Selesai'">Berhenti</a>
-                                <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-else>Hapus</a>
+                                <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-if="p.status == 'Batal' || p.status == 'Selesai'" @click="hapusPembelian(p.id)">Hapus</a>
+                                <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-else-if="p.status == 'Aktif'" @click="berhentiPembelian(p.id)">Berhenti</a>
+                                <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-else @click="batalkanPembelian(p.id)">Batalkan</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </main>
+
+        <Loader :start="loader"/>
     </div>
 </template>
 
 <script>
+import Loader from '../../components/Loader';
+
 export default {
     name: 'ProfilePembelian',
+
+    components: {
+        Loader,
+    },
 
     data() {
         return {
             user,
             pembelian,
             paket,
+            loader: false,
         }
     },
 
@@ -112,6 +123,123 @@ export default {
 
             return `SK${invoice}${this.pembelian[index].id}`;
         },
+
+        hapusPembelian(id) {
+            Swal.fire({
+                title: 'Hapus data pembelian?',
+                text: "Kamu masih dapat melakukan pembelian kembali",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Hapus!',
+                cancelButtonText: 'Tutup',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.loader = true;
+                    axios.delete('/pembelian/' + id + '/hapus')
+                        .then(({ data }) => {
+                            this.loader = false;
+                            if (data.success) {
+                                Swal.fire(
+                                    'Berhasil!',
+                                    data.message,
+                                    'success'
+                                )
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000)
+                            }
+                        })
+                        .catch(({ response }) => {
+                            this.loader = false;
+                            Swal.fire(
+                                'Error!',
+                                response.data.message,
+                                'error'
+                            );
+                        })
+                }
+            })
+        },
+
+        berhentiPembelian(id) {
+            Swal.fire({
+                title: 'Berhentikan pembelian?',
+                text: "Kamu masih dapat melakukan pembelian kembali",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Berhenti!',
+                cancelButtonText: 'Tutup',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.loader = true;
+                    axios.put('/pembelian/' + id + '/berhenti')
+                        .then(({ data }) => {
+                            this.loader = false;
+                            if (data.success) {
+                                Swal.fire(
+                                    'Berhasil!',
+                                    data.message,
+                                    'success'
+                                )
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000)
+                            }
+                        })
+                        .catch(({ response }) => {
+                            this.loader = false;
+                            Swal.fire(
+                                'Error!',
+                                response.data.message,
+                                'error'
+                            );
+                        })
+                }
+            })
+        },
+
+        batalkanPembelian(id) {
+            Swal.fire({
+                title: 'Batalkan pembelian?',
+                text: "Kamu masih dapat melakukan pembelian kembali",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Batalkan!',
+                cancelButtonText: 'Tutup',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.loader = true;
+                    axios.put('/pembelian/' + id + '/batalkan')
+                        .then(({ data }) => {
+                            this.loader = false;
+                            if (data.success) {
+                                Swal.fire(
+                                    'Berhasil!',
+                                    data.message,
+                                    'success'
+                                )
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000)
+                            }
+                        })
+                        .catch(({ response }) => {
+                            this.loader = false;
+                            Swal.fire(
+                                'Error!',
+                                response.data.message,
+                                'error'
+                            );
+                        })
+                }
+            })
+        }
     }
 }
 </script>

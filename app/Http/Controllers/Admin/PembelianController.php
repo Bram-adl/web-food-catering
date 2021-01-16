@@ -11,6 +11,7 @@ use App\Pembelian;
 use App\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PembelianController extends Controller
 {
@@ -138,6 +139,16 @@ class PembelianController extends Controller
         $tanggal_mulai = $pembelian->tanggal_mulai;
         $waktu_pengiriman = $pembelian->waktu_pengiriman;
 
+        // mencegah verifikasi jika tanggal sudah terlewat
+        if (date('Y-m-d', strtotime('today')) == $tanggal_mulai) {
+            $pembelian->status = 'Batal';
+            $pembelian->save();
+            
+            return redirect()
+                    ->back()
+                    ->with('status', 'Masa verifikasi sudah terlewat!');
+        }
+
         $hari_pengiriman = explode(':', explode('|', $waktu_pengiriman)[0])[1];
         $jumlah_pengiriman = count(explode(',', explode(':', explode('|', $waktu_pengiriman)[1])[1]));
 
@@ -245,11 +256,36 @@ class PembelianController extends Controller
                 ->with('status', 'Berhasil verifikasi pembelian!');
     }
 
+    public function batalkan($id)
+    {
+        $pembelian = Pembelian::find($id);
+        $pembelian->status = 'Batal';
+
+        $bukti_bayar = $pembelian->bukti_bayar;
+
+        if (!is_null($bukti_bayar)) {
+            // hapus foto bukti pembayaran
+            if (file_exists(public_path('images/bukti/') . $bukti_bayar)) {
+                unlink(public_path('images/bukti/') . $bukti_bayar);
+            }
+        }
+
+        $pembelian->bukti_bayar = null;
+        $pembelian->save();
+
+        return redirect()
+                ->route('pembelian.index')
+                ->with('status', 'Pembelian berhasil dibatalkan!');
+    }
+
     public function selesai($id)
     {
         $pembelian = Pembelian::find($id);
         $pembelian->status = 'Selesai';
         $pembelian->save();
+        
+        // hapus seluruh pesanan dengan id pembelian terkait
+        DB::table('pesanan')->where('id_pembelian', $id)->delete();
 
         return redirect()
                 ->route('pembelian.index')

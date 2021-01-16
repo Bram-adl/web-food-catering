@@ -29,7 +29,7 @@
     <div class="col-12">
         <div class="card">
             <div class="border-bottom py-3 px-4 d-flex align-items-center justify-content-between">
-                <h3 class="card-title">Data Pesanan</h3>
+                <h3 class="card-title">Data Pesanan | <span class="badge badge-info">{{ $tanggal }}</span></h3>
 
                 <div class="">
                     <div class="btn-group">

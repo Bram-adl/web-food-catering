@@ -42,7 +42,9 @@ Route::post('/profile/{id}/pengantaran/create', 'ProfileController@storePenganta
 
 Route::post('/pembelian/create', 'PembelianController@storePembelian');
 Route::put('/pembelian/{id}/edit', 'PembelianController@updatePembelian');
-Route::delete('/pembelian/{id}/delete', 'PembelianController@deletePembelian');
+Route::put('/pembelian/{id}/berhenti', 'PembelianController@berhentiPembelian');
+Route::put('/pembelian/{id}/batalkan', 'PembelianController@batalkanPembelian');
+Route::delete('/pembelian/{id}/hapus', 'PembelianController@deletePembelian');
 
 
 /*
@@ -74,6 +76,7 @@ Route::post('/admin/logout', 'AuthController@logoutAdmin')
 */
 
 Route::post('/pembelian/verifikasi/{id}', 'Admin\PembelianController@verifikasi');
+Route::post('/pembelian/batalkan/{id}', 'Admin\PembelianController@batalkan');
 Route::post('/pembelian/selesai/{id}', 'Admin\PembelianController@selesai');
 Route::get('/pesanan/cari', 'Admin\PesananController@tanggal');
 

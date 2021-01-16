@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Hash;
 
 class PelangganController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:personel');
+    }
+    
     /**
      * Display a listing of the resource.
      *

@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PaketController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:personel');
+    }
+    
     /**
      * Display a listing of the resource.
      *
