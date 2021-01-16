@@ -292,7 +292,7 @@ export default {
             }
 
             this.loader = true;
-            axios.put(`/pembelian/${this.pembelian.id}/`, {
+            axios.put(`/pembelian/${this.pembelian.id}/edit`, {
                 bukti_bayar: this.bukti_bayar,
             })
             .then(({ data }) => {

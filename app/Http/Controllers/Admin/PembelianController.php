@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePembelian;
 use App\Paket;
 use App\Pelanggan;
 use App\Pembelian;
+use App\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,7 @@ class PembelianController extends Controller
      */
     public function index()
     {
-        $pembelian = Pembelian::latest()->get();
+        $pembelian = Pembelian::orderBy('tanggal_mulai')->get();
         $pelanggan = Pelanggan::all();
         $paket = Paket::all();
 
@@ -130,8 +131,112 @@ class PembelianController extends Controller
     }
 
     public function verifikasi($id)
-    {
+    {   
         $pembelian = Pembelian::find($id);
+        
+        $jumlah_porsi = $pembelian->paket->porsi;
+        $tanggal_mulai = $pembelian->tanggal_mulai;
+        $waktu_pengiriman = $pembelian->waktu_pengiriman;
+
+        $hari_pengiriman = explode(':', explode('|', $waktu_pengiriman)[0])[1];
+        $jumlah_pengiriman = count(explode(',', explode(':', explode('|', $waktu_pengiriman)[1])[1]));
+
+        $tanggal = $tanggal_mulai;
+        $tanggal_pesanan = [];
+
+        $lama_habis_porsi = $jumlah_porsi / $jumlah_pengiriman;
+ 
+        if (strpos($hari_pengiriman, '-')) {
+            if (strpos($hari_pengiriman, 'jumat')) {
+                for ($i = 0; $i < $lama_habis_porsi; $i++) {
+
+                    if (date('w', strtotime($tanggal)) == 6) {
+                        $tanggal = date('Y-m-d', strtotime($tanggal . ' + 2 days'));
+                    }
+
+                    $tanggal_pesanan[] = $tanggal;
+                    $tanggal = date('Y-m-d', strtotime($tanggal . ' + 1 days'));
+                }
+
+                $waktu_kirim = explode(',', explode(':', explode('|', $waktu_pengiriman)[1])[1]);
+                foreach ($tanggal_pesanan as $tanggal) {
+
+                    for ($i = 0; $i < count($waktu_kirim); $i++) {
+                        Pesanan::create([
+                            'id_pembelian' => $id,
+                            'tanggal_kirim' => $tanggal,
+                            'waktu_kirim' => $waktu_kirim[$i],
+                            'alamat' => $pembelian->lokasi,
+                            'porsi' => 1,
+                            'catatan_pelanggan' => null,
+                            'keterangan_pelanggan' => $pembelian->pelanggan->keterangan,
+                        ]);
+                    }
+
+                }
+            } else {
+                for ($i = 0; $i < $lama_habis_porsi; $i++) {
+
+                    if (date('w', strtotime($tanggal)) == 0) {
+                        $tanggal = date('Y-m-d', strtotime($tanggal . ' + 1 days '));
+                    }
+
+                    $tanggal_pesanan[] = $tanggal;
+                    $tanggal = date('Y-m-d', strtotime($tanggal . ' + 1 days'));
+                }
+
+                $waktu_kirim = explode(',', explode(':', explode('|', $waktu_pengiriman)[1])[1]);
+                foreach ($tanggal_pesanan as $tanggal) {
+
+                    for ($i = 0; $i < count($waktu_kirim); $i++) {
+                        Pesanan::create([
+                            'id_pembelian' => $id,
+                            'tanggal_kirim' => $tanggal,
+                            'waktu_kirim' => $waktu_kirim[$i],
+                            'alamat' => $pembelian->lokasi,
+                            'porsi' => 1,
+                            'catatan_pelanggan' => null,
+                            'keterangan_pelanggan' => $pembelian->pelanggan->keterangan,
+                        ]);
+                    }
+
+                }
+            }
+        } else {
+            $GLOBALS['daftar_hari'] = ['minggu', 'senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
+
+            $index_hari_pengiriman = array_map(function ($h) {
+                return array_search($h, $GLOBALS['daftar_hari']);
+            }, explode(',', $hari_pengiriman));
+            
+            $jumlah_hari_skip = count(explode(',', $hari_pengiriman));
+            
+            for ($i = 0; $i < (7 * $lama_habis_porsi) / $jumlah_hari_skip; $i++) {
+                if (in_array(date('w', strtotime($tanggal)), $index_hari_pengiriman)) {
+                    $tanggal_pesanan[] = $tanggal;
+                }
+
+                $tanggal = date('Y-m-d', strtotime($tanggal . ' + 1 days'));
+            }
+
+            $waktu_kirim = explode(',', explode(':', explode('|', $waktu_pengiriman)[1])[1]);
+            foreach ($tanggal_pesanan as $tanggal) {
+
+                for ($i = 0; $i < count($waktu_kirim); $i++) {
+                    Pesanan::create([
+                        'id_pembelian' => $id,
+                        'tanggal_kirim' => $tanggal,
+                        'waktu_kirim' => $waktu_kirim[$i],
+                        'alamat' => $pembelian->lokasi,
+                        'porsi' => 1,
+                        'catatan_pelanggan' => null,
+                        'keterangan_pelanggan' => $pembelian->pelanggan->keterangan,
+                    ]);
+                }
+                
+            }
+        }
+        
         $pembelian->status = 'Aktif';
         $pembelian->save();
 

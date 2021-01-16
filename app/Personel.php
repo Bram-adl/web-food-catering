@@ -3,15 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class Personel extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
     
     const CREATED_AT = 'waktu_simpan';
     const UPDATED_AT = 'waktu_edit';
+
+    protected $dates = ['waktu_hapus'];
+    const DELETED_AT = 'waktu_hapus';
     
     /**
      * The table associated with the model.

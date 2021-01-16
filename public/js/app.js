@@ -2629,7 +2629,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.loader = true;
-      axios.put("/pembelian/".concat(this.pembelian.id, "/"), {
+      axios.put("/pembelian/".concat(this.pembelian.id, "/edit"), {
         bukti_bayar: this.bukti_bayar
       }).then(function (_ref3) {
         var data = _ref3.data;

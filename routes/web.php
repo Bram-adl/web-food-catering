@@ -41,8 +41,8 @@ Route::put('/profile/{id}/update', 'ProfileController@update');
 Route::post('/profile/{id}/pengantaran/create', 'ProfileController@storePengantaran');
 
 Route::post('/pembelian/create', 'PembelianController@storePembelian');
-Route::put('/pembelian/{id}', 'PembelianController@updatePembelian');
-Route::delete('/pembelian/{id}', 'PembelianController@deletePembelian');
+Route::put('/pembelian/{id}/edit', 'PembelianController@updatePembelian');
+Route::delete('/pembelian/{id}/delete', 'PembelianController@deletePembelian');
 
 
 /*
@@ -56,10 +56,6 @@ Route::get('/dashboard', 'DashboardController@index')
     ->name('admin-dashboard');
 Route::get('/profil/{id}', 'DashboardController@profil')
     ->name('admin-profil');
-Route::get('/pesanan', 'DashboardController@pesanan')
-    ->name('admin-pesanan');
-Route::get('/pengantaran', 'DashboardController@pengantaran')
-    ->name('admin-pengantaran');
 
 // Admin Authentication Related Routes
 Route::get('/admin/login', 'AuthController@loginAdmin')
@@ -79,6 +75,7 @@ Route::post('/admin/logout', 'AuthController@logoutAdmin')
 
 Route::post('/pembelian/verifikasi/{id}', 'Admin\PembelianController@verifikasi');
 Route::post('/pembelian/selesai/{id}', 'Admin\PembelianController@selesai');
+Route::get('/pesanan/cari', 'Admin\PesananController@tanggal');
 
 /**
  * Middlewares Routes
@@ -94,4 +91,6 @@ Route::resources([
     'kategori' => 'Admin\KategoriController',
     'pelanggan' => 'Admin\PelangganController',
     'pembelian' => 'Admin\PembelianController',
+    'pesanan' => 'Admin\PesananController',
+    'pengantaran' => 'Admin\PengantaranController',
 ]);

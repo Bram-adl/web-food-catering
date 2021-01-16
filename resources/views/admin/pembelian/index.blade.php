@@ -232,6 +232,7 @@
                                         <td>
                                             <button class="btn btn-sm bg-success" onclick="verifikasiPembelian(this)">Verifikasi</button>
                                             <form action="{{ url('/pembelian/verifikasi/' . $p->id) }}" method="POST" class="d-none">@csrf</form>
+                                            <button class="btn btn-sm bg-danger" data-id="{{ $p->id }}" onclick="hapusPembelian(this)">Batalkan</button>
                                         </td>
                                     </tr>
                                     @endif

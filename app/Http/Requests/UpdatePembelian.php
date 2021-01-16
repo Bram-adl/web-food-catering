@@ -26,7 +26,7 @@ class UpdatePembelian extends FormRequest
         return [
             'id_pelanggan' => 'required',
             'id_paket' => 'required',
-            'bukti_bayar' => 'required|image|mimes:jpeg, jpg, png, svg|max:2048',
+            'bukti_bayar' => 'nullable|image|mimes:jpeg, jpg, png, svg|max:2048',
             'status' => 'required|string',
         ];
     }
