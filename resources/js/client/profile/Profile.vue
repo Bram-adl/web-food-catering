@@ -29,7 +29,9 @@
                 </div>
 
                 <div class="row my-10">
-                    <profile-pengantaran></profile-pengantaran>
+                    <profile-pengantaran
+                        :user="user"
+                    ></profile-pengantaran>
                 </div>
             </div>
         </main>

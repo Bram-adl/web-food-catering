@@ -15,38 +15,39 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
+                <tr class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0"
+                    v-for="(p, index) in pengantaran" :key="p.id">
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">#</span>
-                        1
+                        {{ index + 1 }}
                     </td>
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Tangal</span>
-                        11-01-2020
+                        {{ p.tanggal_kirim }}
                     </td>
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Waktu</span>
-                        Pagi
+                        {{ p.waktu_kirim }}
                     </td>
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Porsi</span>
-                        1
+                        {{ p.porsi }}
                     </td>
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Alamat</span>
-                        Rumah
+                        {{ p.lokasi }}
                     </td>
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Catatn Pelanggan</span>
-                        -
+                        {{ p.catatan_pelanggan || '-' }}
                     </td>
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Catatan Kurir</span>
-                        -
+                        {{ p.catatan_kurir || '-' }}
                     </td>
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-3 text-xs font-bold uppercase">Status</span>
-                        <span class="rounded bg-yellow-400 py-2 px-3 text-gray-50 text-xs font-bold">pending</span>
+                        <span class="rounded py-2 px-3 text-gray-50 text-xs font-bold" :class="{ 'bg-yellow-400': p.status == 'pending', 'bg-green-400': p.status == 'terkirim' }">{{ p.status }}</span>
                     </td>
                     <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                         <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Actions</span>
@@ -56,12 +57,51 @@
                 </tr>
             </tbody>
         </table>
+
+        <Loader :start="loader" />
     </div>
 </template>
 
 <script>
+import Loader from '../../components/Loader'
+
 export default {
     name: 'ProfileTable',
+
+    props: {
+        user: {
+            type: Object,
+            required: true,
+        },
+    },
+
+    components: {
+        Loader,
+    },
+
+    data() {
+        return {
+            pengantaran: [],
+
+            loader: false,
+        }
+    },
+
+    mounted() {
+        this.fetchPengantaran();
+    },
+
+    methods: {
+        fetchPengantaran() {
+            axios.get('/profile/' + this.user.id + '/pengantaran/list')
+                .then(({ data }) => {
+                    this.pengantaran = data;
+                })
+                .catch(({ response }) => {
+                    console.log(response);
+                })
+        }
+    }
 }
 </script>
 

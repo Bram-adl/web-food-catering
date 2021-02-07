@@ -2891,6 +2891,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Loader */ "./resources/js/components/Loader.vue");
 //
 //
 //
@@ -2952,8 +2953,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ProfileTable'
+  name: 'ProfileTable',
+  props: {
+    user: {
+      type: Object,
+      required: true
+    }
+  },
+  components: {
+    Loader: _components_Loader__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      pengantaran: [],
+      loader: false
+    };
+  },
+  mounted: function mounted() {
+    this.fetchPengantaran();
+  },
+  methods: {
+    fetchPengantaran: function fetchPengantaran() {
+      var _this = this;
+
+      axios.get('/profile/' + this.user.id + '/pengantaran/list').then(function (_ref) {
+        var data = _ref.data;
+        _this.pengantaran = data;
+      })["catch"](function (_ref2) {
+        var response = _ref2.response;
+        console.log(response);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2970,6 +3006,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProfileUser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProfileUser */ "./resources/js/client/profile/ProfileUser.vue");
 /* harmony import */ var _ProfileInfo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfileInfo */ "./resources/js/client/profile/ProfileInfo.vue");
 /* harmony import */ var _ListPengantaran__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ListPengantaran */ "./resources/js/client/profile/ListPengantaran.vue");
+//
+//
 //
 //
 //
@@ -3149,6 +3187,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3167,14 +3216,20 @@ __webpack_require__.r(__webpack_exports__);
     return {
       modal: false,
       loader: false,
+      paket: [],
+      id_pembelian: '0',
       tanggal: null,
-      porsi: null,
       waktu: '',
+      lokasi: '',
       alamat: '',
+      porsi: null,
       catatan: null,
       errors: [],
       defaultAlamat: 'Mohon tuliskan alamat lengkap.'
     };
+  },
+  mounted: function mounted() {
+    this.fetchPaket(this.user.id);
   },
   methods: {
     showModal: function showModal() {
@@ -3182,6 +3237,20 @@ __webpack_require__.r(__webpack_exports__);
     },
     closeModal: function closeModal() {
       this.modal = false;
+    },
+    fetchPaket: function fetchPaket() {
+      var _this = this;
+
+      axios.get('/pembelian/' + this.user.id + '/list').then(function (_ref) {
+        var data = _ref.data;
+
+        if (data.success) {
+          _this.paket = data.data;
+        }
+      })["catch"](function (_ref2) {
+        var response = _ref2.response;
+        console.log(response.error.message);
+      });
     },
     pilihAlamat: function pilihAlamat(e) {
       var alamat = e.target.value;
@@ -3195,7 +3264,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     storePengantaran: function storePengantaran() {
-      var _this = this;
+      var _this2 = this;
 
       this.loader = true;
 
@@ -3208,25 +3277,35 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.post('/profile/' + this.user.id + '/pengantaran/create', {
-        tanggal: this.tanggal,
+        id_pembelian: this.id_pembelian,
+        tanggal_kirim: this.tanggal,
         porsi: this.porsi,
-        waktu: this.waktu,
+        waktu_kirim: this.waktu,
         alamat: this.alamat,
-        catatan: this.catatan
-      }).then(function (_ref) {
-        var data = _ref.data;
-        _this.loader = false;
-        console.log(data);
-      })["catch"](function (_ref2) {
-        var response = _ref2.response;
-        _this.loader = false;
+        catatan_pelanggan: this.catatan
+      }).then(function (_ref3) {
+        var data = _ref3.data;
+        _this2.loader = false;
+
+        if (data.success) {
+          Toast.fire({
+            icon: "success",
+            title: data.message
+          });
+          setTimeout(function () {
+            location.reload();
+          }, 1000);
+        }
+      })["catch"](function (_ref4) {
+        var response = _ref4.response;
+        _this2.loader = false;
 
         if (response.status == 422) {
           Toast.fire({
             icon: 'error',
             title: 'Mohon periksa kembali formnya!'
           });
-          _this.errors = response.data.errors;
+          _this2.errors = response.data.errors;
         }
       });
     }
@@ -63025,6 +63104,8 @@ var render = function() {
                             ),
                             _vm._v(
                               "\n                            " +
+                                _vm._s(p.porsi) +
+                                " / " +
                                 _vm._s(_vm.paket[index].porsi) +
                                 " Porsi\n                        "
                             )
@@ -63267,113 +63348,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "bg-gray-50 rounded-md shadow-md px-6 py-4" },
-      [
-        _c(
-          "table",
-          {
-            staticClass: "border-collapse w-full relative",
-            staticStyle: { "z-index": "0" }
-          },
-          [
-            _c("thead", [
-              _c("tr", [
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("#")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("Tanggal")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("Waktu")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("Porsi")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("Alamat")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("Catatan Pelanggan")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("Catatan Kurir")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("Status")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass:
-                      "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
-                  },
-                  [_vm._v("Opsi")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tbody", [
-              _c(
+  return _c(
+    "div",
+    { staticClass: "bg-gray-50 rounded-md shadow-md px-6 py-4" },
+    [
+      _c(
+        "table",
+        {
+          staticClass: "border-collapse w-full relative",
+          staticStyle: { "z-index": "0" }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.pengantaran, function(p, index) {
+              return _c(
                 "tr",
                 {
+                  key: p.id,
                   staticClass:
                     "bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0"
                 },
@@ -63393,7 +63387,11 @@ var staticRenderFns = [
                         },
                         [_vm._v("#")]
                       ),
-                      _vm._v("\n                    1\n                ")
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(index + 1) +
+                          "\n                "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -63413,7 +63411,9 @@ var staticRenderFns = [
                         [_vm._v("Tangal")]
                       ),
                       _vm._v(
-                        "\n                    11-01-2020\n                "
+                        "\n                    " +
+                          _vm._s(p.tanggal_kirim) +
+                          "\n                "
                       )
                     ]
                   ),
@@ -63433,7 +63433,11 @@ var staticRenderFns = [
                         },
                         [_vm._v("Waktu")]
                       ),
-                      _vm._v("\n                    Pagi\n                ")
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(p.waktu_kirim) +
+                          "\n                "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -63452,7 +63456,11 @@ var staticRenderFns = [
                         },
                         [_vm._v("Porsi")]
                       ),
-                      _vm._v("\n                    1\n                ")
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(p.porsi) +
+                          "\n                "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -63471,7 +63479,11 @@ var staticRenderFns = [
                         },
                         [_vm._v("Alamat")]
                       ),
-                      _vm._v("\n                    Rumah\n                ")
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(p.lokasi) +
+                          "\n                "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -63490,7 +63502,11 @@ var staticRenderFns = [
                         },
                         [_vm._v("Catatn Pelanggan")]
                       ),
-                      _vm._v("\n                    -\n                ")
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(p.catatan_pelanggan || "-") +
+                          "\n                "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -63509,7 +63525,11 @@ var staticRenderFns = [
                         },
                         [_vm._v("Catatan Kurir")]
                       ),
-                      _vm._v("\n                    -\n                ")
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(p.catatan_kurir || "-") +
+                          "\n                "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -63533,54 +63553,157 @@ var staticRenderFns = [
                         "span",
                         {
                           staticClass:
-                            "rounded bg-yellow-400 py-2 px-3 text-gray-50 text-xs font-bold"
+                            "rounded py-2 px-3 text-gray-50 text-xs font-bold",
+                          class: {
+                            "bg-yellow-400": p.status == "pending",
+                            "bg-green-400": p.status == "terkirim"
+                          }
                         },
-                        [_vm._v("pending")]
+                        [_vm._v(_vm._s(p.status))]
                       )
                     ]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "td",
-                    {
-                      staticClass:
-                        "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
-                    },
-                    [
-                      _c(
-                        "span",
-                        {
-                          staticClass:
-                            "lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase"
-                        },
-                        [_vm._v("Actions")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass:
-                            "text-blue-400 hover:text-blue-600 underline",
-                          attrs: { href: "#" }
-                        },
-                        [_vm._v("Edit")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass:
-                            "text-blue-400 hover:text-blue-600 underline pl-6",
-                          attrs: { href: "#" }
-                        },
-                        [_vm._v("Remove")]
-                      )
-                    ]
-                  )
+                  _vm._m(1, true)
                 ]
               )
-            ])
-          ]
+            }),
+            0
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("Loader", { attrs: { start: _vm.loader } })
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("#")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("Tanggal")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("Waktu")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("Porsi")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("Alamat")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("Catatan Pelanggan")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("Catatan Kurir")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("Status")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell"
+          },
+          [_vm._v("Opsi")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "td",
+      {
+        staticClass:
+          "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
+      },
+      [
+        _c(
+          "span",
+          {
+            staticClass:
+              "lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase"
+          },
+          [_vm._v("Actions")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "text-blue-400 hover:text-blue-600 underline",
+            attrs: { href: "#" }
+          },
+          [_vm._v("Edit")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "text-blue-400 hover:text-blue-600 underline pl-6",
+            attrs: { href: "#" }
+          },
+          [_vm._v("Remove")]
         )
       ]
     )
@@ -63643,7 +63766,7 @@ var render = function() {
             _c(
               "div",
               { staticClass: "row my-10" },
-              [_c("profile-pengantaran")],
+              [_c("profile-pengantaran", { attrs: { user: _vm.user } })],
               1
             )
           ]
@@ -63763,6 +63886,95 @@ var render = function() {
                   }
                 },
                 [
+                  _c("div", { staticClass: "mt-2 mb-2" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-sm font-medium text-gray-700",
+                        attrs: { for: "id_paket" }
+                      },
+                      [_vm._v("Pilih Paket")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.id_pembelian,
+                            expression: "id_pembelian"
+                          }
+                        ],
+                        staticClass:
+                          "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                        attrs: {
+                          id: "id_paket",
+                          name: "id_paket",
+                          autocomplete: "id_paket"
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.id_pembelian = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "option",
+                          { attrs: { value: "0", hidden: "", disabled: "" } },
+                          [_vm._v("-- Pilih Paket --")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.paket, function(p) {
+                          return _c(
+                            "option",
+                            {
+                              key: p.id_pembelian,
+                              domProps: { value: p.id_pembelian }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(p.id_pembelian) +
+                                  " - " +
+                                  _vm._s(p.paket) +
+                                  " (Sisa porsi: " +
+                                  _vm._s(p.porsi) +
+                                  ")"
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.errors["alamat"]
+                      ? _c(
+                          "p",
+                          { staticClass: "mt-1 text-sm text-red-400 italic" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.errors.alamat[0]) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
                   _c("div", { staticClass: "mt-2" }, [
                     _c(
                       "label",
@@ -63810,60 +64022,6 @@ var render = function() {
                             _vm._v(
                               "\n                    " +
                                 _vm._s(_vm.errors.tanggal[0]) +
-                                "\n                "
-                            )
-                          ]
-                        )
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-2" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "block text-sm font-medium text-gray-700",
-                        attrs: { for: "porsi" }
-                      },
-                      [_vm._v("Porsi Pengantaran")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.porsi,
-                          expression: "porsi"
-                        }
-                      ],
-                      staticClass:
-                        "focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2",
-                      attrs: {
-                        type: "number",
-                        name: "porsi",
-                        id: "porsi",
-                        autocomplete: "given-name",
-                        placeholder: "Porsi Pengantaran"
-                      },
-                      domProps: { value: _vm.porsi },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.porsi = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors["porsi"]
-                      ? _c(
-                          "p",
-                          { staticClass: "mt-1 text-sm text-red-400 italic" },
-                          [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(_vm.errors.porsi[0]) +
                                 "\n                "
                             )
                           ]
@@ -63971,6 +64129,14 @@ var render = function() {
                     _c(
                       "select",
                       {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.lokasi,
+                            expression: "lokasi"
+                          }
+                        ],
                         staticClass:
                           "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
                         attrs: {
@@ -63978,7 +64144,24 @@ var render = function() {
                           name: "alamat",
                           autocomplete: "alamat"
                         },
-                        on: { change: _vm.pilihAlamat }
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.lokasi = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            _vm.pilihAlamat
+                          ]
+                        }
                       },
                       [
                         _c(
@@ -64048,6 +64231,60 @@ var render = function() {
                         }
                       }
                     })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-2" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-sm font-medium text-gray-700",
+                        attrs: { for: "porsi" }
+                      },
+                      [_vm._v("Porsi Pengantaran")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.porsi,
+                          expression: "porsi"
+                        }
+                      ],
+                      staticClass:
+                        "focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2",
+                      attrs: {
+                        type: "number",
+                        name: "porsi",
+                        id: "porsi",
+                        autocomplete: "given-name",
+                        placeholder: "Porsi Pengantaran"
+                      },
+                      domProps: { value: _vm.porsi },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.porsi = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors["porsi"]
+                      ? _c(
+                          "p",
+                          { staticClass: "mt-1 text-sm text-red-400 italic" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.errors.porsi[0]) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "mt-2" }, [

@@ -60,17 +60,12 @@
 
                     <form action="{{ url('pesanan/cari') }}" method="get">
                         <div class="input-group" style="max-width: 300px !important;">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="far fa-calendar-alt"></i> 
-                                    </span>
-                                </div>
-                                <input data-toggle="datepicker" class="form-control" placeholder="Pilih tanggal" type="text" name="tanggal" autocomplete="off">
-                                <div class="input-group-append">
-                                    <button type="submit" class="input-group-text" id="basic-addon2">
-                                        <i class="fas fa-search"></i> 
-                                    </button>
-                                </div>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="far fa-calendar-alt"></i> 
+                                </span>
+                            </div>
+                            <input data-toggle="datepicker" class="form-control" placeholder="Pilih tanggal" type="text" name="tanggal" autocomplete="off">
                         </div>
                     </form>
                 </div>
@@ -83,13 +78,14 @@
                         <div class="row p-4">
                             <div class="col-12">
                                 <table id="tabelPagi" class="table table-bordered table-striped">
-                                    <thead>
+                                <thead>
                                         <tr>
                                             <th>Pelanggan</th>
                                             <th>Paket</th>
-                                            <th>Porsi</th>
+                                            <th>Porsi Pengiriman</th>
                                             <th>Alergi/Keterangan</th>
-                                            <th>Catatan</th>
+                                            <th>Catatan Pelanggan</th>
+                                            <th>Sisa Porsi</th>
                                             <th>Opsi</th>
                                         </tr>
                                     </thead>
@@ -113,8 +109,11 @@
                                                         {{ $p->catatan_pelanggan ? $p->catatan_pelanggan : '-' }}
                                                     </td>
                                                     <td>
-                                                        <a href="#" class="btn btn-xs bg-warning" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#" class="btn btn-xs bg-danger" data-toggle="modal" data-target="#modal-hapus"><i class="fas fa-trash"></i></a>
+                                                        {{ $p->sisa_porsi }}
+                                                    </td>
+                                                    <td class="d-flex">
+                                                        <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" data-id="{{ $p->id }}" onclick="siapAntar(this)">Siap</button>
+                                                        <button class="btn btn-block btn-sm btn-success" style="white-space: nowrap;" data-id="{{ $p->id }}" data-toggle="modal" data-target="#modal-ganti">Ganti Jadwal</button>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -135,9 +134,10 @@
                                         <tr>
                                             <th>Pelanggan</th>
                                             <th>Paket</th>
-                                            <th>Porsi</th>
+                                            <th>Porsi Pengiriman</th>
                                             <th>Alergi/Keterangan</th>
-                                            <th>Catatan</th>
+                                            <th>Catatan Pelanggan</th>
+                                            <th>Sisa Porsi</th>
                                             <th>Opsi</th>
                                         </tr>
                                     </thead>
@@ -161,8 +161,11 @@
                                                         {{ $p->catatan_pelanggan ? $p->catatan_pelanggan : '-' }}
                                                     </td>
                                                     <td>
-                                                        <a href="#" class="btn btn-xs bg-warning" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#" class="btn btn-xs bg-danger" data-toggle="modal" data-target="#modal-hapus"><i class="fas fa-trash"></i></a>
+                                                        {{ $p->sisa_porsi }}
+                                                    </td>
+                                                    <td class="d-flex">
+                                                        <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" data-id="{{ $p->id }}" onclick="siapAntar(this)">Siap</button>
+                                                        <button class="btn btn-block btn-sm btn-success" style="white-space: nowrap;" data-id="{{ $p->id }}" data-toggle="modal" data-target="#modal-ganti">Ganti Jadwal</button>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -179,13 +182,14 @@
                         <div class="row p-4">
                             <div class="col-md-12">
                                 <table id="tabelSore" class="table table-bordered table-striped">
-                                    <thead>
+                                <thead>
                                         <tr>
                                             <th>Pelanggan</th>
                                             <th>Paket</th>
-                                            <th>Porsi</th>
+                                            <th>Porsi Pengiriman</th>
                                             <th>Alergi/Keterangan</th>
-                                            <th>Catatan</th>
+                                            <th>Catatan Pelanggan</th>
+                                            <th>Sisa Porsi</th>
                                             <th>Opsi</th>
                                         </tr>
                                     </thead>
@@ -209,8 +213,11 @@
                                                         {{ $p->catatan_pelanggan ? $p->catatan_pelanggan : '-' }}
                                                     </td>
                                                     <td>
-                                                        <a href="#" class="btn btn-xs bg-warning" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#" class="btn btn-xs bg-danger" data-toggle="modal" data-target="#modal-hapus"><i class="fas fa-trash"></i></a>
+                                                        {{ $p->sisa_porsi }}
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" data-id="{{ $p->id }}" onclick="siapAntar(this)">Siap</button>
+                                                        <button class="btn btn-block btn-sm btn-success" style="white-space: nowrap;" data-id="{{ $p->id }}" data-toggle="modal" data-target="#modal-ganti">Ganti Jadwal</button>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -233,21 +240,24 @@
 <!-- /.row -->
 
 <!-- MODAL HAPUS DATA-->
-<div class="modal fade" id="modal-hapus">
-    <div class="modal-dialog modal-sm">
+<div class="modal fade" id="modal-ganti">
+    <div class="modal-dialog">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Pesanan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="modal-header">
+                <h4 class="modal-title">Ganti Jadwal Pesanan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="">
                 <div class="modal-body">
-                    <p>Yakin akan menghapus pesanan atas nama <b>Olly Rizqi Hanifah</b>?</p>
+                    <label for="tanggal">Pilih Tanggal</label>
+                    <input type="date" name="tanggal" id="tanggal" class="form-control">
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger toastrHapusSuccess">Hapus</button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Ganti Jadwal</button>
                 </div>
+            </form>
         </div>
         <!-- /.modal-content -->
     </div>
@@ -289,7 +299,8 @@
 
         const time = new Date()
         const hours = time.getHours();
-        if (hours < 7 && hours >= 17) {
+
+        if (hours >= 17  && hours < 7) {
             const tabPagi = document.getElementById('pagi');
             const hrefPagi = document.querySelector('[href="#pagi"]');
             tabPagi.classList.add('active');
@@ -310,6 +321,41 @@
     $('[data-toggle="datepicker"]').datepicker({
         format: 'yyyy-mm-dd',
     });
+    
+    $('[data-toggle="datepicker"]').on('pick.datepicker', function (e) {
+        // Y-m-d = 2021-01-18
+        let time = e.date;
+        
+        let year = time.getFullYear();
+        let month = time.getMonth();
+        let date = time.getDate();
+        
+        // format month
+        if (month < 9) {
+            month = '0' + (month + 1);
+        } else {
+            month = month + 1;
+        }
+
+        // format date
+        if (date < 10) {
+            date = '0' + (date);
+        }
+
+        e.target.value = `${year}-${month}-${date}`;
+        e.target.parentElement.parentElement.submit();
+    })
+
+    function siapAntar(element) {
+        axios.post('/pengantaran/serve', {
+            id_pesanan: element.dataset.id,
+        })
+            .then(({ data }) => {
+                if (data.success) {
+                    toastr.success(data.message);
+                }
+            })
+    }
 
     const pesananMenu = document.getElementById('pesanan-menu');
     pesananMenu.classList.add('active');

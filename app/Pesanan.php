@@ -19,6 +19,6 @@ class Pesanan extends Model
 
     protected $fillable = [
         'id_pembelian', 'tanggal_kirim', 'waktu_kirim', 'alamat', 'porsi',
-        'catatan_pelanggan', 'catatan_kurir',
+        'catatan_pelanggan', 'catatan_kurir', 'status', 'lokasi',
     ];
 }

@@ -341,17 +341,17 @@
 @if (session('status'))
 <script>
     const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-        })
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+    })
 
-        Toast.fire({
-            icon: 'success',
-            title: @json(session('status')),
-        })
+    Toast.fire({
+        icon: 'success',
+        title: @json(session('status')),
+    })
 </script>
 @endif
 @endpush

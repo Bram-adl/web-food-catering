@@ -6,6 +6,7 @@ use App\Http\Requests\StorePengantaran;
 use App\Http\Requests\UpdatePelanggan;
 use App\Pelanggan;
 use App\Pembelian;
+use App\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,26 @@ class ProfileController extends Controller
             'kecamatan' => DB::table('kecamatan')->get(),
             'kelurahan' => DB::table('kelurahan')->get(),
         ]);
+    }
+
+    public function profilePengantaran($id)
+    {
+        $pengantaran = DB::table('pengantaran AS pg')
+                            ->join('pesanan AS ps', 'ps.id', 'pg.id_pesanan')
+                            ->join('pembelian AS pb', 'pb.id', 'ps.id_pembelian')
+                            ->join('pelanggan AS pl', 'pl.id', 'pb.id_pelanggan')
+                            ->join('paket AS pk', 'pk.id', 'pb.id_paket')
+                            ->select(
+                                'pg.id', 'ps.tanggal_kirim', 'ps.waktu_kirim',
+                                'ps.porsi', 'ps.lokasi', 'pg.status',
+                                'ps.catatan_pelanggan', 'pg.catatan_kurir', 
+                            )
+                            ->where([
+                                ['pl.id', Auth::user()->id],
+                            ])
+                            ->get();
+
+        return $pengantaran;
     }
 
     /**
@@ -116,6 +137,23 @@ class ProfileController extends Controller
      */
     public function storePengantaran(StorePengantaran $request, $id)
     {
+        $validated = $request->validated();
+        
         // simpan pengantaran
+        Pesanan::create([
+            'id_pembelian' => $validated['id_pembelian'],
+            'tanggal_kirim' => $validated['tanggal_kirim'],
+            'waktu_kirim' => $validated['waktu_kirim'],
+            'alamat' => $validated['alamat'],
+            'porsi' => $validated['porsi'],
+            'catatan_pelanggan' => $validated['catatan_pelanggan'] ? $validated['catatan_pelanggan'] : '-',
+            'catatan_kurir' => '-',
+            'status' => 'pending',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil membuat request!',
+        ]);
     }
 }

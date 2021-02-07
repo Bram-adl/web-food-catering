@@ -28,10 +28,13 @@ class PesananController extends Controller
                     ->join('pelanggan AS pl', 'pl.id', 'pb.id_pelanggan')
                     ->join('paket AS pk', 'pk.id', 'pb.id_paket')
                     ->select(
-                        'pl.nama AS nama', 'pk.paket AS paket', 'ps.porsi AS porsi', 'pl.wa', 'ps.waktu_kirim AS waktu_kirim',
-                        'pl.keterangan AS keterangan', 'ps.catatan_pelanggan AS catatan_pelanggan', 'ps.tanggal_kirim AS tanggal_kirim',
+                        'ps.id', 'pl.nama', 'pk.paket AS paket', 'ps.porsi', 'pl.wa', 'ps.waktu_kirim', 'pb.porsi AS sisa_porsi',
+                        'pl.keterangan', 'ps.catatan_pelanggan', 'ps.tanggal_kirim',
                     )
-                    ->where('tanggal_kirim', date('Y-m-d', strtotime('today')))
+                    ->where([
+                        'ps.tanggal_kirim' => date('Y-m-d', strtotime('today')),
+                        'ps.status' => 'belum',
+                    ])
                     ->get();
         
         return view('admin.pesanan.index', [
@@ -50,10 +53,13 @@ class PesananController extends Controller
                     ->join('pelanggan AS pl', 'pl.id', 'pb.id_pelanggan')
                     ->join('paket AS pk', 'pk.id', 'pb.id_paket')
                     ->select(
-                        'pl.nama AS nama', 'pk.paket AS paket', 'ps.porsi AS porsi', 'pl.wa', 'ps.waktu_kirim AS waktu_kirim',
-                        'pl.keterangan AS keterangan', 'ps.catatan_pelanggan AS catatan_pelanggan', 'ps.tanggal_kirim AS tanggal_kirim',
+                        'ps.id', 'pl.nama', 'pk.paket AS paket', 'ps.porsi', 'pl.wa', 'ps.waktu_kirim', 'pb.porsi AS sisa_porsi',
+                        'pl.keterangan', 'ps.catatan_pelanggan', 'ps.tanggal_kirim',
                     )
-                    ->where('tanggal_kirim', $tanggal_kirim)
+                    ->where([
+                        'ps.tanggal_kirim' => $tanggal_kirim,
+                        'ps.status' => 'belum',
+                    ])
                     ->get();
         
         return view('admin.pesanan.index', [
@@ -63,14 +69,9 @@ class PesananController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function serve()
     {
-        //
+        return "ok";
     }
 
     /**

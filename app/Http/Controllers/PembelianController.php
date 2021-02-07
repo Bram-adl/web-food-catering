@@ -13,6 +13,23 @@ use Illuminate\Support\Facades\DB;
 
 class PembelianController extends Controller
 { 
+    public function listPembelian($id)
+    {
+        $pembelian = DB::table('pembelian')
+                        ->join('paket', 'paket.id', 'pembelian.id_paket')
+                        ->select('pembelian.id AS id_pembelian', 'paket.paket', 'pembelian.porsi')
+                        ->where([
+                            'id_pelanggan' => $id,
+                            'status' => 'Aktif',
+                        ])
+                        ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $pembelian,
+        ]);
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -36,6 +53,7 @@ class PembelianController extends Controller
             'waktu_pengiriman' => $request->waktu_pengiriman,
             'tanggal_mulai' => $request->tanggal_mulai,
             'kode_unik' => $kode_unik,
+            'porsi' => Paket::find($request->id_paket)->porsi,
         ]);
 
         return response()->json([

@@ -40,19 +40,22 @@
                 @storePengantaran="storePengantaran"
                 @closeModal="closeModal"
             >
+                <div class="mt-2 mb-2">
+                    <label for="id_paket" class="block text-sm font-medium text-gray-700">Pilih Paket</label>
+                    <select id="id_paket" name="id_paket" autocomplete="id_paket" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="id_pembelian">
+                        <option value="0" hidden disabled>-- Pilih Paket --</option>
+                        <option :value="p.id_pembelian" v-for="p in paket" :key="p.id_pembelian">{{ p.id_pembelian }} - {{ p.paket }} (Sisa porsi: {{ p.porsi }})</option>
+                    </select>
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['alamat']">
+                        {{ errors.alamat[0] }}
+                    </p>
+                </div>
+            
                 <div class="mt-2">
                     <label for="tanggal" class="block text-sm font-medium text-gray-700">Tanggal Pengantaran</label>
                     <input type="date" name="tanggal" id="tanggal" autocomplete="given-name" class="focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2" placeholder="Tanggal Pengantaran" v-model="tanggal">
                     <p class="mt-1 text-sm text-red-400 italic" v-if="errors['tanggal']">
                         {{ errors.tanggal[0] }}
-                    </p>
-                </div>
-
-                <div class="mt-2">
-                    <label for="porsi" class="block text-sm font-medium text-gray-700">Porsi Pengantaran</label>
-                    <input type="number" name="porsi" id="porsi" autocomplete="given-name" class="focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2" placeholder="Porsi Pengantaran" v-model="porsi">
-                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['porsi']">
-                        {{ errors.porsi[0] }}
                     </p>
                 </div>
 
@@ -71,7 +74,7 @@
 
                 <div class="mt-2 mb-2">
                     <label for="alamat" class="block text-sm font-medium text-gray-700">Diantarkan Ke</label>
-                    <select id="alamat" name="alamat" autocomplete="alamat" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" @change="pilihAlamat">
+                    <select id="alamat" name="alamat" autocomplete="alamat" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" @change="pilihAlamat" v-model="lokasi">
                         <option value="" selected hidden disabled>-- Pilih Alamat --</option>
                         <option value="Rumah">Rumah</option>
                         <option value="Kantor">Kantor</option>
@@ -83,6 +86,14 @@
 
                 <div class="mt-2 mb-2">
                     <textarea id="catatan" name="catatan" rows="3" class="focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2" placeholder="(Alamat pengiriman berdasarkan data di profil kamu)" v-model="alamat"></textarea>
+                </div>
+
+                <div class="mt-2">
+                    <label for="porsi" class="block text-sm font-medium text-gray-700">Porsi Pengantaran</label>
+                    <input type="number" name="porsi" id="porsi" autocomplete="given-name" class="focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2" placeholder="Porsi Pengantaran" v-model="porsi">
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['porsi']">
+                        {{ errors.porsi[0] }}
+                    </p>
                 </div>
             
                 <div class="mt-2">
@@ -130,16 +141,23 @@ export default {
             modal: false,
             loader: false,
 
+            paket: [],
+            id_pembelian: '0',
             tanggal: null,
-            porsi: null,
             waktu: '',
+            lokasi: '',
             alamat: '',
+            porsi: null,
             catatan: null,
 
             errors: [],
 
             defaultAlamat: 'Mohon tuliskan alamat lengkap.',
         }
+    },
+
+    mounted() {
+        this.fetchPaket(this.user.id);
     },
 
     methods: {
@@ -149,6 +167,18 @@ export default {
 
         closeModal() {
             this.modal = false;
+        },
+
+        fetchPaket() {
+            axios.get('/pembelian/' + this.user.id + '/list')
+                .then(({ data}) => {
+                    if (data.success) {
+                        this.paket = data.data;
+                    }
+                })
+                .catch(({ response }) => {
+                    console.log(response.error.message);
+                })
         },
 
         pilihAlamat(e) {
@@ -176,16 +206,25 @@ export default {
             }
 
             axios.post('/profile/' + this.user.id + '/pengantaran/create', {
-                tanggal: this.tanggal,
+                id_pembelian: this.id_pembelian,
+                tanggal_kirim: this.tanggal,
                 porsi: this.porsi,
-                waktu: this.waktu,
+                waktu_kirim: this.waktu,
                 alamat: this.alamat,
-                catatan: this.catatan,
+                catatan_pelanggan: this.catatan,
             })
             .then(({ data }) => {
                 this.loader = false;
 
-                console.log(data);
+                if (data.success) {
+                    Toast.fire({
+                        icon: "success",
+                        title: data.message,
+                    });
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                }
             })
             .catch(({ response }) => {
                 this.loader = false;

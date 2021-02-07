@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -23,35 +24,5 @@ class DashboardController extends Controller
         return view('admin.dashboard', [
             'user' => $user,
         ]);
-    }
-
-    /**
-     * Return the profil page.
-     * 
-     * @return view
-     */
-    public function profil($id)
-    {
-        return view('admin.profil', ['id' => $id]);
-    }
-
-    /**
-     * Return the pesanan page.
-     * 
-     * @return view
-     */
-    public function pesanan()
-    {
-        return view('admin.pesanan');
-    }
-
-    /**
-     * Return the pengantaran page.
-     * 
-     * @return view
-     */
-    public function pengantaran()
-    {
-        return view('admin.pengantaran');
     }
 }

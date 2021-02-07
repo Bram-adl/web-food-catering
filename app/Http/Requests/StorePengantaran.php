@@ -24,11 +24,12 @@ class StorePengantaran extends FormRequest
     public function rules()
     {
         return [
-            'tanggal' => 'required|date|after:today',
+            'id_pembelian' => 'required',
+            'tanggal_kirim' => 'required|date|after:today',
             'porsi' => 'required|numeric|min:1',
-            'waktu' => 'required|string',
+            'waktu_kirim' => 'required|string',
             'alamat' => 'required|string',
-            'catatan' => 'nullable|string',
+            'catatan_pelanggan' => 'nullable|string',
         ];
     }
 
@@ -40,11 +41,12 @@ class StorePengantaran extends FormRequest
     public function messages()
     {
         return [
-            'tanggal.required' => 'Mohon mengisi tanggal.',
-            'tanggal.after' => 'Pengiriman hanya dapat dilakukan mulai besok hari.',
+            'id_pembelian.required' => 'Mohon memilih paket.',
+            'tanggal_kirim.required' => 'Mohon mengisi tanggal.',
+            'tanggal_kirim.after' => 'Pengiriman hanya dapat dilakukan mulai besok hari.',
             'porsi.required' => 'Mohon mengisi jumlah porsi.',
             'porsi.min' => 'Minimum 1 porsi pengantaran.',
-            'waktu.required' => 'Mohon mengisi waktu pengiriman.',
+            'waktu_kirim.required' => 'Mohon mengisi waktu pengiriman.',
             'alamat.required' => 'Mohon mengisi alamat pengiriman',
         ];
     }
