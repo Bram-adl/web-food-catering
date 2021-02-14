@@ -18,6 +18,6 @@ class Pengantaran extends Model
     protected $table = 'pengantaran';
 
     protected $fillable = [
-        'id_pesanan', 'keterangan', 'id_personel'
+        'id_pesanan', 'id_personel', 'catatan_kurir', 'status'
     ];
 }

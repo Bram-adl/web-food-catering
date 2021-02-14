@@ -112,8 +112,11 @@
                                                         {{ $p->sisa_porsi }}
                                                     </td>
                                                     <td class="d-flex">
-                                                        <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" data-id="{{ $p->id }}" onclick="siapAntar(this)">Siap</button>
-                                                        <button class="btn btn-block btn-sm btn-success" style="white-space: nowrap;" data-id="{{ $p->id }}" data-toggle="modal" data-target="#modal-ganti">Ganti Jadwal</button>
+                                                        <form action="/pesanan/serve/{{ $p->id }}" method="POST">
+                                                            @csrf
+                                                            <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" type="submit">Siap</button>
+                                                        </form>
+                                                        <a href="/pesanan/ganti_jadwal/{{ $p->id }}" class="btn btn-block btn-sm btn-success" style="white-space: nowrap;">Ganti Jadwal</a>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -164,8 +167,11 @@
                                                         {{ $p->sisa_porsi }}
                                                     </td>
                                                     <td class="d-flex">
-                                                        <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" data-id="{{ $p->id }}" onclick="siapAntar(this)">Siap</button>
-                                                        <button class="btn btn-block btn-sm btn-success" style="white-space: nowrap;" data-id="{{ $p->id }}" data-toggle="modal" data-target="#modal-ganti">Ganti Jadwal</button>
+                                                        <form action="/pesanan/serve/{{ $p->id }}" method="POST">
+                                                            @csrf
+                                                            <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" type="submit">Siap</button>
+                                                        </form>
+                                                        <a href="/pesanan/ganti_jadwal/{{ $p->id }}" class="btn btn-block btn-sm btn-success" style="white-space: nowrap;">Ganti Jadwal</a>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -216,8 +222,11 @@
                                                         {{ $p->sisa_porsi }}
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" data-id="{{ $p->id }}" onclick="siapAntar(this)">Siap</button>
-                                                        <button class="btn btn-block btn-sm btn-success" style="white-space: nowrap;" data-id="{{ $p->id }}" data-toggle="modal" data-target="#modal-ganti">Ganti Jadwal</button>
+                                                        <form action="/pesanan/serve/{{ $p->id }}" method="POST">
+                                                            @csrf
+                                                            <button class="btn btn-block btn-sm btn-primary" style="white-space: nowrap;" type="submit">Siap</button>
+                                                        </form>
+                                                        <a href="/pesanan/ganti_jadwal/{{ $p->id }}" class="btn btn-block btn-sm btn-success" style="white-space: nowrap;">Ganti Jadwal</a>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -238,32 +247,6 @@
     <!-- /.col -->
 </div>
 <!-- /.row -->
-
-<!-- MODAL HAPUS DATA-->
-<div class="modal fade" id="modal-ganti">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Ganti Jadwal Pesanan</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="">
-                <div class="modal-body">
-                    <label for="tanggal">Pilih Tanggal</label>
-                    <input type="date" name="tanggal" id="tanggal" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Ganti Jadwal</button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal hapus data-->
 @endsection
 
 @push('scripts')
@@ -399,4 +382,10 @@
         });
     });
 </script>
+
+@if (session('status'))
+    <script>
+        toastr.success(@json(session('status')));
+    </script>
+@endif
 @endpush

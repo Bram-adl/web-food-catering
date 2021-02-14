@@ -80,12 +80,16 @@ Route::post('/pembelian/batalkan/{id}', 'Admin\PembelianController@batalkan');
 Route::post('/pembelian/selesai/{id}', 'Admin\PembelianController@selesai');
 
 Route::get('/pesanan/cari', 'Admin\PesananController@tanggal');
-
-Route::get('/pesanan/serve', 'Admin\PesananController@serve');
+Route::get('/pesanan/ganti_jadwal/{id}', 'Admin\PesananController@editJadwal');
+Route::put('/pesanan/ganti_jadwal/{id}', 'Admin\PesananController@updateJadwal');
+Route::post('/pesanan/serve/{id}', 'Admin\PesananController@serve');
 
 Route::post('/profil/{id}/edit/biodata', 'Admin\ProfilController@editBiodata');
 Route::post('/profil/{id}/edit/foto', 'Admin\ProfilController@editFoto');
 Route::post('/profil/{id}/edit/password', 'Admin\ProfilController@editPassword');
+
+Route::post('/pengantaran/checked/{id}', 'Admin\PengantaranController@store');
+Route::post('/pengantaran/unchecked/{id}', 'Admin\PengantaranController@update');
 
 /**
  * Middlewares Routes

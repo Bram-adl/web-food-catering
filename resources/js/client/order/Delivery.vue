@@ -45,7 +45,7 @@
 
                     <div class="row py-4 px-4 text-sm font-light">
                         <p>Dikirim melalui rute dari tempat terdekat ke tempat terjauh. Kurir akan mengabari sebelum mengantarkan katering ke lokasimu.</p>
-                        <p>Untuk <strong>hari minggu</strong> dan <strong>tanggal merah</strong> lainnya libur. Pastikan kamu tidak memulai pada tanggal merah sesuai kalendar.</p>
+                        <p>Untuk <strong>hari minggu</strong> dan <strong>tanggal merah</strong> lainnya libur. <span style="color: red;">Pastikan kamu tidak memulai pada tanggal merah sesuai kalendar.</span></p>
                     </div>
                 </div>
 

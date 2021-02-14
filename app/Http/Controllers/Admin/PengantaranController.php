@@ -65,21 +65,24 @@ class PengantaranController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        // mengubah status pesanan menjadi siap
-        DB::table('pesanan')->where('id', $request->id_pesanan)
-        ->update([
-            'status' => 'siap',
-        ]);
-    
-        Pengantaran::create([
-            'id_pesanan' => $request->id_pesanan,
-        ]);
+        $pengantaran = Pengantaran::find($id);
+        $pesanan = Pesanan::find($pengantaran->id_pesanan);
+        $pembelian = Pembelian::find($pesanan->id_pembelian);
+
+        // mengurangi jumlah porsi pembelian sebanyak porsi pengantaran
+        $pembelian->porsi = $pembelian->porsi - $request->jml_porsi;
+        $pembelian->save();
+        
+        $pengantaran = Pengantaran::find($id);
+        $pengantaran->catatan_kurir = $request->catatan_kurir;
+        $pengantaran->status = $request->status;
+        $pengantaran->save();
         
         return response()->json([
             'success' => true,
-            'message' => 'Pesanan siap diantarkan!',
+            'message' => 'Pesanan telah dikirimkan!',
         ]);
     }
 
@@ -93,62 +96,21 @@ class PengantaranController extends Controller
     public function update(Request $request, $id)
     {
         $pengantaran = Pengantaran::find($id);
+        $pesanan = Pesanan::find($pengantaran->id_pesanan);
+        $pembelian = Pembelian::find($pesanan->id_pembelian);
 
-        $pengantaran->id_personel = Auth::guard('personel')->user()->id;
+        // mengurangi jumlah porsi pembelian sebanyak porsi pengantaran
+        $pembelian->porsi = $pembelian->porsi + $request->jml_porsi;
+        $pembelian->save();
+        
+        $pengantaran = Pengantaran::find($id);
         $pengantaran->catatan_kurir = $request->catatan_kurir;
         $pengantaran->status = $request->status;
-        
         $pengantaran->save();
-
-        // mengupdate jumlah porsi pembeliannya
-        if ($pengantaran->status == 'terkirim') {
-            $pesanan = DB::table('pesanan')->where('id', $pengantaran->id_pesanan)->get();
-            $id_pembelian = $pesanan[0]->id_pembelian;
-
-            $pembelian = DB::table('pembelian')
-                            ->where('id', $id_pembelian)
-                            ->get();
-            $porsi = $pembelian[0]->porsi;
-
-            if ($porsi != 1) {
-                DB::table('pembelian')
-                    ->where('id', $id_pembelian)
-                    ->update([
-                        'porsi' => $porsi - $pesanan[0]->porsi
-                    ]);
-            } else {
-                DB::table('pembelian')
-                    ->where('id', $id_pembelian)
-                    ->update([
-                        'porsi' => $porsi - $pesanan[0]->porsi
-                    ]);
-                
-                DB::table('pembelian')
-                    ->where('id', $id_pembelian)
-                    ->update([
-                        'status' => 'Selesai',
-                    ]);
-
-                DB::table('pesanan')
-                    ->where('id_pembelian', $id_pembelian)
-                    ->delete();
-            }
-        }
-
+        
         return response()->json([
             'success' => true,
-            'message' => 'Berhasil menyimpan pengantaran!',
+            'message' => 'Pesanan sedang diedit!',
         ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Pelanggan;
+use App\Pengantaran;
 use App\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,53 +70,47 @@ class PesananController extends Controller
         ]);
     }
 
-    public function serve()
+    public function editJadwal($id)
     {
-        return "ok";
+        $pesanan = Pesanan::find($id);
+        $tanggal_terakhir = DB::table('pesanan')->latest('tanggal_kirim')->get();
+        
+        return view('admin.pesanan.edit', [
+            'user' => Auth::guard('personel')->user(),
+            'pesanan' => $pesanan,
+            'tanggal_terakhir' => $tanggal_terakhir,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function updateJadwal(Request $request, $id)
     {
-        //
+        $pesanan = Pesanan::find($id);
+        
+        $request->validate([
+            'tanggal_baru' => 'required|date',
+        ]);
+
+        $pesanan->tanggal_kirim = $request->tanggal_baru;
+        $pesanan->save();
+
+        return redirect()
+                ->route('pesanan.index')
+                ->with('status', 'Berhasil memperbaharui tanggal pengiriman pesanan!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function serve($id)
     {
-        //
-    }
+        $pesanan = Pesanan::find($id);
+        $pesanan->status = 'siap';
+        $pesanan->save();
+        
+        Pengantaran::create([
+            'id_pesanan' => $id,
+            'id_personel' => null,
+            'catatan_kurir' => null,
+            'status' => 'pending',
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect()->back()->with('status', 'Berhasil menyiapkan hidangan!');
     }
 }

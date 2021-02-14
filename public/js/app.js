@@ -62452,9 +62452,12 @@ var staticRenderFns = [
             _c("strong", [_vm._v("hari minggu")]),
             _vm._v(" dan "),
             _c("strong", [_vm._v("tanggal merah")]),
-            _vm._v(
-              " lainnya libur. Pastikan kamu tidak memulai pada tanggal merah sesuai kalendar."
-            )
+            _vm._v(" lainnya libur. "),
+            _c("span", { staticStyle: { color: "red" } }, [
+              _vm._v(
+                "Pastikan kamu tidak memulai pada tanggal merah sesuai kalendar."
+              )
+            ])
           ])
         ])
       ]

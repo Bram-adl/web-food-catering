@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{{ asset('front-end-admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
 <!-- overlayScrollbars -->
 <link rel="stylesheet" href="{{ asset('front-end-admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+<!-- Toastr -->
+<link rel="stylesheet" href="{{ asset('front-end-admin/plugins/toastr/toastr.min.css') }}">
 @endpush
 
 @section('content-header')
@@ -49,7 +51,7 @@
                                 </span>
                                 <!-- checkbox -->
                                 <div  class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" {{ $p->status == 'terkirim' ? 'checked' : '' }} name="{{ $p->id }}" id="{{ $p->id }}" onchange="selesaiPengiriman(this)">
+                                    <input type="checkbox" {{ $p->status == 'terkirim' ? 'checked' : '' }} name="{{ $p->id }}" data-porsi="{{ $p->porsi_pemesanan }}" id="{{ $p->id }}" onchange="selesaiPengiriman(this)">
                                     <label for="{{ $p->id }}"></label>
                                 </div>
                                 <!-- text -->
@@ -83,7 +85,7 @@
                                 <span class="text">|</span>
                                 <span class="text">
                                         <form>
-                                            <input type="text" name="keterangan" class="form-control" placeholder="Ex: Dikasih ke pengemis" value="{{ $p->catatan_kurir }}">
+                                            <input type="text" name="keterangan" class="form-control" placeholder="Ex: Dikasih ke pengemis" value="{{ $p->catatan_kurir }}" >
                                         </form>
                                 </span>
                             </li>
@@ -129,42 +131,36 @@
 <script src="{{ asset('front-end-admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('front-end-admin/js/pages/dashboard.js') }}"></script>
+<!-- Toastr -->
+<script src="{{ asset('front-end-admin/plugins/toastr/toastr.min.js') }}"></script>
 
 <script>
     function selesaiPengiriman(element) {
-        if (!element.checked) {
-            let ganti = confirm('Ubah data pengantaran?');
+        let jml_porsi = element.dataset.porsi;
+        let catatan_kurir = element.parentElement.parentElement.children[element.parentElement.parentElement.children.length - 1].querySelector('input').value;
 
-            if (ganti) {
-                const catatan_kurir = document.querySelector('input[name="keterangan"]').value;
-                
-                // selesai mengirim
-                axios.put('/pengantaran/' + element.id, {
-                    catatan_kurir,
-                    status: 'pending'
+        if ( element.checked ) {    
+            axios.post('/pengantaran/checked/' + element.id, {
+                jml_porsi,
+                catatan_kurir,
+                status: 'terkirim',
+            })
+                .then(({ data }) => {
+                    if (data.success) {
+                        toastr.success(data.message);
+                    }
                 })
-            } else {
-                document.querySelector('input[type="checkbox"]').checked = false;
-            }
         } else {
-            let sudah = confirm('Sudah melakukan pengantaran?');
-
-            if (sudah) {
-                const catatan_kurir = document.querySelector('input[name="keterangan"]').value;
-                
-                // selesai mengirim
-                axios.put('/pengantaran/' + element.id, {
-                    catatan_kurir,
-                    status: 'terkirim'
+            axios.post('/pengantaran/unchecked/' + element.id, {
+                jml_porsi,
+                catatan_kurir,
+                status: 'pending',
+            })
+                .then(({ data }) => {
+                    if (data.success) {
+                        toastr.info(data.message);
+                    }
                 })
-                    .then(({ data }) => {
-                        if (data.success) {
-                            alert('Berhasil menyimpan perubahan!');
-                        }
-                    })
-            } else {
-                document.querySelector('input[type="checkbox"]').checked = false;
-            }
         }
     }
 
