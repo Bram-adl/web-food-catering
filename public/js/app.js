@@ -2955,7 +2955,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProfileTable',
@@ -2987,6 +2986,23 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (_ref2) {
         var response = _ref2.response;
         console.log(response);
+      });
+    },
+    remove: function remove(pesanan) {
+      var _this2 = this;
+
+      axios["delete"]('/profile/' + pesanan.id + '/remove/pesanan').then(function (_ref3) {
+        var data = _ref3.data;
+        console.log(data);
+
+        if (data.success) {
+          Toast.fire({
+            icon: "success",
+            title: data.message
+          });
+
+          _this2.fetchPengantaran();
+        }
       });
     }
   }
@@ -3196,8 +3212,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3281,6 +3295,7 @@ __webpack_require__.r(__webpack_exports__);
         tanggal_kirim: this.tanggal,
         porsi: this.porsi,
         waktu_kirim: this.waktu,
+        lokasi: this.lokasi,
         alamat: this.alamat,
         catatan_pelanggan: this.catatan
       }).then(function (_ref3) {
@@ -63567,7 +63582,39 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm._m(1, true)
+                  _c(
+                    "td",
+                    {
+                      staticClass:
+                        "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase"
+                        },
+                        [_vm._v("Actions")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "text-blue-400 hover:text-blue-600 underline",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.remove(p)
+                            }
+                          }
+                        },
+                        [_vm._v("Remove")]
+                      )
+                    ]
+                  )
                 ]
               )
             }),
@@ -63670,46 +63717,6 @@ var staticRenderFns = [
         )
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "td",
-      {
-        staticClass:
-          "w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static"
-      },
-      [
-        _c(
-          "span",
-          {
-            staticClass:
-              "lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase"
-          },
-          [_vm._v("Actions")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "text-blue-400 hover:text-blue-600 underline",
-            attrs: { href: "#" }
-          },
-          [_vm._v("Edit")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "text-blue-400 hover:text-blue-600 underline pl-6",
-            attrs: { href: "#" }
-          },
-          [_vm._v("Remove")]
-        )
-      ]
-    )
   }
 ]
 render._withStripped = true

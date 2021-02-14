@@ -283,12 +283,12 @@
         const time = new Date()
         const hours = time.getHours();
 
-        if (hours >= 17  && hours < 7) {
+        if (hours >= 17  || hours < 7) {
             const tabPagi = document.getElementById('pagi');
             const hrefPagi = document.querySelector('[href="#pagi"]');
             tabPagi.classList.add('active');
             hrefPagi.classList.add('active');
-        } else if (hours >= 7 && hours < 11) {
+        } else if (hours >= 7 || hours < 11) {
             const tabSiang = document.getElementById('siang');
             const hrefSiang = document.querySelector('[href="#siang"]');
             tabSiang.classList.add('active');

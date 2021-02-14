@@ -6,6 +6,7 @@ use App\Http\Requests\StorePengantaran;
 use App\Http\Requests\UpdatePelanggan;
 use App\Pelanggan;
 use App\Pembelian;
+use App\Pengantaran;
 use App\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -139,21 +140,42 @@ class ProfileController extends Controller
     {
         $validated = $request->validated();
         
-        // simpan pengantaran
-        Pesanan::create([
+        $pesanan = Pesanan::create([
             'id_pembelian' => $validated['id_pembelian'],
             'tanggal_kirim' => $validated['tanggal_kirim'],
             'waktu_kirim' => $validated['waktu_kirim'],
+            'lokasi' => $validated['lokasi'],
             'alamat' => $validated['alamat'],
             'porsi' => $validated['porsi'],
             'catatan_pelanggan' => $validated['catatan_pelanggan'] ? $validated['catatan_pelanggan'] : '-',
-            'catatan_kurir' => '-',
+            'status' => 'belum',
+        ]);
+
+        Pengantaran::create([
+            'id_pesanan' => $pesanan->id,
+            'id_personel' => null,
+            'catatan_kurir' => null,
+            'catatan_pelanggan' => $validated['catatan_pelanggan'],
             'status' => 'pending',
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Berhasil membuat request!',
+        ]);
+    }
+
+    public function removePesanan($id)
+    {   
+        $pengantaran = DB::table('pengantaran')->where('id', $id)->get();
+        $id_pesanan = $pengantaran[0]->id_pesanan;
+
+        $pesanan = DB::table('pesanan')->where('id', $id_pesanan)->delete();
+        $pengantaran = DB::table('pengantaran')->where('id', $id)->delete();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil menghapus pesanan!',
         ]);
     }
 }

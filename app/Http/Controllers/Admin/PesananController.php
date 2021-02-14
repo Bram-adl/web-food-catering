@@ -41,7 +41,7 @@ class PesananController extends Controller
         return view('admin.pesanan.index', [
             'user' => Auth::guard('personel')->user(),
             'pesanan' => $pesanan,
-            'tanggal' => date('d M Y', strtotime('today')),
+            'tanggal' => date('d M Y'),
         ]);
     }
 

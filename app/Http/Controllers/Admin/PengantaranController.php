@@ -28,9 +28,9 @@ class PengantaranController extends Controller
 
         $jam = date('H');
 
-        if ($jam < 7 && $jam >= 17) {
+        if ($jam < 7 || $jam >= 17) {
             $waktu = 'Pagi';
-        } else if ($jam >= 7 && $jam < 11) {
+        } else if ($jam >= 7 || $jam < 11) {
             $waktu = 'Siang';
         } else {
             $waktu = 'Sore';
@@ -73,6 +73,14 @@ class PengantaranController extends Controller
 
         // mengurangi jumlah porsi pembelian sebanyak porsi pengantaran
         $pembelian->porsi = $pembelian->porsi - $request->jml_porsi;
+
+        if ($pembelian->porsi <= 0) {
+            $pembelian->status = 'Selesai';
+
+            $pesanan_terkait = Pesanan::where('id_pembelian', $pembelian->id)->get();
+            $pesanan_terkait->delete();
+        }
+        
         $pembelian->save();
         
         $pengantaran = Pengantaran::find($id);

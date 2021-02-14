@@ -67,7 +67,7 @@
                                 </span>
 
                                 <span class="text">|</span>
-                                    @if ($p->lokasi_pemesanan == 'rumah')
+                                    @if (strtolower($p->lokasi_pemesanan) == 'rumah')
                                         <a href="{{ $p->rumah_maps }}" target="_link">
                                             {{ $p->rumah_teks }}
                                         </a>

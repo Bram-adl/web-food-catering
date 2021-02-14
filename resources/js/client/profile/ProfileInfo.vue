@@ -107,8 +107,6 @@
                         {{ errors.catatan[0] }}
                     </p>
                 </div>
-                
-                
             </modal>
         </transition>
 
@@ -210,6 +208,7 @@ export default {
                 tanggal_kirim: this.tanggal,
                 porsi: this.porsi,
                 waktu_kirim: this.waktu,
+                lokasi: this.lokasi,
                 alamat: this.alamat,
                 catatan_pelanggan: this.catatan,
             })
