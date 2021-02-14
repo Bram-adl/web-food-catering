@@ -21,13 +21,13 @@
         <!-- small box -->
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>5</h3>
+                <h3>{{ $jml_personel }}</h3>
                 <p>Total Personel</p>
             </div>
             <div class="icon">
                 <i class="ion ion-person"></i>
             </div>
-            <a href="personel.html" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/personel" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -35,13 +35,13 @@
         <!-- small box -->
         <div class="small-box bg-success">
             <div class="inner">
-                <h3>22</h3>
+                <h3>{{ $jml_paket }}</h3>
                 <p>Total Paket</p>
             </div>
             <div class="icon">
                 <i class="ion ion-pizza"></i>
             </div>
-            <a href="paket.html" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/paket" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -49,13 +49,13 @@
         <!-- small box -->
         <div class="small-box bg-warning">
             <div class="inner">
-                <h3>1.364</h3>
+                <h3>{{ $jml_pelanggan }}</h3>
                 <p>Total Pelanggan</p>
             </div>
             <div class="icon">
                 <i class="ion ion-heart"></i>
             </div>
-            <a href="pelanggan.html" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/pelanggan" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -63,13 +63,13 @@
         <!-- small box -->
         <div class="small-box bg-danger">
             <div class="inner">
-                <h3>82.543</h3>
+                <h3>{{ $jml_pengiriman }}</h3>
                 <p>Porsi Terkirim</p>
             </div>
             <div class="icon">
                 <i class="ion ion-location"></i>
             </div>
-            <a href="pesanan.html" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="/pengantaran" class="small-box-footer">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
