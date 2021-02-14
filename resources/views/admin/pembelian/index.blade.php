@@ -503,54 +503,57 @@
 <!-- /.row -->
 
 <div class="row">
-    <div class="col-lg-4">
-        <!-- MAP & BOX PANE -->
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                    <h3 class="card-title">Grafik Pembelian Pelanggan</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
+                <h3 class="card-title">Grafik Pembelian Pelanggan</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class=""></div>
+                        </div>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class=""></div>
+                        </div>
                     </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body" style="height: 200px">
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <!-- MAP & BOX PANE -->
-        <div class="card">
-            <div class="card-header">
-                    <h3 class="card-title">Grafik Pembelian Paket</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body" style="height: 200px">
-            </div>
-        </div>
-    </div>
-    <!-- /.col-md-6 -->
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                    <h3 class="card-title">Grafik Status Pembelian</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body" style="height: 200px">
+                    <canvas id="pembelianPelanggan" style="height: 250px; min-height: 250px; display: block; width: 371px;" width="742" height="500" class="chartjs-render-monitor"></canvas>
+                </div>
             </div>
             <!-- /.card-body -->
         </div>
-        <!-- /.card -->
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Grafik Pembelian Paket</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chartjs-size-monitor">
+                    <div class="chartjs-size-monitor-expand">
+                        <div class=""></div>
+                    </div>
+                    <div class="chartjs-size-monitor-shrink">
+                        <div class=""></div>
+                    </div>
+                </div>
+                <canvas id="pembelianPaket" style="height: 230px; min-height: 230px; display: block; width: 371px;" width="742" height="460" class="chartjs-render-monitor"></canvas>
+            </div>
+            <!-- /.card-body -->
+        </div>
     </div>
     <!-- /.col-md-6 -->
 </div>
@@ -661,6 +664,142 @@
 <script src="{{ asset('front-end-admin/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <!-- Toastr -->
 <script src="{{ asset('front-end-admin/plugins/toastr/toastr.min.js') }}"></script>
+<!-- ChartJS -->
+<script src="{{ asset('front-end-admin/plugins/chart.js/Chart.min.js') }}"></script>
+
+<script>
+    /* ChartJS
+     * -------
+     * Here we will create a few charts using ChartJS
+     */
+
+    //--------------
+    //- AREA CHART -
+    //--------------
+
+    // data pembelian
+    let dataPembelian = @json($data_pembelian);
+
+    // Get context with jQuery - using jQuery's .get() method.
+    var areaChartCanvas = $('#pembelianPelanggan').get(0).getContext('2d')
+
+    var areaChartData = {
+      labels  : ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'July', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+      datasets: [
+        {
+          label               : 'Jumlah Pembelian',
+          backgroundColor     : 'rgba(60,141,188,0.9)',
+          borderColor         : 'rgba(60,141,188,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(60,141,188,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [
+            @json($pbl_jan), @json($pbl_feb), @json($pbl_mar), @json($pbl_apr), @json($pbl_mei), @json($pbl_jun), 
+            @json($pbl_jul), @json($pbl_ags), @json($pbl_sep), @json($pbl_okt), @json($pbl_nov), @json($pbl_des), 
+          ]
+        },
+      ]
+    }
+
+    var areaChartOptions = {
+      maintainAspectRatio : false,
+      responsive : true,
+      legend: {
+        display: false
+      },
+      scales: {
+        xAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }],
+        yAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }]
+      }
+    }
+
+    // This will get the first returned node in the jQuery collection.
+    var areaChart       = new Chart(areaChartCanvas, { 
+      type: 'line',
+      data: areaChartData, 
+      options: areaChartOptions
+    })
+
+    //-------------
+    //- DONUT CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var paket = @json($paket);
+    var data_paket = paket.map(p => p.paket);
+
+    var pembelian = @json($pembelian);
+
+    let data_pembelian = [];
+
+    for (let i = 0; i < pembelian.length; i++) {
+        data_pembelian.push(pembelian[i].id_paket);
+    }
+    
+    let counts = {};
+    let source = {};
+
+    for (let i = 0; i < paket.length; i++) {
+        source[i + 1] = 0;
+    }
+
+    data_pembelian.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+
+    let data_final_pembelian_paket = Object.assign(source, counts);
+    let count_data_pembelian_paket = Object.values(data_final_pembelian_paket);
+
+    let backgroundColor = [];
+
+    function generateColor() {
+        let color = '#';
+        const HEX = [
+            '0', '1', '2', '3', '4', '5', '6', '7', 
+            '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+        ];
+        
+        for (let i = 0; i < 6; i++) {
+            const random = Math.floor(Math.random() * HEX.length);
+            color += HEX[random];
+        }
+
+        return color;
+    }
+
+    for (let i = 0; i < paket.length; i++) {
+        backgroundColor.push(generateColor());
+    }
+
+    var donutChartCanvas = $('#pembelianPaket').get(0).getContext('2d')
+    var donutData        = {
+      labels: data_paket,
+      datasets: [
+        {
+          data: count_data_pembelian_paket,
+          backgroundColor : backgroundColor,
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var donutChart = new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions      
+    })
+</script>
 
 <script type="text/javascript">
     $(function() {

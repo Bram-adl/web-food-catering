@@ -31,7 +31,67 @@ class PembelianController extends Controller
         $pelanggan = Pelanggan::all();
         $paket = Paket::all();
 
+        // tahun sekarang
+        $tahun = date('Y');
+
+        // data pembelian perbulan di tahun sekarang
+        $data_pembelian = Pembelian::all();
+        $pbl_jan = 0;
+        $pbl_feb = 0;
+        $pbl_mar = 0;
+        $pbl_apr = 0;
+        $pbl_mei = 0;
+        $pbl_jun = 0;
+        $pbl_jul = 0;
+        $pbl_ags = 0;
+        $pbl_sep = 0;
+        $pbl_okt = 0;
+        $pbl_nov = 0;
+        $pbl_des = 0;
+
+        foreach ($data_pembelian as $dp) {
+            if (date('m', strtotime($dp->waktu_simpan)) == '01') {
+                $pbl_jan += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '02') {
+                $pbl_feb += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '03') {
+                $pbl_mar += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '04') {
+                $pbl_apr += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '05') {
+                $pbl_mei += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '06') {
+                $pbl_jun += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '07') {
+                $pbl_jul += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '08') {
+                $pbl_ags += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '09') {
+                $pbl_sep += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '10') {
+                $pbl_okt += 1;
+            } else if (date('m', strtotime($dp->waktu_simpan)) == '11') {
+                $pbl_nov += 1;
+            } else {
+                $pbl_des += 1;
+            }
+        }
+
         return view('admin.pembelian.index', [
+            'data_pembelian' => $data_pembelian,
+            'pbl_jan' => $pbl_jan,
+            'pbl_feb' => $pbl_feb,
+            'pbl_mar' => $pbl_mar,
+            'pbl_apr' => $pbl_apr,
+            'pbl_mei' => $pbl_mei,
+            'pbl_jun' => $pbl_jun,
+            'pbl_jul' => $pbl_jul,
+            'pbl_ags' => $pbl_ags,
+            'pbl_sep' => $pbl_sep,
+            'pbl_okt' => $pbl_okt,
+            'pbl_nov' => $pbl_nov,
+            'pbl_des' => $pbl_des,
+
             'pembelian' => $pembelian,
             'pelanggan' => $pelanggan,
             'paket' => $paket,
