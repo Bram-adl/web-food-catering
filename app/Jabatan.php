@@ -28,7 +28,7 @@ class Jabatan extends Model
      * @var array
      */
     protected $fillable = [
-        'jabatan', 'keterangan',
+        'jabatan', 'keterangan', 'warna',
     ];
 
     /**

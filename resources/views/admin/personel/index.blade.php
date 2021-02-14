@@ -124,37 +124,56 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <!-- MAP & BOX PANE -->
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Grafik Jenis Kelamin Personel</h3>
+
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                     </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body" style="height: 200px">
+            <div class="card-body">
+                <div class="chartjs-size-monitor">
+                    <div class="chartjs-size-monitor-expand">
+                        <div class=""></div>
+                    </div>
+                    <div class="chartjs-size-monitor-shrink">
+                        <div class=""></div>
+                    </div>
+                </div>
+                <canvas id="jenisKelamin" style="height: 230px; min-height: 230px; display: block; width: 371px;" width="742" height="460" class="chartjs-render-monitor"></canvas>
             </div>
+            <!-- /.card-body -->
         </div>
     </div>
     <!-- /.col-md-6 -->
+    
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Grafik Jabatan Personel</h3>
+
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                     </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body" style="height: 200px">
+            <div class="card-body">
+                <div class="chartjs-size-monitor">
+                    <div class="chartjs-size-monitor-expand">
+                        <div class=""></div>
+                    </div>
+                    <div class="chartjs-size-monitor-shrink">
+                        <div class=""></div>
+                    </div>
+                </div>
+                <canvas id="jabatanPersonel" style="height: 230px; min-height: 230px; display: block; width: 371px;" width="742" height="460" class="chartjs-render-monitor"></canvas>
             </div>
             <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
     <!-- /.col-md-6 -->
 </div>
@@ -344,6 +363,85 @@
 <script src="{{ asset('front-end-admin/js/pages/dashboard2.js') }}"></script>
 
 <script src="{{ asset('js/app.js') }}"></script>
+
+<script>
+    //-------------
+    //- PIE CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var canvasJenisKelamin = $('#jenisKelamin').get(0).getContext('2d')
+    var canvasJabatanPersonel = $('#jabatanPersonel').get(0).getContext('2d')
+
+    var jenisKelaminData = {
+      labels: [
+          'Laki-laki', 
+          'Perempuan', 
+      ],
+      datasets: [
+        {
+          data: [@json($jml_laki), @json($jml_perempuan)],
+          backgroundColor : ['#6495ED', '#9370DB'],
+        }
+      ]
+    };
+
+    var personel = @json($list_personel);
+    var jabatan = @json($jabatan);
+
+    let jabatan_data = jabatan.map(jb => {
+        return jb['jabatan']
+    });
+    
+    let jabatan_warna = jabatan.map(jb => {
+        return jb['warna'];
+    });
+
+    let data_jabatan = [];
+
+    for (let i = 0; i < personel.length; i++) {
+        data_jabatan.push(personel[i].id_jabatan);
+    }
+    
+    var counts = {};
+    var source = {};
+
+    for (let i = 0; i < jabatan.length; i++) {
+        source[i + 1] = 0;   
+    }
+    
+    data_jabatan.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+
+    let data_final = Object.assign(source, counts);
+    let count_data = Object.values(data_final);
+    
+    var jabatanPersonelData = {
+        labels: jabatan_data,
+        datasets: [
+            {
+                data: count_data,
+                backgroundColor: jabatan_warna,
+            }
+        ]
+    };
+    
+    var pieOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    var jenisKelaminChart = new Chart(canvasJenisKelamin, {
+      type: 'pie',
+      data: jenisKelaminData,
+      options: pieOptions      
+    })
+    var jabatanPersonelChart = new Chart(canvasJabatanPersonel, {
+        type: 'pie',
+        data: jabatanPersonelData,
+        options: pieOptions,
+    })
+</script>
 
 <script>
     function hapusPersonel(element) {

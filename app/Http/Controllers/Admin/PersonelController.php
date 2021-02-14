@@ -28,19 +28,29 @@ class PersonelController extends Controller
     public function index()
     {
         $personel = Personel::paginate(3);
+        $list_personel = Personel::all();
         $jabatan = Jabatan::all();
 
         $kota = DB::table('kota')->get();
         $kecamatan = DB::table('kecamatan')->get();
         $kelurahan = DB::table('kelurahan')->get();
+
+        $jml_laki = Personel::where('jenis_kelamin', 'Laki-laki')->count();
+        $jml_perempuan = Personel::where('jenis_kelamin', 'Perempuan')->count();
+
+        $jabatan = Jabatan::all();
         
         return view('admin.personel.index', [
             'personel' => $personel,
+            'list_personel' => $list_personel,
             'jabatan' => $jabatan,
             'kota' => $kota,
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan,
             'user' => Auth::guard('personel')->user(),
+            'jml_laki' => $jml_laki,
+            'jml_perempuan' => $jml_perempuan,
+            'jabatan' => $jabatan,
         ]);
     }
 

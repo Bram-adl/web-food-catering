@@ -44,6 +44,7 @@ class JabatanController extends Controller
         Jabatan::create([
             'jabatan' => $validated['jabatan'],
             'keterangan' => $validated['keterangan'],
+            'warna' => $validated['warna'],
         ]);
 
         return redirect()
@@ -81,6 +82,7 @@ class JabatanController extends Controller
         $jabatan = Jabatan::find($id);
         $jabatan->jabatan = $validated['jabatan'];
         $jabatan->keterangan = $validated['keterangan'];
+        $jabatan->warna = $validated['warna'];
         
         $jabatan->save();
 

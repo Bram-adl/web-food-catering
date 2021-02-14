@@ -41,6 +41,7 @@
                             <tr>
                                 <th>Nama Jabatan</th>
                                 <th>Keterangan</th>
+                                <th>Warna Label</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -49,6 +50,7 @@
                             <tr>
                                 <td>{{ $j->jabatan }}</td>
                                 <td>{{ $j->keterangan }}</td>
+                                <td class="d-flex align-items-center justify-content-center"><div style="width: 50px; height: 10px; background-color: {{ $j->warna }}"></div></td>
                                 <td>
                                     <a href="/jabatan/{{ $j->id }}/edit" class="btn btn-xs bg-warning"><i class="fas fa-pencil-alt"></i></a>
                                     <button class="btn btn-xs bg-danger" data-id="{{ $j->id }}" onclick="hapusJabatan(this)"><i class="fas fa-trash"></i></button>
@@ -93,6 +95,15 @@
                             <div class="col-sm-10">
                                 <textarea class="form-control  @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan" rows="3" placeholder="Keterangan"></textarea>
                                 @error('keterangan') 
+                                    <span class="text-sm text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="warna" class="col-sm-2 col-form-label">Warna Label</label>
+                            <div class="col-sm-10">
+                                <input type="color" id="warna" name="warna" class="form-control  @error('warna') is-invalid @enderror">
+                                @error('warna') 
                                     <span class="text-sm text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

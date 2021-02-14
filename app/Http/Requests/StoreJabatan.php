@@ -26,6 +26,7 @@ class StoreJabatan extends FormRequest
         return [
             'jabatan' => 'required',
             'keterangan' => 'required',
+            'warna' => 'required',
         ];
     }
 
@@ -39,6 +40,7 @@ class StoreJabatan extends FormRequest
         return [
             'jabatan.required' => 'Jabatan wajib diisi',
             'keterangan.required' => 'Keterangan wajib diisi',
+            'warna.required' => 'Warna wajib disii',
         ];
     }
 }

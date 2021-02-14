@@ -43,6 +43,15 @@
                         <textarea class="form-control" name="keterangan" rows="3">{{ $jabatan->keterangan }}</textarea>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="warna" class="col-sm-2 col-form-label">Warna Label</label>
+                    <div class="col-sm-10">
+                        <input type="color" id="warna" name="warna" class="form-control  @error('warna') is-invalid @enderror" value="{{ $jabatan->warna }}">
+                        @error('warna') 
+                            <span class="text-sm text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
             </div>
             <!-- /.card-body -->
 
