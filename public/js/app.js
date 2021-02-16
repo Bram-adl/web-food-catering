@@ -62439,7 +62439,7 @@ var staticRenderFns = [
               ]),
               _vm._v(" "),
               _c("p", { staticClass: "font-light text-sm mt-1" }, [
-                _vm._v("05.00 - 07.00")
+                _vm._v("10.00 - 12.00")
               ])
             ]),
             _vm._v(" "),
@@ -62449,7 +62449,7 @@ var staticRenderFns = [
               ]),
               _vm._v(" "),
               _c("p", { staticClass: "font-light text-sm mt-1" }, [
-                _vm._v("05.00 - 07.00")
+                _vm._v("16.00 - 18.00")
               ])
             ])
           ]

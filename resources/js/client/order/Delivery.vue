@@ -35,11 +35,11 @@
                         </div>
                         <div class="py-4 px-2 text-center">
                             <h2 class="font-medium text-base">Siang</h2>
-                            <p class="font-light text-sm mt-1">05.00 - 07.00</p>
+                            <p class="font-light text-sm mt-1">10.00 - 12.00</p>
                         </div>
                         <div class="py-4 px-2 text-center">
                             <h2 class="font-medium text-base">Sore</h2>
-                            <p class="font-light text-sm mt-1">05.00 - 07.00</p>
+                            <p class="font-light text-sm mt-1">16.00 - 18.00</p>
                         </div>
                     </div>
 

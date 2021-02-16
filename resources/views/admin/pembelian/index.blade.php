@@ -89,7 +89,6 @@
                                             @php
                                                 $hari = explode('|', $p->waktu_pengiriman)[0];
                                                 $waktu = explode('|', $p->waktu_pengiriman)[1];
-
                                                 $perhari = explode(':', $hari)[1];
                                                 $perwaktu = explode(':', $waktu)[1];
                                             @endphp

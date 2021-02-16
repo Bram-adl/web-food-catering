@@ -176,96 +176,22 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($pembelian_terbanyak as $p)
                         <tr>
                             <td>
-                                <img src="img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                Nasi Merah 24x Makan
+                                <img src="/images/foods/{{ $p->foto }}" alt="Product 1" class="img-circle img-size-32 mr-2">
+                                {{ $p->paket }}
                             </td>
                             <td>
-                                <small class="text-success mr-1">
-                                    <i class="fas fa-arrow-up"></i>
-                                    21%
-                                </small>
-                                162 terjual
+                                {{ $p->jumlah_pembelian }} terjual
                             </td>
                             <td>
-                                <a href="#" class="text-muted">
+                                <a href="/images/foods/{{ $p->foto }}" class="text-muted">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <img src="img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                Nasi Putih 12x Makan
-                            </td>
-                            <td>
-                                <small class="text-success mr-1">
-                                    <i class="fas fa-arrow-up"></i>
-                                    12%
-                                </small>
-                                144 terjual
-                            </td>
-                            <td>
-                                <a href="#" class="text-muted">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                Nasi Putih 24x Makan
-                            </td>
-                            <td>
-                                <small class="text-warning mr-1">
-                                    <i class="fas fa-arrow-down"></i>
-                                    0.5%
-                                </small>
-                                125 terjual
-                            </td>
-                            <td>
-                                <a href="#" class="text-muted">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                Tanpa Nasi 6x makan
-                            </td>
-                            <td>
-                                <small class="text-danger mr-1">
-                                    <i class="fas fa-arrow-down"></i>
-                                    3%
-                                </small>
-                                58 terjual
-                            </td>
-                            <td>
-                                <a href="#" class="text-muted">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                                Tanpa Nasi 6x makan
-                            </td>
-                            <td>
-                                <small class="text-danger mr-1">
-                                    <i class="fas fa-arrow-down"></i>
-                                    3%
-                                </small>
-                                58 terjual
-                            </td>
-                            <td>
-                                <a href="#" class="text-muted">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -285,30 +211,30 @@
             <div class="card-body">
                 <div class="d-flex">
                     <p class="d-flex flex-column">
-                        <span class="text-bold text-lg">Rp. 42.482.000</span>
+                        <span class="text-bold text-lg">Rp. {{ number_format($pendapatan_bulan_ini[0]->total, 0, ',', '.') }}</span>
                         <span>pendapatan bulan ini</span>
                     </p>
                     <p class="ml-auto d-flex flex-column text-right">
-                        <span class="text-success">
-                            <i class="fas fa-arrow-up"></i> 33.1%
-                        </span>
+                            @if ($pendapatan_bulan_ini[0]->total > $pendapatan_bulan_sebelumnya[0]->total)
+                            <span class="text-success">
+                                <i class="fas fa-arrow-up"></i> 
+                                {{$perbandingan_total}}%
+                            </span>
+                            @else
+                            <span class="text-danger">
+                                <i class="fas fa-arrow-down"></i> 
+                                {{100 - $perbandingan_total}}%
+                            </span>
+                            @endif
                         <span class="text-muted">dibanding bulan sebelumnya</span>
                     </p>
                 </div>
                 <!-- /.d-flex -->
 
                 <div class="position-relative mb-4">
-                    <canvas id="sales-chart" height="200"></canvas>
-                </div>
-
-                <div class="d-flex flex-row justify-content-end">
-                    <span class="mr-2">
-                        <i class="fas fa-square text-primary"></i> Tahun ini
-                    </span>
-
-                    <span>
-                        <i class="fas fa-square text-gray"></i> Tahun sebelumnya
-                    </span>
+                    <div class="chart">
+                        <canvas id="barChart" style="height:230px; min-height:230px"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -332,10 +258,95 @@
 <!-- PAGE SCRIPTS -->
 <script src="{{ asset('front-end-admin/js/pages/dashboard2.js') }}"></script>
 
-
 <script>
     const dashboardMenu = document.getElementById('dashboard-menu')
     dashboardMenu.classList.add('active')
+</script>
+
+<script>
+    //-------------
+    //- BAR CHART -
+    //-------------
+    var jan_thn_ini = +@json($pendapatan_januari_tahun_ini) || 0;
+    var feb_thn_ini = +@json($pendapatan_februari_tahun_ini) || 0;
+    var maret_thn_ini = +@json($pendapatan_maret_tahun_ini) || 0;
+    var april_thn_ini = +@json($pendapatan_april_tahun_ini) || 0;
+    var mei_thn_ini = +@json($pendapatan_mei_tahun_ini) || 0;
+    var juni_thn_ini = +@json($pendapatan_juni_tahun_ini) || 0;
+    var juli_thn_ini = +@json($pendapatan_juli_tahun_ini) || 0;
+    var agustus_thn_ini = +@json($pendapatan_agustus_tahun_ini) || 0;
+    var september_thn_ini = +@json($pendapatan_september_tahun_ini) || 0;
+    var oktober_thn_ini = +@json($pendapatan_oktober_tahun_ini) || 0;
+    var november_thn_ini = +@json($pendapatan_november_tahun_ini) || 0;
+    var desember_thn_ini = +@json($pendapatan_desember_tahun_ini) || 0;
+
+    var jan_thn_sebelumnya = +@json($pendapatan_januari_tahun_sebelumnya) || 0;
+    var feb_thn_sebelumnya = +@json($pendapatan_februari_tahun_sebelumnya) || 0;
+    var maret_thn_sebelumnya = +@json($pendapatan_maret_tahun_sebelumnya) || 0;
+    var april_thn_sebelumnya = +@json($pendapatan_april_tahun_sebelumnya) || 0;
+    var mei_thn_sebelumnya = +@json($pendapatan_mei_tahun_sebelumnya) || 0;
+    var juni_thn_sebelumnya = +@json($pendapatan_juni_tahun_sebelumnya) || 0;
+    var juli_thn_sebelumnya = +@json($pendapatan_juli_tahun_sebelumnya) || 0;
+    var agustus_thn_sebelumnya = +@json($pendapatan_agustus_tahun_sebelumnya) || 0;
+    var september_thn_sebelumnya = +@json($pendapatan_september_tahun_sebelumnya) || 0;
+    var oktober_thn_sebelumnya = +@json($pendapatan_oktober_tahun_sebelumnya) || 0;
+    var november_thn_sebelumnya = +@json($pendapatan_november_tahun_sebelumnya) || 0;
+    var desember_thn_sebelumnya = +@json($pendapatan_desember_tahun_sebelumnya) || 0;
+
+    var dataTahunIni = [
+        jan_thn_ini, feb_thn_ini, maret_thn_ini, april_thn_ini, mei_thn_ini, juni_thn_ini, juli_thn_ini,
+        agustus_thn_ini, september_thn_ini, oktober_thn_ini, november_thn_ini, desember_thn_ini,
+    ];
+
+    var dataTahunSebelumnya = [
+        jan_thn_sebelumnya, feb_thn_sebelumnya, maret_thn_sebelumnya, april_thn_sebelumnya, mei_thn_sebelumnya, juni_thn_sebelumnya, juli_thn_sebelumnya,
+        agustus_thn_sebelumnya, september_thn_sebelumnya, oktober_thn_sebelumnya, november_thn_sebelumnya, desember_thn_sebelumnya,
+    ];
+    
+    var barChartCanvas = $('#barChart').get(0).getContext('2d')
+    var barChartData = {
+        labels  : ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        datasets: [
+            {
+                label               : 'Tahun Ini',
+                backgroundColor     : 'rgba(60,141,188,0.9)',
+                borderColor         : 'rgba(60,141,188,0.8)',
+                pointRadius          : false,
+                pointColor          : '#3b8bba',
+                pointStrokeColor    : 'rgba(60,141,188,1)',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data                : dataTahunIni,
+            },
+            {
+                label               : 'Tahun Sebelumnya',
+                backgroundColor     : 'rgba(210, 214, 222, 1)',
+                borderColor         : 'rgba(210, 214, 222, 1)',
+                pointRadius         : false,
+                pointColor          : 'rgba(210, 214, 222, 1)',
+                pointStrokeColor    : '#c1c7d1',
+                pointHighlightFill  : '#fff',
+                pointHighlightStroke: 'rgba(220,220,220,1)',
+                data                : dataTahunSebelumnya,
+            },
+        ]
+    }
+    var temp0 = barChartData.datasets[0]
+    var temp1 = barChartData.datasets[1]
+    barChartData.datasets[0] = temp1
+    barChartData.datasets[1] = temp0
+
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+
+    var barChart = new Chart(barChartCanvas, {
+      type: 'bar', 
+      data: barChartData,
+      options: barChartOptions
+    })
 </script>
 
 @if (session('status'))
