@@ -10,6 +10,8 @@ use App\Personel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Analytics\Period;
+use Analytics;
 
 class DashboardController extends Controller
 {
@@ -27,6 +29,9 @@ class DashboardController extends Controller
     {
         $user = Auth::guard('personel')->user();
 
+        $bulan_sekarang = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
+        $tujuh_bulan_yang_lalu = date('Y-m-d', strtotime($bulan_sekarang . '-7month'));
+
         // ======================================================================
         // DATA UNTUK CARD DI DASHBOARD
         // ======================================================================
@@ -34,6 +39,35 @@ class DashboardController extends Controller
         $jml_paket = Paket::count();
         $jml_pelanggan = Pelanggan::count();
         $jml_pengiriman = Pengantaran::where('status', 'terkirim')->count();
+
+        // ======================================================================
+        // DATA UNTUK RINGKASAN LAPORAN CHART
+        // ======================================================================
+        $analytics = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+
+        $number_of_visitors = 0;
+
+        foreach ($analytics as $analytic) {
+            foreach ($analytic as $a) {
+                $number_of_visitors += $a->visitors;
+            }
+        }
+
+        $test_tanggal = '2021-02-17 00:00:00';
+        return date('Y-m-d', strtotime($test_tanggal));
+
+
+        
+        return $bulan_sekarang;
+
+        // ======================================================================
+        // DATA UNTUK RINGKASAN LAPORAN
+        // ======================================================================
+        $jml_pendaftar_dlm_tujuh_bulan = $this->getRingkasan('jumlah_pendaftar', 'pelanggan', "waktu_simpan BETWEEN ('$tujuh_bulan_yang_lalu 23:59:59') AND ('$bulan_sekarang 23:59:59')", $tujuh_bulan_yang_lalu, $bulan_sekarang);
+
+        $jml_pembelian_dlm_tujuh_bulan = $this->getRingkasan('jumlah_pembeli', 'pembelian', "waktu_simpan BETWEEN ('$tujuh_bulan_yang_lalu 23:59:59') AND ('$bulan_sekarang 23:59:59')", $tujuh_bulan_yang_lalu, $bulan_sekarang);
+
+        $jml_pembayaran_dlm_tujuh_bulan = $this->getRingkasan('jumlah_pembeli', 'pembelian', "(waktu_simpan BETWEEN ('$tujuh_bulan_yang_lalu 23:59:59') AND ('$bulan_sekarang 23:59:59')) AND status != 'Belum Bayar'", $tujuh_bulan_yang_lalu, $bulan_sekarang);
 
         // ======================================================================
         // DATA UNTUK PAKET PALING LAKU
@@ -121,6 +155,12 @@ class DashboardController extends Controller
             'jml_pelanggan' => $jml_pelanggan,
             'jml_pengiriman' => $jml_pengiriman,
 
+            'number_of_visitors' => $number_of_visitors,
+
+            'jml_pendaftar_dlm_tujuh_bulan' => $jml_pendaftar_dlm_tujuh_bulan,
+            'jml_pembelian_dlm_tujuh_bulan' => $jml_pembelian_dlm_tujuh_bulan,
+            'jml_pembayaran_dlm_tujuh_bulan' => $jml_pembayaran_dlm_tujuh_bulan,
+
             'pembelian_terbanyak' => $pembelian_terbanyak,
 
             'pendapatan_bulan_ini' => $pembelian_bulan_ini,
@@ -159,5 +199,12 @@ class DashboardController extends Controller
             SELECT SUM(paket.harga) AS total FROM pembelian JOIN paket ON paket.id = pembelian.id_paket
             WHERE (pembelian.status = 'Proses Verifikasi') AND (pembelian.waktu_simpan BETWEEN ('$waktu_pertama 00:00:00') AND ('$waktu_kedua 00:00:00'))
         ");
+    }
+
+    function getRingkasan($as, $from, $where, $tujuh_bulan_yang_lalu, $bulan_sekarang) {
+        return DB::select("
+            SELECT COUNT(id) AS $as FROM $from
+            WHERE $where
+        ")[0]->$as;
     }
 }

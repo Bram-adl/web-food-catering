@@ -109,36 +109,36 @@
 
                         <div class="progress-group">
                             Berkunjung
-                            <span class="float-right"><b>202</b> orang</span>
+                            <span class="float-right"><b>{{ $number_of_visitors }}</b> orang</span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-primary" style="width: 100%"></div>
+                                <div class="progress-bar bg-primary" style="width: calc({{ $number_of_visitors }}pt / 100)"></div>
                             </div>
                         </div>
                         <!-- /.progress-group -->
 
                         <div class="progress-group">
                             Registrasi
-                            <span class="float-right"><b>82</b> orang</span>
+                            <span class="float-right"><b>{{ $jml_pendaftar_dlm_tujuh_bulan }}</b> orang</span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-danger" style="width: 41%"></div>
+                                <div class="progress-bar bg-danger" style="width: calc({{ $jml_pendaftar_dlm_tujuh_bulan }}pt / 100)"></div>
                             </div>
                         </div>
 
                         <!-- /.progress-group -->
                         <div class="progress-group">
                             <span class="progress-text">Membeli</span>
-                            <span class="float-right"><b>76</b> orang</span>
+                            <span class="float-right"><b>{{ $jml_pembelian_dlm_tujuh_bulan }}</b> orang</span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-success" style="width: 38%"></div>
+                                <div class="progress-bar bg-success" style="width: calc({{ $jml_pembelian_dlm_tujuh_bulan }}pt / 100)"></div>
                             </div>
                         </div>
 
                         <!-- /.progress-group -->
                         <div class="progress-group">
                             Membayar
-                            <span class="float-right"><b>73</b> orang</span>
+                            <span class="float-right"><b>{{ $jml_pembayaran_dlm_tujuh_bulan }}</b> orang</span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-warning" style="width: 36%"></div>
+                                <div class="progress-bar bg-warning" style="width: calc({{ $jml_pembayaran_dlm_tujuh_bulan }}pt / 100)"></div>
                             </div>
                         </div>
                         <!-- /.progress-group -->
