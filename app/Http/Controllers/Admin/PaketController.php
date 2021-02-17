@@ -9,12 +9,40 @@ use App\Kategori;
 use App\Paket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PaketController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:personel');
+    }
+
+    public function checkPersonel()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+
+        if (
+            $jb == 'Chief Executive Officer' ||
+            $jb == 'Chief Operating Officer' ||
+            $jb == 'Chief Technology Officer'
+        ) {
+            return true;
+        } else { return false; }
     }
     
     /**
@@ -24,6 +52,10 @@ class PaketController extends Controller
      */
     public function index()
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $paket = Paket::latest()->get();
         $kategori = Kategori::all();
     
@@ -42,6 +74,10 @@ class PaketController extends Controller
      */
     public function store(StorePaket $request)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $validated = $request->validated();
 
         $foto = null;
@@ -74,6 +110,10 @@ class PaketController extends Controller
      */
     public function edit($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $paket = Paket::find($id);
         $kategori = Kategori::all();
 
@@ -93,6 +133,10 @@ class PaketController extends Controller
      */
     public function update(UpdatePaket $request, $id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $validated = $request->validated();
 
         $paket = Paket::find($id);
@@ -134,6 +178,10 @@ class PaketController extends Controller
      */
     public function destroy($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $paket = Paket::find($id);
         $paket_foto = $paket->foto;
 

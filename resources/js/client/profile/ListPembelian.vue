@@ -4,80 +4,84 @@
         <slot name="navbar"></slot>
 
         <!-- Main Content goes here -->
-        <main>
-            <div class="container mx-auto my-16 p-10 bg-white shadow-md">
-                <table class="border-collapse w-full relative" style="z-index: 0" id="table">
-                    <thead>
-                        <tr>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">#</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">ID Pembelian</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Paket Pembelian</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Porsi Pembelian</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Tanggal Mulai</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Status Pembelian</th>
-                            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Opsi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr 
-                            class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0"
-                            v-for="(p, index) in pembelian"
-                            :key="p.id"
-                        >
-                            <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">#</span>
-                                {{ index + 1}}
-                            </td>
-                            <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">ID Pembelian</span>
-                                <template v-if="p.status == 'Belum bayar'">
-                                    <a 
-                                        :href="`/paket/${paket[index].id}/pembayaran?client_id=${user.id}&payment_id=${p.id}`" 
-                                        target="_blank" 
-                                        class="text-blue-600 hover:text-blue-700 transition ease-out duration-300">
-                                        {{ invoice(index) }}
-                                    </a>
-                                </template>
-                                <template v-else>
-                                    <span>{{ invoice(index) }}</span>
-                                </template>
-                            </td>
-                            <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Paket Pembelian</span>
-                                {{ paket[index].paket }}
-                            </td>
-                            <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Porsi Pembelian</span>
-                                {{ p.porsi }} / {{ paket[index].porsi }} Porsi
-                            </td>
-                            <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Tanggal Mulai</span>
-                                {{ p.tanggal_mulai | filterDate }}
-                            </td>
-                            <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Status Pembelian</span>
-                                <span 
-                                    class="py-2 px-3 rounded-md text-gray-50"
-                                    :class="{ 
-                                        'bg-green-400': p.status == 'Aktif',
-                                        'bg-red-400': p.status == 'Belum bayar',
-                                        'bg-yellow-400': p.status == 'Proses verifikasi',
-                                        'bg-blue-400': p.status == 'Selesai',
-                                        'bg-gray-400': p.status == 'Batal'
-                                     }"
-                                >
-                                    {{ p.status }}
-                                </span>
-                            </td>
-                            <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Actions</span>
-                                <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-if="p.status == 'Batal' || p.status == 'Selesai'" @click="hapusPembelian(p.id)">Hapus</a>
-                                <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-else-if="p.status == 'Aktif'" @click="berhentiPembelian(p.id)">Berhenti</a>
-                                <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-else @click="batalkanPembelian(p.id)">Batalkan</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <main class="py-10">
+            <div class="container mx-auto p-10 bg-white shadow-md">
+                <paginate
+                    name="pembelian"
+                    :list="pembelian"
+                    :per="5"
+                >
+                    <table class="border-collapse w-full relative" style="z-index: 0" id="table">
+                        <thead>
+                            <tr>
+                                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">#</th>
+                                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">ID Pembelian</th>
+                                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Paket Pembelian</th>
+                                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Porsi Pembelian</th>
+                                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Tanggal Mulai</th>
+                                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Status Pembelian</th>
+                                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Opsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0" v-for="(p, index) in paginated('pembelian')" :key="p.id"
+                            >
+                                <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">#</span>
+                                    {{ index + 1}}
+                                </td>
+                                <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
+                                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">ID Pembelian</span>
+                                    <template v-if="p.status == 'Belum bayar'">
+                                        <a 
+                                            :href="`/paket/${paket[index].id}/pembayaran?client_id=${user.id}&payment_id=${p.id}`" 
+                                            target="_blank" 
+                                            class="text-blue-600 hover:text-blue-700 transition ease-out duration-300">
+                                            {{ invoice(index) }}
+                                        </a>
+                                    </template>
+                                    <template v-else>
+                                        <span>{{ invoice(index) }}</span>
+                                    </template>
+                                </td>
+                                <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
+                                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Paket Pembelian</span>
+                                    {{ paket[index].paket }}
+                                </td>
+                                <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
+                                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Porsi Pembelian</span>
+                                    {{ p.porsi }} / {{ paket[index].porsi }} Porsi
+                                </td>
+                                <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
+                                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Tanggal Mulai</span>
+                                    {{ p.tanggal_mulai | filterDate }}
+                                </td>
+                                <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
+                                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Status Pembelian</span>
+                                    <span 
+                                        class="py-2 px-3 rounded-md text-gray-50"
+                                        :class="{ 
+                                            'bg-green-400': p.status == 'Aktif',
+                                            'bg-red-400': p.status == 'Belum bayar',
+                                            'bg-yellow-400': p.status == 'Proses verifikasi',
+                                            'bg-blue-400': p.status == 'Selesai',
+                                            'bg-gray-400': p.status == 'Batal'
+                                        }"
+                                    >
+                                        {{ p.status }}
+                                    </span>
+                                </td>
+                                <td class="w-full lg:w-auto py-8 px-4 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
+                                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Actions</span>
+                                    <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-if="p.status == 'Batal' || p.status == 'Selesai'" @click="hapusPembelian(p.id)">Hapus</a>
+                                    <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-else-if="p.status == 'Aktif'" @click="berhentiPembelian(p.id)">Berhenti</a>
+                                    <a href="#" class="text-blue-400 hover:text-blue-600 underline" v-else @click="batalkanPembelian(p.id)">Batalkan</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </paginate>
+                <paginate-links for="pembelian" :show-step-links="true"></paginate-links>
             </div>
         </main>
 
@@ -87,18 +91,21 @@
 
 <script>
 import Loader from '../../components/Loader';
+import VuePaginate from 'vue-paginate';
 
 export default {
     name: 'ProfilePembelian',
 
     components: {
         Loader,
+        VuePaginate,
     },
 
     data() {
         return {
             user,
             pembelian,
+            paginate: ['pembelian'],
             paket,
             loader: false,
         }

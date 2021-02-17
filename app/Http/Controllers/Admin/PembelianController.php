@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePembelian;
 use App\Paket;
 use App\Pelanggan;
 use App\Pembelian;
+use App\Pengantaran;
 use App\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,33 @@ class PembelianController extends Controller
     {
         $this->middleware('auth:personel');
     }
+
+    public function checkPersonel()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+
+        if (
+            $jb == 'Chief Executive Officer' ||
+            $jb == 'Chief Operating Officer' ||
+            $jb == 'Chief Technology Officer'
+        ) {
+            return true;
+        } else { return false; }
+    }
     
     /**
      * Display a listing of the resource.
@@ -27,6 +55,10 @@ class PembelianController extends Controller
      */
     public function index()
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pembelian = Pembelian::orderBy('tanggal_mulai')->get();
         $pelanggan = Pelanggan::all();
         $paket = Paket::all();
@@ -107,6 +139,10 @@ class PembelianController extends Controller
      */
     public function store(StorePembelian $request)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $length = 2;
         $kode_unik = substr(str_shuffle(str_repeat($x='123456789', ceil($length/strlen($x)) )),1,$length);
         
@@ -143,6 +179,10 @@ class PembelianController extends Controller
      */
     public function edit($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pembelian = Pembelian::find($id);
         $pelanggan = Pelanggan::all();
         $paket = Paket::all();
@@ -164,6 +204,10 @@ class PembelianController extends Controller
      */
     public function update(UpdatePembelian $request, $id)
     {   
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $validated = $request->validated();
         $pembelian = Pembelian::find($id);
         $bukti_bayar = $pembelian->bukti_bayar;
@@ -193,6 +237,10 @@ class PembelianController extends Controller
 
     public function verifikasi($id)
     {   
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pembelian = Pembelian::find($id);
         
         $jumlah_porsi = $pembelian->paket->porsi;
@@ -233,7 +281,7 @@ class PembelianController extends Controller
                 foreach ($tanggal_pesanan as $tanggal) {
 
                     for ($i = 0; $i < count($waktu_kirim); $i++) {
-                        Pesanan::create([
+                        $pesanan = Pesanan::create([
                             'id_pembelian' => $id,
                             'tanggal_kirim' => $tanggal,
                             'waktu_kirim' => $waktu_kirim[$i],
@@ -242,6 +290,13 @@ class PembelianController extends Controller
                             'porsi' => 1,
                             'catatan_pelanggan' => null,
                             'keterangan_pelanggan' => $pembelian->pelanggan->keterangan,
+                        ]);
+
+                        Pengantaran::create([
+                            'id_pesanan' => $pesanan->id,
+                            'id_personel' => null,
+                            'catatan_kurir' => null,
+                            'status' => 'pending',
                         ]);
                     }
 
@@ -261,7 +316,7 @@ class PembelianController extends Controller
                 foreach ($tanggal_pesanan as $tanggal) {
 
                     for ($i = 0; $i < count($waktu_kirim); $i++) {
-                        Pesanan::create([
+                        $pesanan = Pesanan::create([
                             'id_pembelian' => $id,
                             'tanggal_kirim' => $tanggal,
                             'waktu_kirim' => $waktu_kirim[$i],
@@ -270,6 +325,13 @@ class PembelianController extends Controller
                             'porsi' => 1,
                             'catatan_pelanggan' => null,
                             'keterangan_pelanggan' => $pembelian->pelanggan->keterangan,
+                        ]);
+
+                        Pengantaran::create([
+                            'id_pesanan' => $pesanan->id,
+                            'id_personel' => null,
+                            'catatan_kurir' => null,
+                            'status' => 'pending',
                         ]);
                     }
 
@@ -296,7 +358,7 @@ class PembelianController extends Controller
             foreach ($tanggal_pesanan as $tanggal) {
 
                 for ($i = 0; $i < count($waktu_kirim); $i++) {
-                    Pesanan::create([
+                    $pesanan = Pesanan::create([
                         'id_pembelian' => $id,
                         'tanggal_kirim' => $tanggal,
                         'waktu_kirim' => $waktu_kirim[$i],
@@ -306,8 +368,14 @@ class PembelianController extends Controller
                         'catatan_pelanggan' => null,
                         'keterangan_pelanggan' => $pembelian->pelanggan->keterangan,
                     ]);
+
+                    Pengantaran::create([
+                        'id_pesanan' => $pesanan->id,
+                        'id_personel' => null,
+                        'catatan_kurir' => null,
+                        'status' => 'pending',
+                    ]);
                 }
-                
             }
         }
         
@@ -321,6 +389,10 @@ class PembelianController extends Controller
 
     public function batalkan($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pembelian = Pembelian::find($id);
         $pembelian->status = 'Batal';
 
@@ -343,6 +415,10 @@ class PembelianController extends Controller
 
     public function selesai($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pembelian = Pembelian::find($id);
         $pembelian->status = 'Selesai';
         $pembelian->save();
@@ -363,6 +439,10 @@ class PembelianController extends Controller
      */
     public function destroy($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pembelian = Pembelian::find($id);
         $bukti_bayar = $pembelian->bukti_bayar;
 

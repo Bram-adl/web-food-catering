@@ -31,6 +31,7 @@
         "animate.css": "^4.1.1",
         "moment": "^2.29.1",
         "sweetalert2": "^10.13.0",
+        "vue-paginate": "^3.6.0",
         "vue-router": "^3.4.9",
         "vuetable-2": "^2.0.0-beta.4"
     }

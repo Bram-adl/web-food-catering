@@ -21,13 +21,18 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                @if (
+                    $personelJabatan == 'Chief Executive Officer' || 
+                    $personelJabatan == 'Chief Operating Officer' ||
+                    $personelJabatan == 'Chief Technology Officer'
+                )
                 <li class="nav-item">
                     <a href="/dashboard" class="nav-link" id="dashboard-menu">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
+
                 <li class="nav-item has-treeview" id="kelola-personel-menu">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
@@ -52,6 +57,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item has-treeview" id="kelola-paket-menu">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-hamburger"></i>
@@ -75,6 +81,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item">
                     <a href="/pelanggan" class="nav-link" id="pelanggan-menu">
                         <i class="nav-icon fas fa-users"></i>
@@ -83,7 +90,14 @@
                         </p>
                     </a>
                 </li>
+                @endif
+
                 <li class="nav-header">TRANSAKSI</li>
+                @if (
+                    $personelJabatan == 'Chief Executive Officer' || 
+                    $personelJabatan == 'Chief Operating Officer' ||
+                    $personelJabatan == 'Chief Technology Officer'
+                )
                 <li class="nav-item">
                     <a href="/pembelian" class="nav-link" id="pembelian-menu">
                         <i class="nav-icon fas fa-shopping-cart"></i>
@@ -93,6 +107,17 @@
                         </p>
                     </a>
                 </li>
+                @endif
+
+                @if (
+                    $personelJabatan == 'Chief Executive Officer' || 
+                    $personelJabatan == 'Chief Operating Officer' ||
+                    $personelJabatan == 'Chief Technology Officer' ||
+                    $personelJabatan == 'Executive Chef' ||
+                    $personelJabatan == 'Cook Helper' ||
+                    $personelJabatan == 'Kitchen Staff' ||
+                    $personelJabatan == 'Packaging Staff'
+                )
                 <li class="nav-item">
                     <a href="/pesanan" class="nav-link" id="pesanan-menu">
                         <i class="nav-icon fas fa-shopping-basket"></i>
@@ -102,6 +127,14 @@
                         </p>
                     </a>
                 </li>
+                @endif
+
+                @if (
+                    $personelJabatan == 'Chief Executive Officer' || 
+                    $personelJabatan == 'Chief Operating Officer' ||
+                    $personelJabatan == 'Chief Technology Officer' ||
+                    $personelJabatan == 'Food Courier'
+                )
                 <li class="nav-item">
                     <a href="/pengantaran" class="nav-link" id="pengantaran-menu">
                         <i class="nav-icon fas fa-truck"></i>
@@ -111,6 +144,8 @@
                         </p>
                     </a>
                 </li>
+                @endif
+
                 <li class="nav-header">LOGOUT</li>
                 <li class="nav-item">
                     <a href="/logout" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout').submit()">

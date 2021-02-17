@@ -19,6 +19,45 @@ class DashboardController extends Controller
     {
         $this->middleware('auth:personel');
     }
+
+    public function checkPersonel()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+        
+        return $jb;
+    }
+
+    public function redirectPersonel($jabatan)
+    {
+        if (
+            $jabatan == 'Food Courier'
+        ) {
+            return '/pengantaran';
+        } else if (
+            $jabatan == 'Executive Chef' ||
+            $jabatan == 'Cook Helper' ||
+            $jabatan == 'Kitchen Staff' ||
+            $jabatan == 'Packaging Staff'
+        ) {
+            return '/pesanan';
+        } else {
+            return '/dashboard';
+        }
+    }
     
     /**
      * Return the index page.
@@ -27,6 +66,16 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        if (
+            $this->redirectPersonel($this->checkPersonel()) == '/pengantaran'
+        ) {
+            return redirect('/pengantaran');
+        } else if (
+            $this->redirectPersonel($this->checkPersonel()) == '/pesanan'
+        ) {
+            return redirect('/pengantaran');
+        }
+        
         $user = Auth::guard('personel')->user();
 
         $bulan_sekarang = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d'), date('Y')));

@@ -16,6 +16,58 @@ class PesananController extends Controller
     {
         $this->middleware('auth:personel');
     }
+
+    public function checkPersonel()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+
+        if (
+            $jb == 'Chief Executive Officer' ||
+            $jb == 'Chief Operating Officer' ||
+            $jb == 'Chief Technology Officer' ||
+            $jb == 'Executive Chef' ||
+            $jb == 'Cook Helper' ||
+            $jb == 'Kitchen Staff' ||
+            $jb == 'Packaging Staff'
+        ) {
+            return true;
+        } else { return false; }
+    }
+
+    public function getPersonelJabatan()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+        
+        return $jb;
+    }
     
     /**
      * Display a listing of the resource.
@@ -23,7 +75,11 @@ class PesananController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {        
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pesanan = DB::table('pesanan AS ps')
                     ->join('pembelian AS pb', 'pb.id', 'ps.id_pembelian')
                     ->join('pelanggan AS pl', 'pl.id', 'pb.id_pelanggan')
@@ -33,7 +89,7 @@ class PesananController extends Controller
                         'pl.keterangan', 'ps.catatan_pelanggan', 'ps.tanggal_kirim',
                     )
                     ->where([
-                        'ps.tanggal_kirim' => date('Y-m-d', strtotime('today')),
+                        'ps.tanggal_kirim' => date('Y-m-d', strtotime('tomorrow')),
                         'ps.status' => 'belum',
                     ])
                     ->get();
@@ -41,12 +97,17 @@ class PesananController extends Controller
         return view('admin.pesanan.index', [
             'user' => Auth::guard('personel')->user(),
             'pesanan' => $pesanan,
-            'tanggal' => date('d M Y'),
+            'tanggal' => date('d M Y', strtotime('tomorrow')),
+            'personelJabatan' => $this->getPersonelJabatan(),
         ]);
     }
 
     public function tanggal(Request $request)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $tanggal_kirim = $request->tanggal;
 
         $pesanan = DB::table('pesanan AS ps')
@@ -72,6 +133,10 @@ class PesananController extends Controller
 
     public function editJadwal($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pesanan = Pesanan::find($id);
         $tanggal_terakhir = DB::table('pesanan')->latest('tanggal_kirim')->get();
         
@@ -84,6 +149,10 @@ class PesananController extends Controller
 
     public function updateJadwal(Request $request, $id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pesanan = Pesanan::find($id);
         
         $request->validate([
@@ -100,6 +169,10 @@ class PesananController extends Controller
 
     public function serve($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pengantaran');
+        }
+        
         $pesanan = Pesanan::find($id);
         $pesanan->status = 'siap';
         $pesanan->save();

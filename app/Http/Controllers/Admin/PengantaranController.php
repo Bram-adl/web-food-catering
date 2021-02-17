@@ -16,6 +16,55 @@ class PengantaranController extends Controller
     {
         $this->middleware('auth:personel');
     }
+
+    public function checkPersonel()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+
+        if (
+            $jb == 'Chief Executive Officer' ||
+            $jb == 'Chief Operating Officer' ||
+            $jb == 'Chief Technology Officer' ||
+            $jb == 'Food Courier'
+        ) {
+            return true;
+        } else { return false; }
+    }
+
+    public function getPersonelJabatan()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+        
+        return $jb;
+    }
     
     /**
      * Display a listing of the resource.
@@ -24,6 +73,10 @@ class PengantaranController extends Controller
      */
     public function index()
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pesanan');
+        }
+        
         date_default_timezone_set('Asia/Jakarta');
 
         $jam = date('H');
@@ -56,6 +109,7 @@ class PengantaranController extends Controller
             'user' => Auth::guard('personel')->user(),
             'waktu' => $waktu,
             'pengantaran' => $pengantaran,
+            'personelJabatan' => $this->getPersonelJabatan(),
         ]);
     }
 
@@ -67,6 +121,10 @@ class PengantaranController extends Controller
      */
     public function store(Request $request, $id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pesanan');
+        }
+        
         $pengantaran = Pengantaran::find($id);
         $pesanan = Pesanan::find($pengantaran->id_pesanan);
         $pembelian = Pembelian::find($pesanan->id_pembelian);
@@ -103,6 +161,10 @@ class PengantaranController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/pesanan');
+        }
+        
         $pengantaran = Pengantaran::find($id);
         $pesanan = Pesanan::find($pengantaran->id_pesanan);
         $pembelian = Pembelian::find($pesanan->id_pembelian);

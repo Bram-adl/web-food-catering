@@ -19,6 +19,33 @@ class PersonelController extends Controller
     {
         $this->middleware('auth:personel');
     }
+
+    public function checkPersonel()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+
+        if (
+            $jb == 'Chief Executive Officer' ||
+            $jb == 'Chief Operating Officer' ||
+            $jb == 'Chief Technology Officer'
+        ) {
+            return true;
+        } else { return false; }
+    }
     
     /**
      * Display a listing of the resource.
@@ -27,6 +54,10 @@ class PersonelController extends Controller
      */
     public function index()
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $personel = Personel::paginate(3);
         $list_personel = Personel::all();
         $jabatan = Jabatan::all();
@@ -62,6 +93,10 @@ class PersonelController extends Controller
      */
     public function store(StorePersonel $request)
     {   
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $validated = $request->validated();
 
         // upload the image
@@ -99,6 +134,10 @@ class PersonelController extends Controller
      */
     public function edit($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $personel = Personel::find($id);
         $jabatan = Jabatan::all();
 
@@ -125,6 +164,10 @@ class PersonelController extends Controller
      */
     public function update(UpdatePersonel $request, $id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $validated = $request->validated();
 
         $personel = Personel::find($id);
@@ -174,6 +217,10 @@ class PersonelController extends Controller
      */
     public function destroy($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $personel = Personel::find($id);
 
         $personel_foto = $personel->foto;

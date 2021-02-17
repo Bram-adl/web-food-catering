@@ -8,12 +8,40 @@ use App\Http\Requests\UpdateJabatan;
 use App\Jabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class JabatanController extends Controller
-{
+{    
     public function __construct()
     {
         $this->middleware('auth:personel');
+    }
+
+    public function checkPersonel()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+
+        if (
+            $jb == 'Chief Executive Officer' ||
+            $jb == 'Chief Operating Officer' ||
+            $jb == 'Chief Technology Officer'
+        ) {
+            return true;
+        } else { return false; }
     }
     
     /**
@@ -22,7 +50,11 @@ class JabatanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $jabatan = Jabatan::latest()->get();
 
         return view('admin.jabatan.index', [
@@ -39,6 +71,10 @@ class JabatanController extends Controller
      */
     public function store(StoreJabatan $request)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $validated = $request->validated();
         
         Jabatan::create([
@@ -60,6 +96,10 @@ class JabatanController extends Controller
      */
     public function edit($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $jabatan = Jabatan::find($id);
 
         return view('admin.jabatan.edit', [
@@ -77,6 +117,10 @@ class JabatanController extends Controller
      */
     public function update(UpdateJabatan $request, $id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $validated = $request->validated();
 
         $jabatan = Jabatan::find($id);
@@ -99,6 +143,10 @@ class JabatanController extends Controller
      */
     public function destroy($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $jabatan = Jabatan::find($id);
         $jabatan->delete();
 

@@ -8,12 +8,40 @@ use App\Http\Requests\UpdateKategori;
 use App\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class KategoriController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:personel');
+    }
+
+    public function checkPersonel()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+
+        if (
+            $jb == 'Chief Executive Officer' ||
+            $jb == 'Chief Operating Officer' ||
+            $jb == 'Chief Technology Officer'
+        ) {
+            return true;
+        } else { return false; }
     }
     
     /**
@@ -23,6 +51,10 @@ class KategoriController extends Controller
      */
     public function index()
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $kategori = Kategori::latest()->get();
         return view('admin.kategori.index', [
             'kategori' => $kategori,
@@ -38,6 +70,10 @@ class KategoriController extends Controller
      */
     public function store(StoreKategori $request)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $validated = $request->validated();
 
         Kategori::create([
@@ -58,6 +94,10 @@ class KategoriController extends Controller
      */
     public function edit($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $kategori = Kategori::find($id);
         return view('admin.kategori.edit', [
             'kategori' => $kategori,
@@ -74,6 +114,10 @@ class KategoriController extends Controller
      */
     public function update(UpdateKategori $request, $id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $validated = $request->validated();
 
         $kategori = Kategori::find($id);
@@ -96,6 +140,10 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
+        if (!$this->checkPersonel()) {
+            return redirect('/dashboard');
+        }
+        
         $kategori = Kategori::find($id);
         $kategori->delete();
 
