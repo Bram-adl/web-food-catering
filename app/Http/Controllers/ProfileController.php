@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePengantaran;
 use App\Http\Requests\UpdatePelanggan;
+use App\Http\Requests\UpdatePengantaran;
 use App\Pelanggan;
 use App\Pembelian;
 use App\Pengantaran;
@@ -48,6 +49,7 @@ class ProfileController extends Controller
                             )
                             ->where([
                                 ['pl.id', Auth::user()->id],
+                                ['pg.waktu_hapus', null]
                             ])
                             ->get();
 
@@ -129,6 +131,21 @@ class ProfileController extends Controller
         }
     }
 
+    public function getPengantaran($id)
+    {
+        $data = DB::table('pengantaran')
+                    ->join('pesanan', 'pesanan.id', '=', 'pengantaran.id_pesanan')
+                    ->join('pembelian', 'pembelian.id', 'pesanan.id_pembelian')
+                    ->select(
+                        'pengantaran.catatan_pelanggan', 'pesanan.tanggal_kirim', 'pesanan.waktu_kirim',
+                        'pesanan.lokasi', 'pesanan.porsi', 'pembelian.waktu_pengiriman', 'pembelian.alamat',
+                    )
+                    ->where('pengantaran.id', $id)
+                    ->get();
+
+        return $data;
+    }
+
     /**
      * Store the newly created request pengantaran
      * 
@@ -155,7 +172,7 @@ class ProfileController extends Controller
             'id_pesanan' => $pesanan->id,
             'id_personel' => null,
             'catatan_kurir' => null,
-            'catatan_pelanggan' => $validated['catatan_pelanggan'],
+            'catatan_pelanggan' => $validated['catatan_pelanggan'] ? $validated['catatan_pelanggan'] : '-',
             'status' => 'pending',
         ]);
 
@@ -165,13 +182,38 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function updatePengantaran(UpdatePengantaran $request, $id)
+    {
+        $validated = $request->validated();
+
+        $pengantaran = Pengantaran::find($id);
+        $pengantaran->catatan_pelanggan = $validated['catatan_pelanggan'] ? $validated['catatan_pelanggan'] : '-';
+        
+        $pesanan = Pesanan::find($pengantaran->id_pesanan);
+        
+        $pesanan->tanggal_kirim = $validated['tanggal_kirim'];
+        $pesanan->waktu_kirim = $validated['waktu_kirim'];
+        $pesanan->lokasi = $validated['lokasi'];
+        $pesanan->alamat = $validated['alamat'];
+        $pesanan->porsi = $validated['porsi'];
+        $pesanan->catatan_pelanggan = $validated['catatan_pelanggan'] ? $validated['catatan_pelanggan'] : '-';
+        
+        $pengantaran->save();
+        $pesanan->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil mengupdate pengantaran!',
+        ]);
+    }
+
     public function removePesanan($id)
     {   
-        $pengantaran = DB::table('pengantaran')->where('id', $id)->get();
-        $id_pesanan = $pengantaran[0]->id_pesanan;
-
-        $pesanan = DB::table('pesanan')->where('id', $id_pesanan)->delete();
-        $pengantaran = DB::table('pengantaran')->where('id', $id)->delete();
+        $pengantaran = Pengantaran::find($id);
+        $pesanan = Pesanan::find($pengantaran->id_pesanan);
+        
+        $pesanan->delete();
+        $pengantaran->delete();
         
         return response()->json([
             'success' => true,

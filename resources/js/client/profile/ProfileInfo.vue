@@ -46,8 +46,8 @@
                         <option value="0" hidden disabled>-- Pilih Paket --</option>
                         <option :value="p.id_pembelian" v-for="p in paket" :key="p.id_pembelian">{{ p.id_pembelian }} - {{ p.paket }} (Sisa porsi: {{ p.porsi }})</option>
                     </select>
-                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['alamat']">
-                        {{ errors.alamat[0] }}
+                    <p class="mt-1 text-sm text-red-400 italic" v-if="errors['id_pembelian']">
+                        {{ errors.id_pembelian[0] }}
                     </p>
                 </div>
             
@@ -159,12 +159,24 @@ export default {
     },
 
     methods: {
+        clearEntities() {
+            this.id_pembelian = '0';
+            this.tanggal = null;
+            this.waktu = '';
+            this.lokasi = '';
+            this.alamat = '';
+            this.porsi = null;
+            this.catatan = null;
+            this.errors = [];
+        },
+        
         showModal() {
             this.modal = true;
         },
 
         closeModal() {
             this.modal = false;
+            this.clearEntities();
         },
 
         fetchPaket() {
@@ -201,6 +213,20 @@ export default {
                     icon: "error",
                     title: "Mohon menuliskan alamat yang benar",
                 });
+            }
+
+            let sisaPorsi = document.querySelector(`[value="${this.id_pembelian}"]`).textContent;
+            sisaPorsi = sisaPorsi.split(':')[sisaPorsi.split(':').length - 1].split(')')[0];
+            
+            if (this.porsi > +sisaPorsi) {
+                this.loader = false;
+                this.modal = false;
+                this.clearEntities();
+
+                return Toast.fire(({
+                    icon: "error",
+                    title: `Sisa porsi yang kamu miliki tersisa ${sisaPorsi} porsi. \n Mohon pastikan request porsi tidak melebihi jumlah porsi.`
+                }));
             }
 
             axios.post('/profile/' + this.user.id + '/pengantaran/create', {

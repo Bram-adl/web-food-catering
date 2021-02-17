@@ -223,7 +223,7 @@
                             @else
                             <span class="text-danger">
                                 <i class="fas fa-arrow-down"></i> 
-                                {{100 - $perbandingan_total}}%
+                                {{$perbandingan_total}}%
                             </span>
                             @endif
                         <span class="text-muted">dibanding bulan sebelumnya</span>

@@ -2891,7 +2891,78 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Loader */ "./resources/js/components/Loader.vue");
+/* harmony import */ var _components_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Modal */ "./resources/js/components/Modal.vue");
+/* harmony import */ var _components_Loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/Loader */ "./resources/js/components/Loader.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2956,6 +3027,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProfileTable',
   props: {
@@ -2965,18 +3037,40 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    Loader: _components_Loader__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Modal: _components_Modal__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Loader: _components_Loader__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
       pengantaran: [],
-      loader: false
+      modal: false,
+      loader: false,
+      tanggal: null,
+      waktu: '',
+      lokasi: '',
+      alamat: '',
+      porsi: null,
+      catatan: null,
+      waktu_pengiriman: [],
+      id_pengantaran: null,
+      errors: [],
+      defaultAlamat: 'Mohon tuliskan alamat lengkap.'
     };
   },
   mounted: function mounted() {
     this.fetchPengantaran();
   },
   methods: {
+    clearEntities: function clearEntities() {
+      this.tanggal = null;
+      this.waktu = '';
+      this.lokasi = '';
+      this.alamat = '';
+      this.porsi = null;
+      this.catatan = null;
+      this.waktu_pengiriman = [];
+      this.id_pengantaran = null, this.errors = [];
+    },
     fetchPengantaran: function fetchPengantaran() {
       var _this = this;
 
@@ -2988,12 +3082,57 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response);
       });
     },
-    remove: function remove(pesanan) {
+    edit: function edit(pesanan) {
       var _this2 = this;
 
-      axios["delete"]('/profile/' + pesanan.id + '/remove/pesanan').then(function (_ref3) {
+      this.loader = true;
+      this.id_pengantaran = pesanan.id;
+      axios.get('/profile/' + pesanan.id).then(function (_ref3) {
         var data = _ref3.data;
-        console.log(data);
+        _this2.loader = false;
+        _this2.modal = true;
+        _this2.waktu_pengiriman = data[0].waktu_pengiriman.split('|')[1].split(':')[1].split(',');
+        _this2.tanggal = data[0].tanggal_kirim;
+        _this2.waktu = data[0].waktu_kirim;
+        _this2.lokasi = data[0].lokasi;
+        _this2.alamat = data[0].alamat;
+        _this2.porsi = data[0].porsi;
+        _this2.catatan = data[0].catatan_pelanggan;
+      })["catch"](function (_ref4) {
+        var response = _ref4.response;
+        _this2.modal = false;
+        Toast.fire({
+          icon: "error",
+          title: "Mohon maaf telah terjadi kesalahan."
+        });
+      });
+    },
+    pilihAlamat: function pilihAlamat(e) {
+      var alamat = e.target.value;
+
+      if (alamat == 'rumah') {
+        var alamatUser = user.rumah_teks;
+        this.alamat = alamatUser != null ? alamatUser : this.defaultAlamat;
+      } else {
+        var _alamatUser = user.kantor_teks;
+        this.alamat = _alamatUser != null ? _alamatUser : this.defaultAlamat;
+      }
+    },
+    editPengantaran: function editPengantaran() {
+      var _this3 = this;
+
+      this.loader = true;
+      axios.put('/profile/' + this.id_pengantaran + '/update/pengantaran', {
+        tanggal_kirim: this.tanggal,
+        waktu_kirim: this.waktu,
+        lokasi: this.lokasi,
+        alamat: this.alamat,
+        porsi: this.porsi,
+        catatan_pelanggan: this.catatan
+      }).then(function (_ref5) {
+        var data = _ref5.data;
+        _this3.loader = false;
+        _this3.modal = false;
 
         if (data.success) {
           Toast.fire({
@@ -3001,7 +3140,29 @@ __webpack_require__.r(__webpack_exports__);
             title: data.message
           });
 
-          _this2.fetchPengantaran();
+          _this3.fetchPengantaran();
+        }
+
+        _this3.clearEntities();
+      });
+    },
+    closeModal: function closeModal() {
+      this.modal = false;
+      this.clearEntities();
+    },
+    remove: function remove(pesanan) {
+      var _this4 = this;
+
+      axios["delete"]('/profile/' + pesanan.id + '/remove/pesanan').then(function (_ref6) {
+        var data = _ref6.data;
+
+        if (data.success) {
+          Toast.fire({
+            icon: "success",
+            title: data.message
+          });
+
+          _this4.fetchPengantaran();
         }
       });
     }
@@ -3246,11 +3407,22 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchPaket(this.user.id);
   },
   methods: {
+    clearEntities: function clearEntities() {
+      this.id_pembelian = '0';
+      this.tanggal = null;
+      this.waktu = '';
+      this.lokasi = '';
+      this.alamat = '';
+      this.porsi = null;
+      this.catatan = null;
+      this.errors = [];
+    },
     showModal: function showModal() {
       this.modal = true;
     },
     closeModal: function closeModal() {
       this.modal = false;
+      this.clearEntities();
     },
     fetchPaket: function fetchPaket() {
       var _this = this;
@@ -3287,6 +3459,19 @@ __webpack_require__.r(__webpack_exports__);
         return Toast.fire({
           icon: "error",
           title: "Mohon menuliskan alamat yang benar"
+        });
+      }
+
+      var sisaPorsi = document.querySelector("[value=\"".concat(this.id_pembelian, "\"]")).textContent;
+      sisaPorsi = sisaPorsi.split(':')[sisaPorsi.split(':').length - 1].split(')')[0];
+
+      if (this.porsi > +sisaPorsi) {
+        this.loader = false;
+        this.modal = false;
+        this.clearEntities();
+        return Toast.fire({
+          icon: "error",
+          title: "Sisa porsi yang kamu miliki tersisa ".concat(sisaPorsi, " porsi. \n Mohon pastikan request porsi tidak melebihi jumlah porsi.")
         });
       }
 
@@ -3993,6 +4178,8 @@ __webpack_require__.r(__webpack_exports__);
     submitAction: function submitAction() {
       if (this.method == 'updateProfile') {
         this.$emit('updateProfile');
+      } else if (this.method == 'editPengantaran') {
+        this.$emit('editPengantaran');
       } else {
         this.$emit('storePengantaran');
       }
@@ -63598,6 +63785,24 @@ var render = function() {
                         [_vm._v("Actions")]
                       ),
                       _vm._v(" "),
+                      p.status == "pending"
+                        ? _c(
+                            "a",
+                            {
+                              staticClass:
+                                "text-blue-400 hover:text-blue-600 underline mr-2",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.edit(p)
+                                }
+                              }
+                            },
+                            [_vm._v("Edit")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c(
                         "a",
                         {
@@ -63621,6 +63826,412 @@ var render = function() {
             0
           )
         ]
+      ),
+      _vm._v(" "),
+      _c(
+        "transition",
+        {
+          attrs: {
+            "enter-active-class":
+              "animate__animated animate__fadeIn animate__faster",
+            "leave-active-class":
+              "animate__animated animate__fadeOut animate__faster"
+          }
+        },
+        [
+          _vm.modal
+            ? _c(
+                "modal",
+                {
+                  attrs: {
+                    title: "Edit Pengantaran",
+                    action: "Simpan Perubahan",
+                    method: "editPengantaran"
+                  },
+                  on: {
+                    editPengantaran: _vm.editPengantaran,
+                    closeModal: _vm.closeModal
+                  }
+                },
+                [
+                  _c("div", { staticClass: "mt-2" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-sm font-medium text-gray-700",
+                        attrs: { for: "tanggal" }
+                      },
+                      [_vm._v("Tanggal Pengantaran")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.tanggal,
+                          expression: "tanggal"
+                        }
+                      ],
+                      staticClass:
+                        "focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2",
+                      attrs: {
+                        type: "date",
+                        name: "tanggal",
+                        id: "tanggal",
+                        autocomplete: "given-name",
+                        placeholder: "Tanggal Pengantaran"
+                      },
+                      domProps: { value: _vm.tanggal },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.tanggal = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors["tanggal"]
+                      ? _c(
+                          "p",
+                          { staticClass: "mt-1 text-sm text-red-400 italic" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.errors.tanggal[0]) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-2 mb-2" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-sm font-medium text-gray-700",
+                        attrs: { for: "waktu" }
+                      },
+                      [_vm._v("Waktu Pengantaran")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.waktu,
+                            expression: "waktu"
+                          }
+                        ],
+                        staticClass:
+                          "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                        attrs: {
+                          id: "waktu",
+                          name: "waktu",
+                          autocomplete: "waktu"
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.waktu = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "option",
+                          {
+                            attrs: {
+                              value: "",
+                              selected: "",
+                              hidden: "",
+                              disabled: ""
+                            }
+                          },
+                          [_vm._v("-- Pilih Waktu --")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.waktu_pengiriman, function(waktu, index) {
+                          return _c(
+                            "option",
+                            { key: index, domProps: { value: waktu } },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(waktu) +
+                                  "\n                    "
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.errors["waktu"]
+                      ? _c(
+                          "p",
+                          { staticClass: "mt-1 text-sm text-red-400 italic" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.errors.waktu[0]) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-2 mb-2" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-sm font-medium text-gray-700",
+                        attrs: { for: "alamat" }
+                      },
+                      [_vm._v("Diantarkan Ke")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.lokasi,
+                            expression: "lokasi"
+                          }
+                        ],
+                        staticClass:
+                          "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                        attrs: {
+                          id: "alamat",
+                          name: "alamat",
+                          autocomplete: "alamat"
+                        },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.lokasi = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            _vm.pilihAlamat
+                          ]
+                        }
+                      },
+                      [
+                        _c(
+                          "option",
+                          {
+                            attrs: {
+                              value: "",
+                              selected: "",
+                              hidden: "",
+                              disabled: ""
+                            }
+                          },
+                          [_vm._v("-- Pilih Alamat --")]
+                        ),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "rumah" } }, [
+                          _vm._v("Rumah")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "kantor" } }, [
+                          _vm._v("Kantor")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.errors["alamat"]
+                      ? _c(
+                          "p",
+                          { staticClass: "mt-1 text-sm text-red-400 italic" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.errors.alamat[0]) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-2 mb-2" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.alamat,
+                          expression: "alamat"
+                        }
+                      ],
+                      staticClass:
+                        "focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2",
+                      attrs: {
+                        id: "catatan",
+                        name: "catatan",
+                        rows: "3",
+                        placeholder:
+                          "(Alamat pengiriman berdasarkan data di profil kamu)"
+                      },
+                      domProps: { value: _vm.alamat },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.alamat = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-2" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-sm font-medium text-gray-700",
+                        attrs: { for: "porsi" }
+                      },
+                      [_vm._v("Porsi Pengantaran")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.porsi,
+                          expression: "porsi"
+                        }
+                      ],
+                      staticClass:
+                        "focus:outline-none flex-1 block w-full rounded-md sm:text-sm border border-gray-300 mt-1 px-3 py-2",
+                      attrs: {
+                        type: "number",
+                        name: "porsi",
+                        id: "porsi",
+                        autocomplete: "given-name",
+                        placeholder: "Porsi Pengantaran"
+                      },
+                      domProps: { value: _vm.porsi },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.porsi = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors["porsi"]
+                      ? _c(
+                          "p",
+                          { staticClass: "mt-1 text-sm text-red-400 italic" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.errors.porsi[0]) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-2" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-sm font-medium text-gray-700",
+                        attrs: { for: "catatan" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    Catatan\n                "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mt-1" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.catatan,
+                            expression: "catatan"
+                          }
+                        ],
+                        staticClass:
+                          "focus:outline-none shadow-sm mt-1 block w-full sm:text-sm border border-gray-300 rounded-md px-3 py-2",
+                        attrs: {
+                          id: "catatan",
+                          name: "catatan",
+                          rows: "3",
+                          placeholder: "Berikan catatan khusus untuk pengiriman"
+                        },
+                        domProps: { value: _vm.catatan },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.catatan = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _vm.errors["catatan"]
+                      ? _c(
+                          "p",
+                          { staticClass: "mt-1 text-sm text-red-400 italic" },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.errors.catatan[0]) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ])
+                ]
+              )
+            : _vm._e()
+        ],
+        1
       ),
       _vm._v(" "),
       _c("Loader", { attrs: { start: _vm.loader } })
@@ -63970,14 +64581,14 @@ var render = function() {
                       2
                     ),
                     _vm._v(" "),
-                    _vm.errors["alamat"]
+                    _vm.errors["id_pembelian"]
                       ? _c(
                           "p",
                           { staticClass: "mt-1 text-sm text-red-400 italic" },
                           [
                             _vm._v(
                               "\n                    " +
-                                _vm._s(_vm.errors.alamat[0]) +
+                                _vm._s(_vm.errors.id_pembelian[0]) +
                                 "\n                "
                             )
                           ]

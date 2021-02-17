@@ -38,6 +38,8 @@ Route::post('/logout', 'AuthController@logout')
 
 // Client Requests Related Routes
 Route::put('/profile/{id}/update', 'ProfileController@update');
+Route::get('/profile/{pengantaran_id}', 'ProfileController@getPengantaran');
+Route::put('/profile/{pengantaran_id}/update/pengantaran', 'ProfileController@updatePengantaran');
 Route::get('/profile/{id}/pengantaran/list', 'ProfileController@profilePengantaran');
 Route::post('/profile/{id}/pengantaran/create', 'ProfileController@storePengantaran');
 Route::delete('/profile/{id}/remove/pesanan', 'ProfileController@removePesanan');

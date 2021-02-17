@@ -53,12 +53,9 @@ class DashboardController extends Controller
             }
         }
 
-        $test_tanggal = '2021-02-17 00:00:00';
-        return date('Y-m-d', strtotime($test_tanggal));
-
-
-        
-        return $bulan_sekarang;
+        // menentukan ke-tujuh bulan sebelum bulan ini
+        // menarik data visitors per masing-masing bulan
+        // membuat array hash yang menyimpang bulan dengan jumlah visitornya
 
         // ======================================================================
         // DATA UNTUK RINGKASAN LAPORAN
@@ -100,14 +97,23 @@ class DashboardController extends Controller
             $bulan_ini = '13';
         }
 
-        $pembelian_bulan_ini = $this->getPembelian("$tahun_ini-$bulan_ini-01", "$tahun_ini-$bulan_berikutnya-01");
+        $pembelian_bulan_ini = 
+            $this->getPembelian(
+                "$tahun_ini-$bulan_ini-01", 
+                "$tahun_ini-$bulan_berikutnya-01"
+            );
 
-        $pembelian_bulan_sebelumnya = $this->getPembelian("$tahun_ini-" . ($bulan_ini - 1) . "-01", "$tahun_ini-" . ($bulan_berikutnya - 1) ."-01");
+        $pembelian_bulan_sebelumnya = 
+            $this->getPembelian(
+                "$tahun_ini-" . ($bulan_ini - 1) . "-01", 
+                "$tahun_ini-" . ($bulan_berikutnya - 1) ."-01"
+            );
 
-        $total_bulan_ini = $pembelian_bulan_ini[0]->total;
-        $total_bulan_sebelumnya = $pembelian_bulan_sebelumnya[0]->total;
+        $total_bulan_ini = $pembelian_bulan_ini[0]->total ? $pembelian_bulan_ini[0]->total : 0;
+        $total_bulan_sebelumnya = $pembelian_bulan_sebelumnya[0]->total ? $pembelian_bulan_sebelumnya[0]->total : 1;
 
-        $perbandingan_total = round(($total_bulan_ini / $total_bulan_sebelumnya) * 100, 2);
+        $perbandingan_total = ((($total_bulan_ini - $total_bulan_sebelumnya) / $total_bulan_sebelumnya) * (100/100));
+        $perbandingan_total = number_format($perbandingan_total, 2);
 
         // ======================================================================
         // DATA UNTUK CHART PERFORMA PENJUALAN
@@ -197,7 +203,7 @@ class DashboardController extends Controller
     function getPembelian($waktu_pertama, $waktu_kedua) {
         return DB::select("
             SELECT SUM(paket.harga) AS total FROM pembelian JOIN paket ON paket.id = pembelian.id_paket
-            WHERE (pembelian.status = 'Proses Verifikasi') AND (pembelian.waktu_simpan BETWEEN ('$waktu_pertama 00:00:00') AND ('$waktu_kedua 00:00:00'))
+            WHERE NOT pembelian.status = 'Belum Bayar' AND NOT pembelian.status = 'Batal' AND pembelian.waktu_simpan BETWEEN ('$waktu_pertama 00:00:00') AND ('$waktu_kedua 00:00:00')
         ");
     }
 
