@@ -204,6 +204,8 @@ class DashboardController extends Controller
         $pendapatan_desember_tahun_sebelumnya = $this->getPembelian(($tahun_ini - 1) . "-12-01", ($tahun_ini - 1) . "-12-30");
         
         return view('admin.dashboard', [
+            'personelJabatan' => $this->checkPersonel(),
+            
             'user' => $user,
             'jml_personel' => $jml_personel,
             'jml_paket' => $jml_paket,

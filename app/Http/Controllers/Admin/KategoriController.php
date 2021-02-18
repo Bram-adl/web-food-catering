@@ -43,6 +43,27 @@ class KategoriController extends Controller
             return true;
         } else { return false; }
     }
+
+    public function getPersonelJabatan()
+    {
+        $personel = Auth::guard('personel')->user();
+
+        $jabatan = DB::table('jabatan')
+                        ->join('personel', 'personel.id_jabatan', 'jabatan.id')
+                        ->select(
+                            'jabatan.id', 'jabatan.jabatan', 'personel.id AS personel_id'
+                        )
+                        ->get();
+                        
+        $jb = null;
+        foreach ($jabatan as $j) {
+            if ($j->personel_id == $personel->id) {
+                $jb = $j->jabatan;
+            }
+        }
+
+        return $jb;
+    }
     
     /**
      * Display a listing of the resource.
@@ -59,6 +80,7 @@ class KategoriController extends Controller
         return view('admin.kategori.index', [
             'kategori' => $kategori,
             'user' => Auth::guard('personel')->user(),
+            'personelJabatan' => $this->getPersonelJabatan(),
         ]);
     }
 
