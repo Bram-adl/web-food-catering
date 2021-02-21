@@ -17,7 +17,7 @@ class PaketController extends Controller
      * @return redirect
      */
     public function process($id)
-    {
+    {   
         if (!Auth::check()) {
             return redirect()
                     ->route('client-login', [
@@ -128,6 +128,20 @@ class PaketController extends Controller
         }
 
         if ($pembelian->status == 'Batal') {
+            return redirect()
+                    ->route('client-index');
+        }
+
+        $check = DB::table('pembelian')
+            ->select('id', 'id_pelanggan', 'id_paket')
+            ->where([
+                ['id_paket', $id],
+                ['id_pelanggan', $id_client],
+                ['id', $id_pembelian],
+            ])
+            ->get();
+            
+        if (!count($check)) {
             return redirect()
                     ->route('client-index');
         }

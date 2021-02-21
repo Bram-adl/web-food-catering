@@ -109,9 +109,9 @@
 
                         <div class="progress-group">
                             Berkunjung
-                            <span class="float-right"><b>{{ $number_of_visitors }}</b> orang</span>
+                            <span class="float-right"><b>0 {{-- $number_of_visitors --}}</b> orang</span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-primary" style="width: calc({{ $number_of_visitors }}pt / 100)"></div>
+                                <div class="progress-bar bg-primary" style="width: calc(0pt / 100)"></div>
                             </div>
                         </div>
                         <!-- /.progress-group -->

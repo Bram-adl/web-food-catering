@@ -24,7 +24,7 @@ class UpdatePengantaran extends FormRequest
     public function rules()
     {
         return [
-            'tanggal_kirim' => 'required|date|after:today',
+            'tanggal_kirim' => 'required|date',
             'porsi' => 'required|numeric|min:1',
             'waktu_kirim' => 'required|string',
             'lokasi' => 'required|string',

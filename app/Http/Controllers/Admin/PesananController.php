@@ -128,6 +128,8 @@ class PesananController extends Controller
             'user' => Auth::guard('personel')->user(),
             'pesanan' => $pesanan,
             'tanggal' => date('d M Y', strtotime($tanggal_kirim)),
+
+            'personelJabatan' => $this->getPersonelJabatan(),
         ]);
     }
 

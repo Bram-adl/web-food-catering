@@ -92,15 +92,18 @@ class DashboardController extends Controller
         // ======================================================================
         // DATA UNTUK RINGKASAN LAPORAN CHART
         // ======================================================================
-        $analytics = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+        /**
+         * Untuk saat ini, kita tidak gunakan dulu.
+         */
+        // $analytics = Analytics::fetchVisitorsAndPageViews(Period::days(7));
 
-        $number_of_visitors = 0;
+        // $number_of_visitors = 0;
 
-        foreach ($analytics as $analytic) {
-            foreach ($analytic as $a) {
-                $number_of_visitors += $a->visitors;
-            }
-        }
+        // foreach ($analytics as $analytic) {
+        //     foreach ($analytic as $a) {
+        //         $number_of_visitors += $a->visitors;
+        //     }
+        // }
 
         // menentukan ke-tujuh bulan sebelum bulan ini
         // menarik data visitors per masing-masing bulan
@@ -212,7 +215,7 @@ class DashboardController extends Controller
             'jml_pelanggan' => $jml_pelanggan,
             'jml_pengiriman' => $jml_pengiriman,
 
-            'number_of_visitors' => $number_of_visitors,
+            // 'number_of_visitors' => $number_of_visitors,
 
             'jml_pendaftar_dlm_tujuh_bulan' => $jml_pendaftar_dlm_tujuh_bulan,
             'jml_pembelian_dlm_tujuh_bulan' => $jml_pembelian_dlm_tujuh_bulan,
